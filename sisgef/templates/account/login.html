@@ -6,9 +6,112 @@
 {% block title %}
   Login
 {% endblock title %}
-{% block login_content %}
-  <h1>TESTE</h1>
-{% endblock login_content %}
+{% block content %}
+<div class="flex items-center justify-center flex-col gap-16 w-full h-full">
+  <h1 class="flex gap-2 items-center font-sans font-bold text-slate-900">
+    <img src="{% static 'images/icons/icon_perfil.svg' %}"
+         alt="icone representando o perfil de um usuario." />
+    Login
+  </h1>
+  <form class="w-full" action="{% url 'account_login' %}" method="post">
+    {% csrf_token %}
+    <div class="mb-4">
+      <label for="{{ form.login.id_for_label }}"
+             class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+      <input type="email"
+             id="{{ form.login.id_for_label }}"
+             name="{{ form.login.name }}"
+             placeholder="Exemplo@gmail.com"
+             value="{{ form.login.value|default_if_none:'' }}"
+             class="bg-transparent font-sans appearance-none border rounded-lg w-full py-2 px-3 placeholder:font-light font-light placeholder:text-slate-500 text-slate-900 hover:border-green-500 focus:outline-green-500"
+             tabindex="0" />
+      {% comment %} /List Erros {% endcomment %}
+      {% if form.login.errors %}
+        <ul class="list-disc p-2">
+          {% for error in form.login.errors %}<li class="text-red-500">{{ error }}</li>{% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+    <div class="mb-6">
+      <label for="{{ form.password.id_for_label }}"
+             class="block text-gray-700 text-sm font-bold mb-2">Senha:</label>
+      <div class="relative">
+        <input type="password"
+               id="{{ form.password.id_for_label }}"
+               name="{{ form.password.name }}"
+               placeholder="Digite sua senha aqui!"
+               value="{{ form.password.value|default_if_none:'' }}"
+               class="bg-transparent font-sans appearance-none border rounded-lg w-full py-2 px-3 placeholder:font-light font-light placeholder:text-slate-500 text-slate-900 hover:border-green-500 focus:outline-green-500"
+               tabindex="0" />
+        <img src="{% static 'images/icons/eye.svg' %}"
+             alt="Icone em formato de olho representando ação de mostrar senha"
+             class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 cursor-pointer"
+             onclick="togglePassword('{{ form.password.id_for_label }}', 'eyePassword')"
+             tabindex="0"
+             id="eyePassword" />
+      </div>
+      {% comment %} /List Erros {% endcomment %}
+      {% if form.password.errors %}
+        <ul class="list-disc p-2">
+          {% for error in form.password.errors %}<li class="text-red-500">{{ error }}</li>{% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+    <div class="flex items-center justify-between">
+      <div class="flex flex-col">
+        <a href="{% url 'account_reset_password' %}"
+           class="font-sans inline-block align-baseline font-light text-sm text-accent hover:text-secondary">
+          Esqueceu a senha?
+        </a>
+        <a href="{% url 'account_signup' %}"
+           class="font-sans inline-block align-baseline font-light text-sm text-accent hover:text-secondary">
+          Cadastre-se
+        </a>
+      </div>
+      <button type="submit"
+              class="font-sans bg-primary hover:bg-secondary text-white py-2 px-4 rounded transition duration-300 ease-in-out"
+              tabindex="0">Entrar</button>
+    </div>
+  </form>
+  <div class="w-full flex flex-col items-center gap-5">
+    <div class="flex items-center justify-center w-full">
+      <div class="w-full border-t border-gray-300"></div>
+      <span class="px-3 text-gray-600">OU</span>
+      <div class="w-full border-t border-gray-300"></div>
+    </div>
+    <a class="flex items-center font-sans text-base button is-dark is-large border p-2 rounded-lg hover:text-green-500 hover:border-green-500 transition duration-300 ease-in-out"
+       href="#">
+      {% comment %} <span class="font-bold font-sans text-2xl pr-2">IF</span> {% endcomment %}
+      <img class="pr-2 w-10 h-10" src="{% static 'images/icons/social-icons/icon-google.svg' %}"
+         alt="icone representando o perfil de um usuario." />
+      Continuar com o Google
+    </a>
+  </div>
+</div>
+{% endblock content %}
 {% block inline_javascript %}
+<script>
+  function togglePassword(fieldId, eyeId) {
+    /**
+     * Alterna a visibilidade de um campo de entrada de senha
+     * e atualiza o ícone do botão de alternância de acordo.
+     * fieldId => id do input de pasword
+     * eyeId => id do icone de olho
+     **/
 
+    const passwordInput = document.getElementById(fieldId);
+    const toggleButton = document.getElementById(eyeId);
+
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+
+    if (type === 'password') {
+      toggleButton.src = '{% static "images/icons/eye.svg" %}';
+      toggleButton.alt = 'Icone em formato de olho representando ação de mostrar senha';
+    } else {
+      toggleButton.src = '{% static "images/icons/eye_close.svg" %}';
+      toggleButton.alt = 'Icone em formato de olho fechado representando ação de ocultar senha';
+    }
+  }
+</script>
 {% endblock inline_javascript %}
