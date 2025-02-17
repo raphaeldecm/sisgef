@@ -289,7 +289,9 @@ ACCOUNT_FORMS = {"signup": "sisgef.users.forms.UserSignupForm"}
 SOCIALACCOUNT_ADAPTER = "sisgef.users.adapters.SocialAccountAdapter"
 # https://docs.allauth.org/en/latest/socialaccount/configuration.html
 SOCIALACCOUNT_FORMS = {"signup": "sisgef.users.forms.UserSocialSignupForm"}
-
+# Redireciona para a redefinição de senha após a confirmação do email
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "/"
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = "/accounts/login/"
 
 # Your stuff...
 # ------------------------------------------------------------------------------

@@ -1,0 +1,30 @@
+{% load static %}
+
+{% if form.errors %}
+  <article class="alert-message inline-flex flex-wrap items-center gap-2 text-sm p-4 text-white rounded-lg bg-blue-700 shadow-sm animate-fade"
+           role="alert">
+    <img src="{% static 'images/icons/information_circle.svg' %}"
+         alt="Ícone de um i em volta de um círculo representando informação."
+         class="w-5 h-5" />
+    <section class="text-base font-light">
+      {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
+      {% include "_form_field_error.html" %}
+    </section>
+  </article>
+{% endif %}
+{% block inline_javascript %}
+  <script>
+    setTimeout(() => {
+      /**
+       * Controla o comportamento da mensagem
+       * Remove todas as mensagens após um período.
+       **/
+
+      const alerts = document.querySelectorAll('.alert-message');
+
+      alerts.forEach(alert => {
+        alert.remove();
+      });
+    }, 4000);
+  </script>
+{% endblock inline_javascript %}

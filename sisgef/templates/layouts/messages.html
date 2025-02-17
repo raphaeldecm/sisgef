@@ -1,0 +1,29 @@
+{% load static %}
+
+{% for message in messages %}
+  <article class="alert-message inline-flex flex-wrap items-center gap-2 text-sm p-4 text-white rounded-lg bg-blue-700 shadow-sm animate-fade"
+           role="alert">
+    <img src="{% static 'images/icons/information_circle.svg' %}"
+         alt="Ícone de um i em volta de um círculo representando informação."
+         class="w-5 h-5" />
+    <section class="text-base font-light">
+      <p>{{ message|safe }}</p>
+    </section>
+  </article>
+{% endfor %}
+{% block inline_javascript %}
+  <script>
+    setTimeout(() => {
+      /**
+       * Controla o comportamento da mensagem
+       * Remove todas as mensagens após um período.
+       **/
+
+      const alerts = document.querySelectorAll('.alert-message');
+
+      alerts.forEach(alert => {
+        alert.remove();
+      });
+    }, 4000);
+  </script>
+{% endblock inline_javascript %}

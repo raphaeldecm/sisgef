@@ -54,75 +54,27 @@
 
 {% endblock javascript %}
 </head>
-<body class="{% block bodyclass %}{% endblock bodyclass %}">
-  {% block body %}
-  <div class="mb-1">
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
-      <div class="container-fluid">
-        <button class="navbar-toggler navbar-toggler-right"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <a class="navbar-brand" href="{% url 'home' %}">Sistema de Gestão Financeira</a>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="{% url 'home' %}">Home <span class="visually-hidden">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'about' %}">About</a>
-            </li>
-            {% if request.user.is_authenticated %}
-              <li class="nav-item">
-                <a class="nav-link"
-                   href="{% url 'users:detail' request.user.pk %}">{% translate "My Profile" %}</a>
-              </li>
-              <li class="nav-item">
-                {# URL provided by django-allauth/account/urls.py #}
-                <a class="nav-link" href="{% url 'account_logout' %}">{% translate "Sign Out" %}</a>
-              </li>
-            {% else %}
-              {% if ACCOUNT_ALLOW_REGISTRATION %}
-                <li class="nav-item">
-                  {# URL provided by django-allauth/account/urls.py #}
-                  <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">{% translate "Sign Up" %}</a>
-                </li>
-              {% endif %}
-              <li class="nav-item">
-                {# URL provided by django-allauth/account/urls.py #}
-                <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% translate "Sign In" %}</a>
-              </li>
-            {% endif %}
-          </ul>
-        </div>
+<body class="flex h-screen font-poppins">
+  <nav class="flex justify-center items-center min-w-[112px] bg-neutral-50 text-slate-400 border-b-2">
+    <div class="flex justify-between items-center w-full px-[74px] mx-auto max-sm:px-8">
+      {% include "layouts/base_nav.html" %}
+    </div>
+  </nav>
+  <main class="flex flex-1 flex-col items-center w-full">
+    <header class="flex center justify-center items-center w-full min-h-[85px] bg-neutral-50 text-slate-400 border-b-2">
+      <div class="flex justify-between items-center w-full px-[74px] max-w-[1841px] mx-auto max-sm:px-8">
+        {% include "layouts/base_header.html" %}
       </div>
-    </nav>
-  </div>
-  <div class="container">
-    {% if messages %}
-      {% for message in messages %}
-        <div class="alert alert-dismissible {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-          {{ message }}
-          <button type="button"
-                  class="btn-close"
-                  data-bs-dismiss="alert"
-                  aria-label="Close"></button>
-        </div>
-      {% endfor %}
-    {% endif %}
-    {% block main %}
-      {% block content %}
-        <p>Use this document as a way to quick start any new project.</p>
-      {% endblock content %}
-    {% endblock main %}
+    </header>
 
-  </div>
-  {% endblock body %}
+    <div class="flex flex-col items-center py-8 h-full w-full px-[74px] max-w-[1841px] mx-auto">
+      {% block messages %}
+        {% include "layouts/messages.html" %}
+      {% endblock messages %}
+      {% block content %}
+      {% endblock content %}
+    </div>
+  </main>
   <!-- /container -->
   {% block modal %}
   {% endblock modal %}
