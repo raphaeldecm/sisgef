@@ -1,65 +1,50 @@
-# Projeto Django - Sisgef
+# Sistema de Gestão Financeira
 
-## Descrição
-Sisgef é um projeto Django para gerenciamento de sistemas. Este README fornece instruções sobre como configurar e executar o projeto localmente.
+Behold My Awesome Project!
 
-## Requisitos
-- Python 3.x
-- Django 3.x
-- Virtualenv
+[![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/cookiecutter/cookiecutter-django/)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
-## Instalação
+License: MIT
 
-### Clonar o repositório
-```bash
-git clone https://github.com/seu-usuario/sisgef.git
-cd sisgef
-```
+## Settings
 
-### Criar e ativar o ambiente virtual
-```bash
-python3 -m venv venv
-source venv/bin/activate  # No Windows use `venv\Scripts\activate`
-```
+Moved to [settings](https://cookiecutter-django.readthedocs.io/en/latest/1-getting-started/settings.html).
 
-### Instalar dependências
-```bash
-pip install -r requirements.txt
-```
+## Basic Commands
 
-### Configurar o banco de dados
-Edite o arquivo `settings.py` para configurar o banco de dados conforme necessário.
+### Setting Up Your Users
 
-### Aplicar migrações
-```bash
-python manage.py migrate
-```
+- To create a **normal user account**, just go to Sign Up and fill out the form. Once you submit it, you'll see a "Verify Your E-mail Address" page. Go to your console to see a simulated email verification message. Copy the link into your browser. Now the user's email should be verified and ready to go.
 
-### Criar superusuário
-```bash
-python manage.py createsuperuser
-```
+- To create a **superuser account**, use this command:
 
-### Executar o servidor de desenvolvimento
-```bash
-python manage.py runserver
-```
+      $ python manage.py createsuperuser
 
-## Testes
-Para rodar os testes, use o comando:
-```bash
-python manage.py test
-```
+For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
 
-## Contribuição
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
-3. Commit suas mudanças (`git commit -m 'Adiciona nova feature'`)
-4. Faça o push para a branch (`git push origin feature/nova-feature`)
-5. Abra um Pull Request
+### Type checks
 
-## Licença
-Este projeto está licenciado sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+Running type checks with mypy:
 
-## Contato
-Para mais informações, entre em contato com [raphael.muniz@ifrn.edu.br](mailto:raphael.muniz@ifrn.edu.br).
+    $ mypy sisgef
+
+### Test coverage
+
+To run the tests, check your test coverage, and generate an HTML coverage report:
+
+    $ coverage run -m pytest
+    $ coverage html
+    $ open htmlcov/index.html
+
+#### Running tests with pytest
+
+    $ pytest
+
+### Live reloading and Sass CSS compilation
+
+Moved to [Live reloading and SASS compilation](https://cookiecutter-django.readthedocs.io/en/latest/2-local-development/developing-locally.html#using-webpack-or-gulp).
+
+## Deployment
+
+The following details how to deploy this application.

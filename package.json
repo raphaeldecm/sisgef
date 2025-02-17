@@ -1,0 +1,26 @@
+{
+  "name": "sisgef",
+  "version": "1.0.0",
+  "description": "Behold My Awesome Project!",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "dev": "tailwindcss -i sisgef/static/tw/tailwind-input.css -o sisgef/static/css/output.css --watch",
+    "build": "tailwindcss build sisgef/static/tw/tailwind-input.css -o sisgef/static/css/output.css",
+    "update-browserslist": "npx update-browserslist-db@latest",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.4.3"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.2"
+  }
+}
