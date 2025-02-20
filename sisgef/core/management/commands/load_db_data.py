@@ -14,6 +14,7 @@ COMMANDS = [
     CommandItem("migrate", "Migrating database..."),
     CommandItem("update_user_profiles", "Updating user profiles..."),
     CommandItem("create_admin_user", "Creating superuser..."),
+    CommandItem("populate_category", "Populating categories..."),
 ]
 
 

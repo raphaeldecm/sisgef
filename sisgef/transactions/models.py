@@ -6,19 +6,24 @@ from sisgef.core.models import BaseModel
 
 User = get_user_model()
 
+class Type(models.TextChoices):
+        INCOME = "IN", "Income"
+        EXPENSE = "EX", "Expense"
+
 class Category(models.Model):
     name = models.CharField(max_length=MAX_CHAR_FIELD_NAME_LENGTH)
     description = models.TextField()
+    category_type = models.CharField(max_length=2, choices=Type.choices)
+
+    class Meta:
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
 
     def __str__(self) -> str:
         return self.name
 
 
 class Transaction(BaseModel):
-    class Type(models.TextChoices):
-        INCOME = "IN", "Income"
-        EXPENSE = "EX", "Expense"
-
     transaction_type = models.CharField(max_length=2, choices=Type.choices)
     description = models.TextField()
     value = models.DecimalField(max_digits=10, decimal_places=2)
@@ -29,6 +34,8 @@ class Transaction(BaseModel):
 
     class Meta:
         ordering = ["-date"]
+        verbose_name = "Transaction"
+        verbose_name_plural = "Transactions"
 
     def __str__(self) -> str:
         return f"{self.value} - {self.date} - {self.description}"

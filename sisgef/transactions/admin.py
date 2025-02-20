@@ -5,7 +5,7 @@ from . import models
 
 class CategoryAdmin(admin.ModelAdmin):
     search_fields = ["name"]
-    list_display = ["id", "name"]
+    list_display = ["name", "description", "category_type"]
 
 class TransactionAdmin(admin.ModelAdmin):
     search_fields = ["category", "value", "date", "user"]
