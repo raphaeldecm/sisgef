@@ -1,3 +1,29 @@
-<h1>HEADER</h1>
-<span class="text-2xl">Bem vindo, {{ user.email }} </span>
-<span class="text-2xl">Permissões: {{ user.groups.first }} </span>
+{% load static %}
+<div class="flex items-center gap-3">
+  <div class="flex items-center w-64 gap-3">
+    <button
+        onclick="toggleSidebar()"
+        class="p-2 hover:bg-[#F5F5F5] rounded-md transition-colors"
+    >
+        <i data-lucide="menu" class="h-6 w-6 text-[#424242]"></i>
+    </button>
+    <div class="flex items-center gap-2">
+      <img class="w-24" src="{% static 'images/sisgef.png' %}"
+                   alt="Logo Sisgef"
+                   aria-describedby="logo-description" />
+        {% comment %} <i data-lucide="bar-chart-3" class="h-8 w-8 text-[#2E7D32]"></i> {% endcomment %}
+    </div>
+
+  </div>
+  <span class="text-2xl font-semibold text-[#424242]">Sistema de Gestão Financeira</span>
+</div>
+
+<div class="flex items-center gap-4">
+  <div class="flex items-center gap-2 text-[#424242]">
+      <span class="text-sm">Administrador</span>
+      <div class="w-8 h-8 rounded-full bg-[#2E7D32] text-white flex items-center justify-center">
+          A
+      </div>
+  </div>
+</div>
+

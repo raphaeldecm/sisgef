@@ -11,7 +11,7 @@ class Command(BaseCommand):
     help = "Populate transaction categories"
 
     def handle(self, *args, **options):
-        with open(CATEGORIES_JSON, "r", encoding="utf-8") as json_data:
+        with open(CATEGORIES_JSON, encoding="utf-8") as json_data:
             categories = json.load(json_data)
             for category in categories:
                 Category.objects.get_or_create(

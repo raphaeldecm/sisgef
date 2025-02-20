@@ -1,9 +1,263 @@
-{% extends "base.html" %}
-
-{% load static i18n %}
+{% extends 'base.html' %}
 
 {% block content %}
-  <div class="w-full">
-    <h1>CONTENT</h1>
-  </div>
-{% endblock content %}
+<div class="mb-6">
+    <h1 class="text-2xl font-semibold text-[#424242]">Dashboard</h1>
+    <p class="text-gray-500">Bem-vindo ao Sistema de Gestão Financeira</p>
+</div>
+
+<!-- Stats Grid -->
+<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-6">
+    <div class="stats-card">
+        <div class="flex items-center justify-between">
+            <div class="stats-icon">
+                <i data-lucide="trending-up" class="h-5 w-5"></i>
+            </div>
+            <span class="text-sm font-medium text-green-600">+12.5%</span>
+        </div>
+        <div class="stats-value">1,234</div>
+        <div class="stats-label">Total de Matrículas</div>
+    </div>
+
+    <div class="stats-card">
+        <div class="flex items-center justify-between">
+            <div class="stats-icon">
+                <i data-lucide="user-plus" class="h-5 w-5"></i>
+            </div>
+            <span class="text-sm font-medium text-green-600">+8.2%</span>
+        </div>
+        <div class="stats-value">156</div>
+        <div class="stats-label">Novos Alunos</div>
+    </div>
+
+    <div class="stats-card">
+        <div class="flex items-center justify-between">
+            <div class="stats-icon">
+                <i data-lucide="dollar-sign" class="h-5 w-5"></i>
+            </div>
+            <span class="text-sm font-medium text-green-600">+15.3%</span>
+        </div>
+        <div class="stats-value">R$ 45.678</div>
+        <div class="stats-label">Receita Mensal</div>
+    </div>
+
+    <div class="stats-card">
+        <div class="flex items-center justify-between">
+            <div class="stats-icon">
+                <i data-lucide="clock" class="h-5 w-5"></i>
+            </div>
+            <span class="text-sm font-medium text-red-600">-5.1%</span>
+        </div>
+        <div class="stats-value">28</div>
+        <div class="stats-label">Pagamentos Pendentes</div>
+    </div>
+</div>
+
+<!-- Content Sections -->
+<div class="grid gap-6 md:grid-cols-2">
+    <div class="bg-white rounded-lg p-6 shadow-sm border border-[#E0E0E0]">
+        <h2 class="text-lg font-semibold text-[#424242] mb-4">
+            Últimas Matrículas
+        </h2>
+        <div class="space-y-4">
+            {% for matricula in ultimas_matriculas %}
+            <div class="flex items-center justify-between py-2 border-b border-[#E0E0E0] last:border-0">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-[#E8F5E9] flex items-center justify-center">
+                        <i data-lucide="user" class="h-5 w-5 text-[#2E7D32]"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium text-[#424242]">{{ matricula.aluno_nome }}</p>
+                        <p class="text-sm text-gray-500">{{ matricula.curso }}</p>
+                    </div>
+                </div>
+                <span class="text-sm text-gray-500">{{ matricula.data|date:"d/m/Y" }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="bg-white rounded-lg p-6 shadow-sm border border-[#E0E0E0]">
+        <h2 class="text-lg font-semibold text-[#424242] mb-4">
+            Pagamentos Recentes
+        </h2>
+        <div class="space-y-4">
+            {% for pagamento in pagamentos_recentes %}
+            <div class="flex items-center justify-between py-2 border-b border-[#E0E0E0] last:border-0">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-[#E8F5E9] flex items-center justify-center">
+                        <i data-lucide="credit-card" class="h-5 w-5 text-[#2E7D32]"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium text-[#424242]">{{ pagamento.aluno_nome }}</p>
+                        <p class="text-sm text-gray-500">{{ pagamento.descricao }}</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="font-medium text-[#424242]">R$ {{ pagamento.valor }}</p>
+                    <p class="text-sm text-gray-500">{{ pagamento.data|date:"d/m/Y" }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% comment %} Table {% endcomment %}
+<div class="mb-6 flex justify-between items-center">
+    <div>
+        <h1 class="text-2xl font-semibold text-[#424242]">Alunos</h1>
+        <p class="text-gray-500">Gerenciamento de alunos matriculados</p>
+    </div>
+    <button class="flex items-center gap-2 bg-[#2E7D32] text-white px-4 py-2 rounded-md hover:bg-[#1B5E20] transition-colors">
+        <i data-lucide="plus" class="h-5 w-5"></i>
+        <span>Novo Aluno</span>
+    </button>
+</div>
+
+<!-- Filtros e Busca -->
+<div class="bg-white p-4 rounded-lg shadow-sm border border-[#E0E0E0] mb-6">
+    <div class="flex gap-4 items-end">
+        <div class="flex-1">
+            <label class="block text-sm font-medium text-[#424242] mb-1">Buscar</label>
+            <div class="relative">
+                <i data-lucide="search" class="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                <input
+                    type="text"
+                    placeholder="Buscar por nome, matrícula ou curso..."
+                    class="pl-10 w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                >
+            </div>
+        </div>
+        <div class="w-48">
+            <label class="block text-sm font-medium text-[#424242] mb-1">Status</label>
+            <select class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors">
+                <option value="">Todos</option>
+                <option value="ativo">Ativo</option>
+                <option value="inativo">Inativo</option>
+                <option value="pendente">Pendente</option>
+            </select>
+        </div>
+        <div class="w-48">
+            <label class="block text-sm font-medium text-[#424242] mb-1">Curso</label>
+            <select class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors">
+                <option value="">Todos</option>
+                {% for curso in cursos %}
+                <option value="{{ curso.id }}">{{ curso.nome }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button class="bg-[#E8F5E9] text-[#2E7D32] px-4 py-2 rounded-md hover:bg-[#C8E6C9] transition-colors">
+            <i data-lucide="filter" class="h-5 w-5"></i>
+        </button>
+    </div>
+</div>
+
+<!-- Tabela -->
+<div class="bg-white rounded-lg shadow-sm border border-[#E0E0E0] overflow-hidden">
+    <table class="w-full">
+        <thead>
+            <tr class="bg-[#F5F5F5] border-b border-[#E0E0E0]">
+                <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">
+                    <div class="flex items-center gap-2">
+                        Aluno
+                        <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                    </div>
+                </th>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Matrícula</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Curso</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Status</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Última Mensalidade</th>
+                <th class="px-6 py-3 text-right text-sm font-semibold text-[#424242]">Ações</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-[#E0E0E0]">
+            {% for aluno in alunos %}
+            <tr class="hover:bg-[#F5F5F5] transition-colors">
+                <td class="px-6 py-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-[#E8F5E9] flex items-center justify-center">
+                            {% if aluno.foto %}
+                            <img src="{{ aluno.foto.url }}" alt="{{ aluno.nome }}" class="w-10 h-10 rounded-full object-cover">
+                            {% else %}
+                            <i data-lucide="user" class="h-5 w-5 text-[#2E7D32]"></i>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <div class="font-medium text-[#424242]">{{ aluno.nome }}</div>
+                            <div class="text-sm text-gray-500">{{ aluno.email }}</div>
+                        </div>
+                    </div>
+                </td>
+                <td class="px-6 py-4 text-[#424242]">{{ aluno.matricula }}</td>
+                <td class="px-6 py-4 text-[#424242]">{{ aluno.curso }}</td>
+                <td class="px-6 py-4">
+                    <span class="px-2 py-1 text-sm rounded-full
+                        {% if aluno.status == 'ativo' %}
+                            bg-green-100 text-green-800
+                        {% elif aluno.status == 'inativo' %}
+                            bg-red-100 text-red-800
+                        {% else %}
+                            bg-yellow-100 text-yellow-800
+                        {% endif %}
+                    ">
+                        {{ aluno.status|title }}
+                    </span>
+                </td>
+                <td class="px-6 py-4">
+                    <div class="text-[#424242]">R$ {{ aluno.ultima_mensalidade.valor }}</div>
+                    <div class="text-sm text-gray-500">{{ aluno.ultima_mensalidade.data|date:"d/m/Y" }}</div>
+                </td>
+                <td class="px-6 py-4 text-right">
+                    <div class="flex items-center justify-end gap-2">
+                        <button class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Editar">
+                            <i data-lucide="pencil" class="h-5 w-5"></i>
+                        </button>
+                        <button class="p-2 hover:bg-red-50 text-red-600 rounded-md transition-colors" title="Excluir">
+                            <i data-lucide="trash-2" class="h-5 w-5"></i>
+                        </button>
+                        <button class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Mais opções">
+                            <i data-lucide="more-vertical" class="h-5 w-5"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="px-6 py-8 text-center text-gray-500">
+                    <div class="flex flex-col items-center gap-2">
+                        <i data-lucide="search-x" class="h-8 w-8"></i>
+                        <div>Nenhum aluno encontrado</div>
+                        <div class="text-sm">Tente ajustar os filtros ou adicione um novo aluno</div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Paginação -->
+    <div class="border-t border-[#E0E0E0] px-6 py-4 flex items-center justify-between">
+        <div class="text-sm text-gray-500">
+            Mostrando <span class="font-medium text-[#424242]">1</span> a
+            <span class="font-medium text-[#424242]">10</span> de
+            <span class="font-medium text-[#424242]">{{ total_alunos }}</span> alunos
+        </div>
+        <div class="flex items-center gap-2">
+            <button class="px-3 py-1 rounded border border-[#E0E0E0] text-gray-500 hover:bg-[#F5F5F5] disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                Anterior
+            </button>
+            <div class="flex items-center gap-1">
+                <button class="px-3 py-1 rounded bg-[#2E7D32] text-white">1</button>
+                <button class="px-3 py-1 rounded hover:bg-[#F5F5F5] text-[#424242]">2</button>
+                <button class="px-3 py-1 rounded hover:bg-[#F5F5F5] text-[#424242]">3</button>
+                <span class="px-2 text-gray-500">...</span>
+                <button class="px-3 py-1 rounded hover:bg-[#F5F5F5] text-[#424242]">8</button>
+            </div>
+            <button class="px-3 py-1 rounded border border-[#E0E0E0] text-gray-500 hover:bg-[#F5F5F5]">
+                Próxima
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}

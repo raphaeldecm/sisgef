@@ -37,11 +37,12 @@ module.exports = {
         poppins: ["Poppins", "sans-serif"]
       },
       colors: {
-        primary: '#1E40AF', // Azul profundo, extraído do logo
-        secondary: '#10B981', // Verde vibrante
-        accent: '#34D399', // Um verde claro para detalhes e botões
-        dark: '#1F2937', // Cinza escuro para contrastar
-        light: '#E5E7EB', // Cinza claro para fundos
+        green: '#2E7D32',
+        green_light: '#4CAF50',
+        green_bg: '#E8F5E9',
+        grey: '#424242',
+        grey_light: '#F5F5F5',
+        grey_border: '#E0E0E0',
       },
     },
   },
