@@ -55,10 +55,8 @@
 {% endblock javascript %}
 </head>
 <body class="flex h-screen font-poppins">
-  <nav class="flex justify-center items-center min-w-[112px] bg-neutral-50 text-slate-400 border-b-2">
-    <div class="flex justify-between items-center w-full px-[74px] mx-auto max-sm:px-8">
-      {% include "layouts/base_nav.html" %}
-    </div>
+  <nav class="flex flex-col items-center min-w-[112px] px-[74px] bg-neutral-50 text-slate-400 border-b-2">
+    {% include "layouts/base_nav.html" %}
   </nav>
   <main class="flex flex-1 flex-col items-center w-full">
     <header class="flex center justify-center items-center w-full min-h-[85px] bg-neutral-50 text-slate-400 border-b-2">

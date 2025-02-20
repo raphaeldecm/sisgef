@@ -5,9 +5,12 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
 from django.views.generic import RedirectView
+from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 
 from sisgef.users.models import User
+
+from .permissions import GerentePermission
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
@@ -44,3 +47,9 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 
 user_redirect_view = UserRedirectView.as_view()
+
+class DashboardView(TemplateView):
+    template_name = "users/dashboard.html"
+
+class RelatoriosView(GerentePermission, TemplateView):
+    template_name = "users/relatorios.html"

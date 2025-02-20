@@ -1,1 +1,32 @@
-<H1>NAVBAR</H1>
+{% load static %}
+<!-- Logo -->
+  <div class="flex items-center justify-center border-b border-gray-600 mt-4">
+    <img
+        class="w-28"
+        src="{% static 'images/sisgef.png' %}"
+        alt="Logo Sisgef" />
+  </div>
+
+  <!-- Navegação -->
+  <nav class="flex-1 px-4 py-6 space-y-4">
+    <a href="{% url 'users:dashboard' %}" class="block py-2 px-3 rounded hover:bg-primary hover:text-white">
+      Dashboard
+    </a>
+    <a href="{% url 'users:relatorios' %}" class="block py-2 px-3 rounded hover:bg-primary hover:text-white">
+      Relatórios
+    </a>
+    <a href="#transacoes" class="block py-2 px-3 rounded hover:bg-primary hover:text-white">
+      Transações
+    </a>
+    <a href="#configuracoes" class="block py-2 px-3 rounded hover:bg-primary hover:text-white">
+      Configurações
+    </a>
+  </nav>
+
+  <!-- Botão de Logout -->
+  <div class="border-t border-gray-600 p-4">
+    <a href="{% url 'account_logout' %}" class="cursor-pointer block py-2 px-3 rounded bg-secondary text-white text-center hover:bg-green-600">
+      Logout
+    </a>
+  </div>
+
