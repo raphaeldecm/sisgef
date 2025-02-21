@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from sisgef.core.constants import MAX_CHAR_FIELD_NAME_LENGTH
 from sisgef.core.models import BaseModel
@@ -7,8 +8,8 @@ from sisgef.core.models import BaseModel
 User = get_user_model()
 
 class Type(models.TextChoices):
-        INCOME = "IN", "Income"
-        EXPENSE = "EX", "Expense"
+        INCOME = "IN", _("Income")
+        EXPENSE = "EX", _("Expense")
 
 class Category(BaseModel):
     name = models.CharField(max_length=MAX_CHAR_FIELD_NAME_LENGTH)

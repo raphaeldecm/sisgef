@@ -313,3 +313,9 @@ msgstr "Nome do Usuário"
 #: sisgef/users/views.py:23
 msgid "Information successfully updated"
 msgstr "Informação atualizada com sucesso"
+
+msgid "Income"
+msgstr "Receita"
+
+msgid "Expense"
+msgstr "Despesa"

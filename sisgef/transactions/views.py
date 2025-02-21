@@ -23,5 +23,5 @@ class CategoryListView(TitleViewMixin, ListView):
     model = models.Category
     paginate_by = constants.DEFAULT_PAGE_SIZE
     template_name = "category/category_list.html"
-    title = "Categorias de Receitas e Despesas"
+    title = "Categorias"
     subtitle = "Gerenciamento de Categorias de Receitas e Despesas"

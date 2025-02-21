@@ -1,0 +1,50 @@
+<div class="border-t border-[#E0E0E0] px-6 py-4 flex items-center justify-between">
+  <div class="text-sm text-gray-500">
+      Mostrando
+      <span class="font-medium text-[#424242]">{{ page_obj.start_index }}</span>
+      a
+      <span class="font-medium text-[#424242]">{{ page_obj.end_index }}</span>
+      de
+      <span class="font-medium text-[#424242]">{{ page_obj.paginator.count }}</span> alunos
+  </div>
+  <div class="flex items-center gap-2">
+      <!-- Botão "Anterior" -->
+      {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}"
+             class="px-3 py-1 rounded border border-[#E0E0E0] text-gray-500 hover:bg-[#F5F5F5]">
+              Anterior
+          </a>
+      {% else %}
+          <button class="px-3 py-1 rounded border border-[#E0E0E0] text-gray-500 hover:bg-[#F5F5F5] disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+              Anterior
+          </button>
+      {% endif %}
+
+      <!-- Paginação numérica -->
+      <div class="flex items-center gap-1">
+          {% for num in page_obj.paginator.page_range %}
+              {% if num == page_obj.number %}
+                  <button class="px-3 py-1 rounded bg-[#2E7D32] text-white">{{ num }}</button>
+              {% elif num > page_obj.number|add:-2 and num < page_obj.number|add:2 %}
+                  <a href="?page={{ num }}" class="px-3 py-1 rounded hover:bg-[#F5F5F5] text-[#424242]">{{ num }}</a>
+              {% elif num == 1 or num == page_obj.paginator.num_pages %}
+                  <a href="?page={{ num }}" class="px-3 py-1 rounded hover:bg-[#F5F5F5] text-[#424242]">{{ num }}</a>
+              {% elif num == page_obj.number|add:-2 or num == page_obj.number|add:2 %}
+                  <span class="px-2 text-gray-500">...</span>
+              {% endif %}
+          {% endfor %}
+      </div>
+
+      <!-- Botão "Próxima" -->
+      {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}"
+             class="px-3 py-1 rounded border border-[#E0E0E0] text-gray-500 hover:bg-[#F5F5F5]">
+              Próxima
+          </a>
+      {% else %}
+          <button class="px-3 py-1 rounded border border-[#E0E0E0] text-gray-500 hover:bg-[#F5F5F5] disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+              Próxima
+          </button>
+      {% endif %}
+  </div>
+</div>
