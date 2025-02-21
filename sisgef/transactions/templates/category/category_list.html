@@ -15,40 +15,40 @@
 </div>
 <!-- Filtros e Busca -->
 <div class="bg-white p-4 rounded-lg shadow-sm border border-[#E0E0E0] mb-6">
-<div class="flex gap-4 items-end">
-    <div class="flex-1">
-        <label class="block text-sm font-medium text-[#424242] mb-1">Buscar</label>
-        <div class="relative">
-            <i data-lucide="search" class="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-            <input
-                type="text"
-                placeholder="Buscar por nome, matrícula ou curso..."
-                class="pl-10 w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
-            >
-        </div>
-    </div>
-    <div class="w-48">
-        <label class="block text-sm font-medium text-[#424242] mb-1">Status</label>
-        <select class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors">
-            <option value="">Todos</option>
-            <option value="ativo">Ativo</option>
-            <option value="inativo">Inativo</option>
-            <option value="pendente">Pendente</option>
-        </select>
-    </div>
-    <div class="w-48">
-        <label class="block text-sm font-medium text-[#424242] mb-1">Curso</label>
-        <select class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors">
-            <option value="">Todos</option>
-            {% for curso in cursos %}
-            <option value="{{ curso.id }}">{{ curso.nome }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <button class="bg-[#E8F5E9] text-[#2E7D32] px-4 py-2 rounded-md hover:bg-[#C8E6C9] transition-colors">
-        <i data-lucide="filter" class="h-5 w-5"></i>
-    </button>
-</div>
+  <form class="flex gap-4 items-end">
+    {% comment %} <form> {% endcomment %}
+
+      <div class="flex-1">
+          <label class="block text-sm font-medium text-[#424242] mb-1">Buscar</label>
+          <div class="relative">
+              <i data-lucide="search" class="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+              <input
+                  type="text"
+                  name="name"
+                  placeholder="Buscar por nome, matrícula ou curso..."
+                  value="{{ request.GET.name }}"
+                  class="pl-10 w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+              >
+          </div>
+      </div>
+
+      <div class="w-48">
+          <label class="block text-sm font-medium text-[#424242] mb-1">Categoria</label>
+          <select name="category_type"
+            class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors">
+              <option value="">Todos</option>
+              {% for key, value in filter.form.category_type.field.choices %}
+              <option value="{{ key }}"
+                      {% if key == request.GET.category_type %}selected{% endif %}>{% trans value %}</option>
+              {% endfor %}
+          </select>
+      </div>
+      <button class="bg-[#E8F5E9] text-[#2E7D32] px-4 py-2 rounded-md hover:bg-[#C8E6C9] transition-colors">
+          <i data-lucide="filter" class="h-5 w-5"></i>
+      </button>
+
+    {% comment %} </form> {% endcomment %}
+    </form>
 </div>
 
 <!-- Tabela -->
