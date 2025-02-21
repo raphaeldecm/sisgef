@@ -1,25 +1,33 @@
 <nav class="p-4">
   <ul class="space-y-2">
       <li>
-          <a href="{% url 'core:dashboard' %}" class="nav-item active">
+          <a href="{% url 'core:dashboard' %}"
+          class="nav-item {% if request.resolver_match.url_name == 'dashboard' %} active {% endif %}"
+          >
               <i data-lucide="home" class="h-5 w-5"></i>
               <span>Dashboard</span>
           </a>
       </li>
       <li>
-          <a href="{% url 'transactions:income_list' %}" class="nav-item">
+          <a href="{% url 'transactions:income_list' %}"
+          class="nav-item {% if request.resolver_match.url_name == 'income_list' %} active {% endif %}"
+          >
               <i data-lucide="banknote" class="h-5 w-5"></i>
               <span>Receitas</span>
           </a>
       </li>
       <li>
-          <a href="{% url 'transactions:expense_list' %}" class="nav-item">
+          <a href="{% url 'transactions:expense_list' %}"
+          class="nav-item {% if request.resolver_match.url_name == 'expense_list' %} active {% endif %}"
+          >
               <i data-lucide="hand-coins" class="h-5 w-5"></i>
               <span>Despesas</span>
           </a>
       </li>
       <li>
-        <a href="{% url 'transactions:category_list' %}" class="nav-item">
+        <a href="{% url 'transactions:category_list' %}"
+            class="nav-item {% if request.resolver_match.url_name == 'category_list' %} active {% endif %}"
+        >
             <i data-lucide="shapes" class="h-5 w-5"></i>
             <span>Categorias</span>
         </a>
