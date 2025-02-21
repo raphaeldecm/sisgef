@@ -10,7 +10,7 @@ class Type(models.TextChoices):
         INCOME = "IN", "Income"
         EXPENSE = "EX", "Expense"
 
-class Category(models.Model):
+class Category(BaseModel):
     name = models.CharField(max_length=MAX_CHAR_FIELD_NAME_LENGTH)
     description = models.TextField()
     category_type = models.CharField(max_length=2, choices=Type.choices)
@@ -24,7 +24,6 @@ class Category(models.Model):
 
 
 class Transaction(BaseModel):
-    transaction_type = models.CharField(max_length=2, choices=Type.choices)
     description = models.TextField()
     value = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateTimeField()
@@ -36,6 +35,17 @@ class Transaction(BaseModel):
         ordering = ["-date"]
         verbose_name = "Transaction"
         verbose_name_plural = "Transactions"
+        abstract = True
 
     def __str__(self) -> str:
         return f"{self.value} - {self.date} - {self.description}"
+
+class Income(Transaction):
+    class Meta:
+        verbose_name = "Income"
+        verbose_name_plural = "Incomes"
+
+class Expense(Transaction):
+    class Meta:
+        verbose_name = "Expense"
+        verbose_name_plural = "Expenses"

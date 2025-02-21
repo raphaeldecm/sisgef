@@ -1,29 +1,29 @@
 <nav class="p-4">
   <ul class="space-y-2">
       <li>
-          <a href="#" class="nav-item active">
+          <a href="{% url 'core:dashboard' %}" class="nav-item active">
               <i data-lucide="home" class="h-5 w-5"></i>
               <span>Dashboard</span>
           </a>
       </li>
       <li>
-          <a href="#" class="nav-item">
-              <i data-lucide="users" class="h-5 w-5"></i>
-              <span>Alunos</span>
+          <a href="{% url 'transactions:income_list' %}" class="nav-item">
+              <i data-lucide="banknote" class="h-5 w-5"></i>
+              <span>Receitas</span>
           </a>
       </li>
       <li>
-          <a href="#" class="nav-item">
-              <i data-lucide="book-open" class="h-5 w-5"></i>
-              <span>Cursos</span>
+          <a href="{% url 'transactions:expense_list' %}" class="nav-item">
+              <i data-lucide="hand-coins" class="h-5 w-5"></i>
+              <span>Despesas</span>
           </a>
       </li>
       <li>
-          <a href="#" class="nav-item">
-              <i data-lucide="credit-card" class="h-5 w-5"></i>
-              <span>Pagamentos</span>
-          </a>
-      </li>
+        <a href="{% url 'transactions:category_list' %}" class="nav-item">
+            <i data-lucide="shapes" class="h-5 w-5"></i>
+            <span>Categorias</span>
+        </a>
+    </li>
       <li>
           <a href="#" class="nav-item">
               <i data-lucide="bar-chart-3" class="h-5 w-5"></i>

@@ -48,8 +48,5 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 user_redirect_view = UserRedirectView.as_view()
 
-class DashboardView(TemplateView):
-    template_name = "users/dashboard.html"
-
 class RelatoriosView(GerentePermission, TemplateView):
     template_name = "users/relatorios.html"

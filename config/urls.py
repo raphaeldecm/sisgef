@@ -9,7 +9,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
-    path("", login_required(TemplateView.as_view(template_name="pages/home.html")), name="home"),
+    path("example/", login_required(TemplateView.as_view(template_name="pages/home.html")), name="example"),
     path(
         "about/",
         TemplateView.as_view(template_name="pages/about.html"),
@@ -18,8 +18,10 @@ urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
-    path("users/", include("sisgef.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
+    path("", include("sisgef.core.urls", namespace="core")),
+    path("users/", include("sisgef.users.urls", namespace="users")),
+    path("transactions/", include("sisgef.transactions.urls", namespace="transactions")),
     # Your stuff: custom urls includes go here
     # ...
     # Media files
