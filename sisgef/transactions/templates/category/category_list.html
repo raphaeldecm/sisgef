@@ -49,7 +49,7 @@
 
 <!-- Tabela -->
 <div class="bg-white rounded-lg shadow-sm border border-[#E0E0E0] overflow-hidden">
-  <table class="w-full">
+  <table class="w-full z-10">
       <thead>
           <tr class="bg-[#F5F5F5] border-b border-[#E0E0E0]">
               <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">
@@ -95,7 +95,10 @@
                       <button class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Editar">
                           <i data-lucide="pencil" class="h-5 w-5"></i>
                       </button>
-                      <button class="p-2 hover:bg-red-50 text-red-600 rounded-md transition-colors" title="Excluir">
+                      <button
+                        id="openModal{{ object.pk }}"
+                        data-modal-id="confirmationModal{{ object.pk }}"
+                        class="p-2 hover:bg-red-50 text-red-600 rounded-md transition-colors" title="Excluir">
                           <i data-lucide="trash-2" class="h-5 w-5"></i>
                       </button>
                       <button class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Mais opções">
@@ -103,6 +106,7 @@
                       </button>
                   </div>
               </td>
+              {% include "layouts/_confirm_delete_modal.html" with title="Confirmar Exclusão da categoria" body_text="Tem certeza de que deseja excluir este item? Esta ação não pode ser desfeita." delete_url="transactions:category_delete" %}
           </tr>
           {% empty %}
           <tr>
