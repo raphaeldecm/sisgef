@@ -7,11 +7,12 @@ from sisgef.core.models import BaseModel
 
 User = get_user_model()
 
-class Type(models.TextChoices):
+
+class Category(BaseModel):
+    class Type(models.TextChoices):
         INCOME = "IN", _("Income")
         EXPENSE = "EX", _("Expense")
 
-class Category(BaseModel):
     name = models.CharField(max_length=MAX_CHAR_FIELD_NAME_LENGTH)
     description = models.TextField()
     category_type = models.CharField(max_length=2, choices=Type.choices)

@@ -4,6 +4,7 @@ from django_filters.views import FilterView
 from sisgef.core import constants
 from sisgef.core.mixins import TitleViewMixin
 
+from . import filters
 from . import models
 
 
@@ -24,3 +25,4 @@ class CategoryListView(TitleViewMixin, FilterView, generic.ListView):
     template_name = "category/category_list.html"
     title = "Categorias"
     subtitle = "Gerenciamento de Categorias de Receitas e Despesas"
+    filterset_class = filters.CategoryFilter
