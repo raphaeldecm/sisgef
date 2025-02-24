@@ -1,0 +1,306 @@
+{% extends "base.html" %}
+
+
+
+
+{% block content %}
+
+<div class="mb-6 flex justify-between items-center">
+    <a href="{% url 'transactions:category_list' %}" class="flex items-center gap-2 text-[#2E7D32] hover:bg-[#E8F5E9] px-4 py-2 rounded-md transition-colors">
+        <i data-lucide="arrow-left" class="h-5 w-5"></i>
+        <span>Voltar para lista</span>
+    </a>
+</div>
+
+<form method="POST" enctype="multipart/form-data" class="max-w-4xl">
+    {% csrf_token %}
+
+    <div class="bg-white rounded-lg shadow-sm border border-[#E0E0E0] overflow-hidden">
+        <!-- Dados Pessoais -->
+        <div class="p-6 border-b border-[#E0E0E0]">
+            <h2 class="text-lg font-semibold text-[#424242] mb-4">Dados Pessoais</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-[#424242] mb-1" for="nome">
+                        Nome Completo *
+                    </label>
+                    <input
+                        type="text"
+                        id="nome"
+                        name="nome"
+                        required
+                        class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                    >
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-[#424242] mb-1" for="cpf">
+                        CPF *
+                    </label>
+                    <input
+                        type="text"
+                        id="cpf"
+                        name="cpf"
+                        required
+                        class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                    >
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-[#424242] mb-1" for="data_nascimento">
+                        Data de Nascimento *
+                    </label>
+                    <input
+                        type="date"
+                        id="data_nascimento"
+                        name="data_nascimento"
+                        required
+                        class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                    >
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-[#424242] mb-1" for="genero">
+                        Gênero
+                    </label>
+                    <select
+                        id="genero"
+                        name="genero"
+                        class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                    >
+                        <option value="">Selecione...</option>
+                        <option value="M">Masculino</option>
+                        <option value="F">Feminino</option>
+                        <option value="O">Outro</option>
+                        <option value="N">Prefiro não informar</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contato -->
+        <div class="p-6 border-b border-[#E0E0E0]">
+            <h2 class="text-lg font-semibold text-[#424242] mb-4">Contato</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-[#424242] mb-1" for="email">
+                        E-mail *
+                    </label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                    >
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-[#424242] mb-1" for="telefone">
+                        Telefone *
+                    </label>
+                    <input
+                        type="tel"
+                        id="telefone"
+                        name="telefone"
+                        required
+                        class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                    >
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-[#424242] mb-1" for="endereco">
+                        Endereço
+                    </label>
+                    <input
+                        type="text"
+                        id="endereco"
+                        name="endereco"
+                        class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                    >
+                </div>
+            </div>
+        </div>
+
+        <!-- Dados do Curso -->
+        <div class="p-6 border-b border-[#E0E0E0]">
+            <h2 class="text-lg font-semibold text-[#424242] mb-4">Dados do Curso</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-[#424242] mb-1" for="curso">
+                        Curso *
+                    </label>
+                    <select
+                        id="curso"
+                        name="curso"
+                        required
+                        class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                    >
+                        <option value="">Selecione um curso...</option>
+                        {% for curso in cursos %}
+                        <option value="{{ curso.id }}">{{ curso.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-[#424242] mb-1" for="turma">
+                        Turma *
+                    </label>
+                    <select
+                        id="turma"
+                        name="turma"
+                        required
+                        class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                    >
+                        <option value="">Selecione uma turma...</option>
+                        {% for turma in turmas %}
+                        <option value="{{ turma.id }}">{{ turma.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-[#424242] mb-1" for="data_matricula">
+                        Data da Matrícula *
+                    </label>
+                    <input
+                        type="date"
+                        id="data_matricula"
+                        name="data_matricula"
+                        required
+                        class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                    >
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-[#424242] mb-1" for="valor_mensalidade">
+                        Valor da Mensalidade *
+                    </label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">R$</span>
+                        <input
+                            type="number"
+                            id="valor_mensalidade"
+                            name="valor_mensalidade"
+                            step="0.01"
+                            required
+                            class="w-full pl-10 rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Documentos -->
+        <div class="p-6 border-b border-[#E0E0E0]">
+            <h2 class="text-lg font-semibold text-[#424242] mb-4">Documentos</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-[#424242] mb-1" for="foto">
+                        Foto do Aluno
+                    </label>
+                    <input
+                        type="file"
+                        id="foto"
+                        name="foto"
+                        accept="image/*"
+                        class="w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-[#E8F5E9] file:text-[#2E7D32] hover:file:bg-[#C8E6C9] file:transition-colors"
+                    >
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-[#424242] mb-1" for="documentos">
+                        Documentos Adicionais
+                    </label>
+                    <input
+                        type="file"
+                        id="documentos"
+                        name="documentos"
+                        multiple
+                        class="w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-[#E8F5E9] file:text-[#2E7D32] hover:file:bg-[#C8E6C9] file:transition-colors"
+                    >
+                </div>
+            </div>
+        </div>
+
+        <!-- Observações -->
+        <div class="p-6 border-b border-[#E0E0E0]">
+            <h2 class="text-lg font-semibold text-[#424242] mb-4">Observações</h2>
+            <div>
+                <label class="block text-sm font-medium text-[#424242] mb-1" for="observacoes">
+                    Observações Adicionais
+                </label>
+                <textarea
+                    id="observacoes"
+                    name="observacoes"
+                    rows="4"
+                    class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                ></textarea>
+            </div>
+        </div>
+
+        <!-- Botões -->
+        <div class="p-6 bg-[#F5F5F5] flex items-center justify-end gap-3">
+            <button
+                type="button"
+                onclick="history.back()"
+                class="px-4 py-2 text-[#424242] hover:bg-white rounded-md transition-colors"
+            >
+                Cancelar
+            </button>
+            <button
+                type="submit"
+                class="px-4 py-2 bg-[#2E7D32] text-white rounded-md hover:bg-[#1B5E20] transition-colors flex items-center gap-2"
+            >
+                <i data-lucide="save" class="h-5 w-5"></i>
+                Salvar Aluno
+            </button>
+        </div>
+    </div>
+</form>
+
+<script>
+    // Inicializa os ícones do Lucide
+    lucide.createIcons();
+
+    // Máscara para CPF
+    const cpfInput = document.getElementById('cpf');
+    cpfInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length <= 11) {
+            value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+            e.target.value = value;
+        }
+    });
+
+    // Máscara para telefone
+    const telefoneInput = document.getElementById('telefone');
+    telefoneInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length <= 11) {
+            if (value.length === 11) {
+                value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+            } else {
+                value = value.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+            }
+            e.target.value = value;
+        }
+    });
+
+    // Formatação do valor da mensalidade
+    const valorMensalidadeInput = document.getElementById('valor_mensalidade');
+    valorMensalidadeInput.addEventListener('input', function(e) {
+        let value = e.target.value;
+        if (value.includes(',')) {
+            value = value.replace(',', '.');
+        }
+        e.target.value = value;
+    });
+
+    // Atualização dinâmica das turmas baseado no curso selecionado
+    const cursoSelect = document.getElementById('curso');
+    const turmaSelect = document.getElementById('turma');
+
+    cursoSelect.addEventListener('change', function() {
+        const cursoId = this.value;
+        if (cursoId) {
+            // Aqui você faria uma chamada AJAX para buscar as turmas do curso
+            // Por enquanto vamos apenas limpar o select de turmas
+            turmaSelect.innerHTML = '<option value="">Selecione uma turma...</option>';
+        }
+    });
+</script>
+
+{% endblock content %}

@@ -8,10 +8,10 @@
 {% block content %}
 
 <div class="flex flex-row items-center justify-end mb-6">
-  <button class="flex items-center justify-end gap-2 bg-[#2E7D32] text-white px-4 py-2 rounded-md hover:bg-[#1B5E20] transition-colors">
+  <a href="{% url 'transactions:category_create' %}" class="flex items-center justify-end gap-2 bg-[#2E7D32] text-white px-4 py-2 rounded-md hover:bg-[#1B5E20] transition-colors">
     <i data-lucide="plus" class="h-5 w-5"></i>
     <span>Nova Categoria</span>
-  </button>
+  </a>
 </div>
 <!-- Filtros e Busca -->
 <div class="bg-white p-4 rounded-lg shadow-sm border border-[#E0E0E0] mb-6">

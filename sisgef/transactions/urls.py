@@ -13,4 +13,9 @@ urlpatterns = [
     view=views.CategoryDeleteView.as_view(),
     name="category_delete",
 ),
+    path(
+    "category/create/",
+    view=views.CategoryCreateView.as_view(),
+    name="category_create",
+),
 ]

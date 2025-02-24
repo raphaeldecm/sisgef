@@ -42,3 +42,16 @@ class CategoryDeleteView(
         "Não é possível excluir uma categoria que está sendo "
         "utilizada em uma transação."
     )
+
+class CategoryCreateView(
+    TitleViewMixin,
+    SuccessMessageMixin,
+    generic.CreateView,
+):
+    model = models.Category
+    fields = ["name", "description", "category_type"]
+    template_name = "category/category_form.html"
+    title = "Nova Categoria"
+    subtitle = "Cadastro de nova categoria."
+    success_url = reverse_lazy("transactions:category_list")
+    success_message = "Categoria cadastrada com sucesso."
