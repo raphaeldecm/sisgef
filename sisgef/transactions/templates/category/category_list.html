@@ -2,17 +2,17 @@
 
 {% load i18n %}
 
-{% block title %}
-  {{ title }}
-{% endblock title %}
-{% block content %}
-
+{% block context_button %}
 <div class="flex flex-row items-center justify-end mb-6">
   <a href="{% url 'transactions:category_create' %}" class="flex items-center justify-end gap-2 bg-[#2E7D32] text-white px-4 py-2 rounded-md hover:bg-[#1B5E20] transition-colors">
     <i data-lucide="plus" class="h-5 w-5"></i>
     <span>Nova Categoria</span>
   </a>
 </div>
+{% endblock context_button %}
+
+{% block content %}
+
 <!-- Filtros e Busca -->
 <div class="bg-white p-4 rounded-lg shadow-sm border border-[#E0E0E0] mb-6">
   <form class="flex gap-4 items-end">
@@ -32,12 +32,12 @@
 
       <div class="w-48">
           <label class="block text-sm font-medium text-[#424242] mb-1">Categoria</label>
-          <select name="category_type"
+          <select name="type"
             class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors">
               <option value="">Todos</option>
-              {% for key, value in filter.form.category_type.field.choices %}
+              {% for key, value in filter.form.type.field.choices %}
               <option value="{{ key }}"
-                      {% if key == request.GET.category_type %}selected{% endif %}>{% trans value %}</option>
+                      {% if key == request.GET.type %}selected{% endif %}>{% trans value %}</option>
               {% endfor %}
           </select>
       </div>
@@ -78,32 +78,32 @@
               <td class="px-6 py-4 text-[#424242]">{{ object.name }}</td>
               <td class="px-6 py-4 text-[#424242]">{{ object.description }}</td>
               <td class="px-6 py-4">
-                {% if object.category_type == 'IN' %}
+                {% if object.type == 'IN' %}
                   <span class="px-2 py-1 text-sm rounded-full bg-green-100 text-green-800">
-                  {% trans object.get_category_type_display %}
+                  {% trans object.get_type_display %}
                   </span>
-                {% elif object.category_type == 'EX' %}
+                {% elif object.type == 'EX' %}
                 <span class="px-2 py-1 text-sm rounded-full bg-yellow-100 text-yellow-800">
-                    {{ object.get_category_type_display }}
+                    {{ object.get_type_display }}
                   </span>
 
                 {% endif %}
 
 
               </td>
-              <td class="px-6 py-4 text-right">
-                  <div class="flex items-center justify-end gap-2">
-                      <button class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Editar">
+              <td class="flex items-center justify-center px-6 py-4 text-right">
+                  <div class="flex gap-2">
+                    <button class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Mais opções">
+                        <i data-lucide="eye" class="h-5 w-5"></i>
+                    </button>
+                      <a href="{% url 'transactions:category_update' object.pk %}" class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Editar">
                           <i data-lucide="pencil" class="h-5 w-5"></i>
-                      </button>
+                      </a>
                       <button
                         id="openModal{{ object.pk }}"
                         data-modal-id="confirmationModal{{ object.pk }}"
                         class="p-2 hover:bg-red-50 text-red-600 rounded-md transition-colors" title="Excluir">
                           <i data-lucide="trash-2" class="h-5 w-5"></i>
-                      </button>
-                      <button class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Mais opções">
-                          <i data-lucide="more-vertical" class="h-5 w-5"></i>
                       </button>
                   </div>
               </td>

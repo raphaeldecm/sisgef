@@ -17,6 +17,6 @@ class Command(BaseCommand):
                 Category.objects.get_or_create(
                     name=category["name"],
                     description=category["description"],
-                    category_type=category["category_type"],
+                    type=category["type"],
                 )
         self.stdout.write("Categories were updated successfully")

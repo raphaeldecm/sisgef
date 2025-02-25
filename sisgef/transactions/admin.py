@@ -6,7 +6,7 @@ from . import models
 class CategoryAdmin(admin.ModelAdmin):
     search_fields = ["name"]
     readonly_fields = ["updated_by", "created_at"]
-    list_display = ["name", "description", "category_type"]
+    list_display = ["name", "description", "type"]
 
 class IncomeAdmin(admin.ModelAdmin):
     search_fields = ["category", "value", "date", "user"]

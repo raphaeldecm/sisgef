@@ -2,51 +2,51 @@
   {
     "name": "Mensalidade",
     "description": "Receita proveniente de mensalidades",
-    "category_type": "IN"
+    "type": "IN"
   },
   {
     "name": "Venda de Livros",
     "description": "Receita proveniente da venda de livros",
-    "category_type": "IN"
+    "type": "IN"
   },
   {
     "name": "Água",
     "description": "Despesa com contas de água",
-    "category_type": "EX"
+    "type": "EX"
   },
   {
     "name": "Energia Elétrica",
     "description": "Despesa com contas de energia elétrica",
-    "category_type": "EX"
+    "type": "EX"
   },
   {
     "name": "Internet",
     "description": "Despesa com contas de internet",
-    "category_type": "EX"
+    "type": "EX"
   },
   {
     "name": "Salário",
     "description": "Despesa com pagamento de salários",
-    "category_type": "EX"
+    "type": "EX"
   },
   {
     "name": "Manutenção",
     "description": "Despesa com manutenção de equipamentos",
-    "category_type": "EX"
+    "type": "EX"
   },
   {
     "name": "Material de Escritório",
     "description": "Despesa com compra de material de escritório",
-    "category_type": "EX"
+    "type": "EX"
   },
   {
     "name": "Consultoria",
     "description": "Despesa com serviços de consultoria",
-    "category_type": "EX"
+    "type": "EX"
   },
   {
     "name": "Marketing",
     "description": "Despesa com campanhas de marketing",
-    "category_type": "EX"
+    "type": "EX"
   }
 ]

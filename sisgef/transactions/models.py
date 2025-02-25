@@ -10,12 +10,12 @@ User = get_user_model()
 
 class Category(BaseModel):
     class Type(models.TextChoices):
-        INCOME = "IN", _("Income")
-        EXPENSE = "EX", _("Expense")
+        INCOME = "IN", _("Receita")
+        EXPENSE = "EX", _("Despesa")
 
     name = models.CharField(max_length=MAX_CHAR_FIELD_NAME_LENGTH)
     description = models.TextField()
-    category_type = models.CharField(max_length=2, choices=Type.choices)
+    type = models.CharField(max_length=2, choices=Type.choices)
 
     class Meta:
         verbose_name = "Category"

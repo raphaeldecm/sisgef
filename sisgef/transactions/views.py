@@ -6,6 +6,7 @@ from django_filters.views import FilterView
 from sisgef.core import constants
 from sisgef.core.mixins import ProtectedErrorMessageMixin
 from sisgef.core.mixins import TitleViewMixin
+from sisgef.transactions import forms
 
 from . import filters
 from . import models
@@ -29,6 +30,7 @@ class CategoryListView(TitleViewMixin, FilterView, generic.ListView):
     title = "Categorias"
     subtitle = "Gerenciamento de Categorias de Receitas e Despesas"
     filterset_class = filters.CategoryFilter
+    ordering = ["name"]
 
 class CategoryDeleteView(
     ProtectedErrorMessageMixin,
@@ -49,9 +51,22 @@ class CategoryCreateView(
     generic.CreateView,
 ):
     model = models.Category
-    fields = ["name", "description", "category_type"]
+    form_class= forms.CategoryForm
     template_name = "category/category_form.html"
     title = "Nova Categoria"
     subtitle = "Cadastro de nova categoria."
     success_url = reverse_lazy("transactions:category_list")
     success_message = "Categoria cadastrada com sucesso."
+
+class CategoryUpdateView(
+    TitleViewMixin,
+    SuccessMessageMixin,
+    generic.UpdateView,
+):
+    model = models.Category
+    form_class = forms.CategoryForm
+    template_name = "category/category_form.html"
+    title = "Atualizar Categoria"
+    subtitle = "Atualização de categoria."
+    success_url = reverse_lazy("transactions:category_list")
+    success_message = "Categoria atualizada com sucesso."

@@ -1,16 +1,17 @@
 {% extends "base.html" %}
 
+{% load i18n %}
 
-
+{% block context_button %}
+<div class="mb-6 flex justify-end items-center">
+  <a alt="Voltar para lista" href="{% url 'transactions:category_list' %}" class="flex items-center gap-2 text-[#2E7D32] hover:text-[#2E7D32] hover:bg-[#E8F5E9] px-4 py-2 rounded-md transition-colors">
+      <i data-lucide="arrow-left" class="h-5 w-5"></i>
+      <span class="hidden md:block">Retornar para lista</span>
+  </a>
+</div>
+{% endblock context_button %}
 
 {% block content %}
-
-<div class="mb-6 flex justify-end items-center">
-    <a href="{% url 'transactions:category_list' %}" class="flex items-center gap-2 text-[#2E7D32] hover:text-[#2E7D32] hover:bg-[#E8F5E9] px-4 py-2 rounded-md transition-colors">
-        <i data-lucide="arrow-left" class="h-5 w-5"></i>
-        <span>Retornar para lista</span>
-    </a>
-</div>
 
 <form method="POST" enctype="multipart/form-data" class="">
     {% csrf_token %}
@@ -20,118 +21,68 @@
             <h2 class="text-lg font-semibold text-[#424242] mb-4">Dados da Categoria</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-sm font-medium text-[#424242] mb-1" for="nome">
+                    <label class="block text-lg font-medium text-[#424242] mb-1" for="id_name">
                         Nome *
                     </label>
                     <input
                         type="text"
-                        id="nome"
-                        name="nome"
-                        required
-                        class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                        id="id_name"
+                        name="name"
+                        placeholder="Digite o nome da categoria ..."
+                        value="{{ form.name.value|default_if_none:'' }}"
+
+                        class="outline-none w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
                     >
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-[#424242] mb-1" for="genero">
-                        Tipo
+                    <label class="block text-lg font-medium text-[#424242] mb-1" for="id_type">
+                        Tipo *
                     </label>
                     <select
-                        id="genero"
-                        name="genero"
-                        class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                        id="id_type"
+                        name="type"
+                        class="bg-transparent w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
                     >
-                        <option value="">Selecione...</option>
-                        <option value="M">Receita</option>
-                        <option value="F">Despesa</option>
-                        <option value="O">Outro</option>
-                        <option value="N">Prefiro não informar</option>
+                        <option value="">Selecione o tipo da categoria ...</option>
+                        {% for key, value in form.type.field.choices %}
+                          <option value="{{ key }}" {% if form.type.value == key %}selected{% endif %}>{% trans value %}</option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>
             <div class="my-3">
-              <label class="block text-sm font-medium text-[#424242] mb-1" for="observacoes">
-                  Observações Adicionais
+              <label class="block text-lg font-medium text-[#424242] mb-1" for="id_description">
+                  Descrição *
               </label>
               <textarea
-                  id="observacoes"
-                  name="observacoes"
+                  id="id_description"
+                  name="description"
                   rows="4"
-                  class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
-              ></textarea>
+                  placeholder="Digite a descrição da categoria ..."
+                  required
+                  class="outline-none w-full px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+              >{{ form.description.value|default_if_none:'' }}</textarea>
           </div>
         </div>
 
         <!-- Botões -->
         <div class="p-6 bg-[#F5F5F5] flex items-center justify-end gap-3">
-            <button
+            <a  href="{% url 'transactions:category_list' %}"
                 type="button"
-                onclick="history.back()"
                 class="px-4 py-2 text-[#424242] hover:bg-white rounded-md transition-colors"
             >
                 Cancelar
-            </button>
+            </a>
             <button
                 type="submit"
                 class="px-4 py-2 bg-[#2E7D32] text-white rounded-md hover:bg-[#1B5E20] transition-colors flex items-center gap-2"
             >
                 <i data-lucide="save" class="h-5 w-5"></i>
-                Cadastrar
+                Salvar
             </button>
         </div>
     </div>
 </form>
-
-<script>
-    // Inicializa os ícones do Lucide
-    lucide.createIcons();
-
-    // Máscara para CPF
-    const cpfInput = document.getElementById('cpf');
-    cpfInput.addEventListener('input', function(e) {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length <= 11) {
-            value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-            e.target.value = value;
-        }
-    });
-
-    // Máscara para telefone
-    const telefoneInput = document.getElementById('telefone');
-    telefoneInput.addEventListener('input', function(e) {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length <= 11) {
-            if (value.length === 11) {
-                value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
-            } else {
-                value = value.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
-            }
-            e.target.value = value;
-        }
-    });
-
-    // Formatação do valor da mensalidade
-    const valorMensalidadeInput = document.getElementById('valor_mensalidade');
-    valorMensalidadeInput.addEventListener('input', function(e) {
-        let value = e.target.value;
-        if (value.includes(',')) {
-            value = value.replace(',', '.');
-        }
-        e.target.value = value;
-    });
-
-    // Atualização dinâmica das turmas baseado no curso selecionado
-    const cursoSelect = document.getElementById('curso');
-    const turmaSelect = document.getElementById('turma');
-
-    cursoSelect.addEventListener('change', function() {
-        const cursoId = this.value;
-        if (cursoId) {
-            // Aqui você faria uma chamada AJAX para buscar as turmas do curso
-            // Por enquanto vamos apenas limpar o select de turmas
-            turmaSelect.innerHTML = '<option value="">Selecione uma turma...</option>';
-        }
-    });
-</script>
 
 {% endblock content %}

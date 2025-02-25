@@ -1,30 +1,50 @@
 {% load static %}
 
 {% if form.errors %}
-  <article class="alert-message inline-flex flex-wrap items-center gap-2 text-sm p-4 text-white rounded-lg bg-blue-700 shadow-sm animate-fade"
+<div class="fixed top-4 right-4 z-50">
+  <article class="alert-message flex items-start gap-3 text-sm p-4 text-white rounded-lg bg-blue-700 shadow-lg animate-fade-in transition-opacity duration-500"
            role="alert">
+    <!-- Ícone -->
     <img src="{% static 'images/icons/information_circle.svg' %}"
-         alt="Ícone de um i em volta de um círculo representando informação."
-         class="w-5 h-5" />
-    <section class="text-base font-light">
-      {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
-      {% include "_form_field_error.html" %}
+         alt="Ícone de informação"
+         class="w-5 h-5 mt-1" />
+
+    <!-- Mensagem -->
+    <section class="flex-1 text-base font-light">
+      {% for error in form.non_field_errors %}
+        <p>{{ error }}</p>
+      {% endfor %}
+      {% include "layouts/_form_field_error.html" %}
     </section>
+
+    <!-- Botão de fechar -->
+    <button onclick="closeAlert(this)" class="text-white hover:text-gray-300">
+      ✖
+      <i data-lucide="x" class="h-5 w-5"></i>
+    </button>
   </article>
+</div>
 {% endif %}
+
 {% block inline_javascript %}
-  <script>
-    setTimeout(() => {
-      /**
-       * Controla o comportamento da mensagem
-       * Remove todas as mensagens após um período.
-       **/
+<script>
+  /**
+   * Remove o alerta após um tempo
+   */
+  setTimeout(() => {
+    document.querySelectorAll('.alert-message').forEach(alert => {
+      alert.classList.add('opacity-0', 'transition-opacity', 'duration-500');
+      setTimeout(() => alert.remove(), 500);
+    });
+  }, 4000);
 
-      const alerts = document.querySelectorAll('.alert-message');
-
-      alerts.forEach(alert => {
-        alert.remove();
-      });
-    }, 4000);
-  </script>
+  /**
+   * Fecha o alerta manualmente
+   */
+  function closeAlert(button) {
+    let alert = button.closest('.alert-message');
+    alert.classList.add('opacity-0', 'transition-opacity', 'duration-500');
+    setTimeout(() => alert.remove(), 500);
+  }
+</script>
 {% endblock inline_javascript %}
