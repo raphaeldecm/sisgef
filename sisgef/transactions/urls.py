@@ -23,4 +23,9 @@ urlpatterns = [
     view=views.CategoryUpdateView.as_view(),
     name="category_update",
 ),
+path(
+  "category/detail/<int:pk>/",
+  view=views.CategoryDetailView.as_view(),
+  name="category_detail",
+),
 ]

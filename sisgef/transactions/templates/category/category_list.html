@@ -17,7 +17,7 @@
 <div class="bg-white p-4 rounded-lg shadow-sm border border-[#E0E0E0] mb-6">
   <form class="flex gap-4 items-end">
       <div class="flex-1">
-          <label class="block text-sm font-medium text-[#424242] mb-1">Buscar</label>
+          <label class="block text-lg font-medium text-[#424242] mb-1">Buscar</label>
           <div class="relative">
               <i data-lucide="search" class="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
               <input
@@ -25,15 +25,15 @@
                   name="name"
                   placeholder="Buscar por nome, matrícula ou curso..."
                   value="{{ request.GET.name }}"
-                  class="pl-10 w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                  class="outline-none w-full h-[48px] px-[10px] pl-10 rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
               >
           </div>
       </div>
 
       <div class="w-48">
-          <label class="block text-sm font-medium text-[#424242] mb-1">Categoria</label>
+          <label class="block text-lg font-medium text-[#424242] mb-1">Categoria</label>
           <select name="type"
-            class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors">
+            class="bg-transparent w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors">
               <option value="">Todos</option>
               {% for key, value in filter.form.type.field.choices %}
               <option value="{{ key }}"
@@ -93,9 +93,9 @@
               </td>
               <td class="flex items-center justify-center px-6 py-4 text-right">
                   <div class="flex gap-2">
-                    <button class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Mais opções">
+                    <a href="{% url 'transactions:category_detail' object.pk %}" class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Mais opções">
                         <i data-lucide="eye" class="h-5 w-5"></i>
-                    </button>
+                    </a>
                       <a href="{% url 'transactions:category_update' object.pk %}" class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Editar">
                           <i data-lucide="pencil" class="h-5 w-5"></i>
                       </a>

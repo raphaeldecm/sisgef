@@ -31,7 +31,7 @@ class Transaction(BaseModel):
     date = models.DateTimeField()
     payment_proof = models.ImageField(upload_to="payment_proofs/")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT)
 
     class Meta:
         ordering = ["-date"]

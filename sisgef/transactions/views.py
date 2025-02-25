@@ -70,3 +70,9 @@ class CategoryUpdateView(
     subtitle = "Atualização de categoria."
     success_url = reverse_lazy("transactions:category_list")
     success_message = "Categoria atualizada com sucesso."
+
+class CategoryDetailView(TitleViewMixin, generic.DetailView):
+    model = models.Category
+    template_name = "category/category_detail.html"
+    title = "Detalhes da Categoria"
+    subtitle = "Informações de cadastro da categoria."

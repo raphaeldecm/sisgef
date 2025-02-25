@@ -548,4 +548,259 @@
   });
 </script>
 
+
+{% comment %} Detail page example {% endcomment %}
+
+<div class="mb-6 flex justify-between items-center mt-6">
+  <div>
+      <h1 class="text-2xl font-semibold text-[#424242]">Detalhes do Aluno</h1>
+      <p class="text-gray-500">Informações completas do cadastro</p>
+  </div>
+  <div class="flex items-center gap-3">
+      <a href="#" class="flex items-center gap-2 text-[#2E7D32] hover:bg-[#E8F5E9] px-4 py-2 rounded-md transition-colors">
+          <i data-lucide="arrow-left" class="h-5 w-5"></i>
+          <span>Voltar para lista</span>
+      </a>
+      <a href="#" class="flex items-center gap-2 bg-[#2E7D32] text-white px-4 py-2 rounded-md hover:bg-[#1B5E20] transition-colors">
+          <i data-lucide="pencil" class="h-5 w-5"></i>
+          <span>Editar Aluno</span>
+      </a>
+  </div>
+</div>
+
+<div class="grid gap-6 grid-cols-1 lg:grid-cols-3">
+  <!-- Coluna da Esquerda -->
+  <div class="lg:col-span-2 space-y-6">
+      <!-- Card Principal -->
+      <div class="bg-white rounded-lg shadow-sm border border-[#E0E0E0] overflow-hidden">
+          <!-- Cabeçalho com Foto -->
+          <div class="p-6 bg-[#E8F5E9] border-b border-[#E0E0E0]">
+              <div class="flex items-center gap-4">
+                  {% if aluno.foto %}
+                  <img src="{{ aluno.foto.url }}" alt="{{ aluno.nome }}" class="w-24 h-24 rounded-full object-cover border-4 border-white">
+                  {% else %}
+                  <div class="w-24 h-24 rounded-full bg-white flex items-center justify-center border-4 border-[#2E7D32]">
+                      <i data-lucide="user" class="h-12 w-12 text-[#2E7D32]"></i>
+                  </div>
+                  {% endif %}
+                  <div>
+                      <h2 class="text-2xl font-semibold text-[#424242]">{{ aluno.nome }}</h2>
+                      <p class="text-[#2E7D32] font-medium">Matrícula: {{ aluno.matricula }}</p>
+                      <div class="flex items-center gap-2 mt-2">
+                          <span class="px-2 py-1 text-sm rounded-full bg-[#2E7D32] text-white">
+                              {{ aluno.curso }}
+                          </span>
+                          <span class="px-2 py-1 text-sm rounded-full
+                              {% if aluno.status == 'ativo' %}
+                                  bg-green-100 text-green-800
+                              {% elif aluno.status == 'inativo' %}
+                                  bg-red-100 text-red-800
+                              {% else %}
+                                  bg-yellow-100 text-yellow-800
+                              {% endif %}
+                          ">
+                              {{ aluno.status|title }}
+                          </span>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Dados Pessoais -->
+          <div class="p-6 border-b border-[#E0E0E0]">
+              <h3 class="text-lg font-semibold text-[#424242] mb-4">Dados Pessoais</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                      <p class="text-sm text-gray-500">CPF</p>
+                      <p class="text-[#424242]">{{ aluno.cpf }}</p>
+                  </div>
+                  <div>
+                      <p class="text-sm text-gray-500">Data de Nascimento</p>
+                      <p class="text-[#424242]">{{ aluno.data_nascimento|date:"d/m/Y" }}</p>
+                  </div>
+                  <div>
+                      <p class="text-sm text-gray-500">E-mail</p>
+                      <p class="text-[#424242]">{{ aluno.email }}</p>
+                  </div>
+                  <div>
+                      <p class="text-sm text-gray-500">Telefone</p>
+                      <p class="text-[#424242]">{{ aluno.telefone }}</p>
+                  </div>
+                  <div class="md:col-span-2">
+                      <p class="text-sm text-gray-500">Endereço</p>
+                      <p class="text-[#424242]">{{ aluno.endereco }}</p>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Dados do Curso -->
+          <div class="p-6">
+              <h3 class="text-lg font-semibold text-[#424242] mb-4">Informações Acadêmicas</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                      <p class="text-sm text-gray-500">Curso</p>
+                      <p class="text-[#424242]">{{ aluno.curso }}</p>
+                  </div>
+                  <div>
+                      <p class="text-sm text-gray-500">Turma</p>
+                      <p class="text-[#424242]">{{ aluno.turma }}</p>
+                  </div>
+                  <div>
+                      <p class="text-sm text-gray-500">Data da Matrícula</p>
+                      <p class="text-[#424242]">{{ aluno.data_matricula|date:"d/m/Y" }}</p>
+                  </div>
+                  <div>
+                      <p class="text-sm text-gray-500">Valor da Mensalidade</p>
+                      <p class="text-[#424242]">R$ {{ aluno.valor_mensalidade }}</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!-- Histórico de Pagamentos -->
+      <div class="bg-white rounded-lg shadow-sm border border-[#E0E0E0] overflow-hidden">
+          <div class="p-6 border-b border-[#E0E0E0] flex justify-between items-center">
+              <h3 class="text-lg font-semibold text-[#424242]">Histórico de Pagamentos</h3>
+              <a href="#" class="text-[#2E7D32] hover:text-[#1B5E20] text-sm flex items-center gap-1">
+                  Ver todos
+                  <i data-lucide="chevron-right" class="h-4 w-4"></i>
+              </a>
+          </div>
+          <div class="overflow-x-auto">
+              <table class="w-full">
+                  <thead>
+                      <tr class="bg-[#F5F5F5] border-b border-[#E0E0E0]">
+                          <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Data</th>
+                          <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Descrição</th>
+                          <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Status</th>
+                          <th class="px-6 py-3 text-right text-sm font-semibold text-[#424242]">Valor</th>
+                      </tr>
+                  </thead>
+                  <tbody class="divide-y divide-[#E0E0E0]">
+                      {% for pagamento in pagamentos %}
+                      <tr class="hover:bg-[#F5F5F5]">
+                          <td class="px-6 py-4 text-[#424242]">{{ pagamento.data|date:"d/m/Y" }}</td>
+                          <td class="px-6 py-4 text-[#424242]">{{ pagamento.descricao }}</td>
+                          <td class="px-6 py-4">
+                              <span class="px-2 py-1 text-sm rounded-full
+                                  {% if pagamento.status == 'pago' %}
+                                      bg-green-100 text-green-800
+                                  {% elif pagamento.status == 'pendente' %}
+                                      bg-yellow-100 text-yellow-800
+                                  {% else %}
+                                      bg-red-100 text-red-800
+                                  {% endif %}
+                              ">
+                                  {{ pagamento.status|title }}
+                              </span>
+                          </td>
+                          <td class="px-6 py-4 text-right text-[#424242]">R$ {{ pagamento.valor }}</td>
+                      </tr>
+                      {% empty %}
+                      <tr>
+                          <td colspan="4" class="px-6 py-8 text-center text-gray-500">
+                              Nenhum pagamento registrado
+                          </td>
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+
+  <!-- Coluna da Direita -->
+  <div class="space-y-6">
+      <!-- Card de Status Financeiro -->
+      <div class="bg-white rounded-lg shadow-sm border border-[#E0E0E0] overflow-hidden">
+          <div class="p-6 border-b border-[#E0E0E0]">
+              <h3 class="text-lg font-semibold text-[#424242] mb-4">Status Financeiro</h3>
+              <div class="space-y-4">
+                  <div>
+                      <p class="text-sm text-gray-500">Mensalidade Atual</p>
+                      <p class="text-2xl font-semibold text-[#424242]">R$ {{ aluno.valor_mensalidade }}</p>
+                  </div>
+                  <div>
+                      <p class="text-sm text-gray-500">Próximo Vencimento</p>
+                      <p class="text-[#424242]">{{ aluno.proximo_vencimento|date:"d/m/Y" }}</p>
+                  </div>
+                  <div>
+                      <p class="text-sm text-gray-500">Status do Pagamento</p>
+                      <span class="inline-block mt-1 px-2 py-1 text-sm rounded-full
+                          {% if aluno.status_pagamento == 'em_dia' %}
+                              bg-green-100 text-green-800
+                          {% elif aluno.status_pagamento == 'atrasado' %}
+                              bg-red-100 text-red-800
+                          {% else %}
+                              bg-yellow-100 text-yellow-800
+                          {% endif %}
+                      ">
+                          {% comment %} {{ aluno.status_pagamento|title|replace:"_":" " }} {% endcomment %}
+                      </span>
+                  </div>
+              </div>
+          </div>
+          <div class="p-6 bg-[#F5F5F5]">
+              <a href="#" class="w-full bg-[#2E7D32] text-white py-2 px-4 rounded-md hover:bg-[#1B5E20] transition-colors flex items-center justify-center gap-2">
+                  <i data-lucide="plus" class="h-5 w-5"></i>
+                  Registrar Pagamento
+              </a>
+          </div>
+      </div>
+
+      <!-- Card de Documentos -->
+      <div class="bg-white rounded-lg shadow-sm border border-[#E0E0E0] overflow-hidden">
+          <div class="p-6 border-b border-[#E0E0E0]">
+              <h3 class="text-lg font-semibold text-[#424242] mb-4">Documentos</h3>
+              <div class="space-y-3">
+                  {% for documento in documentos %}
+                  <a href="{{ documento.arquivo.url }}" target="_blank" class="flex items-center gap-3 p-3 hover:bg-[#F5F5F5] rounded-md transition-colors">
+                      <i data-lucide="file-text" class="h-5 w-5 text-[#2E7D32]"></i>
+                      <div class="flex-1">
+                          <p class="text-[#424242]">{{ documento.nome }}</p>
+                          <p class="text-sm text-gray-500">{{ documento.data_upload|date:"d/m/Y" }}</p>
+                      </div>
+                      <i data-lucide="download" class="h-5 w-5 text-gray-400"></i>
+                  </a>
+                  {% empty %}
+                  <div class="text-center text-gray-500 py-4">
+                      <i data-lucide="file-x" class="h-8 w-8 mx-auto mb-2"></i>
+                      <p>Nenhum documento anexado</p>
+                  </div>
+                  {% endfor %}
+              </div>
+          </div>
+          <div class="p-6 bg-[#F5F5F5]">
+              <button onclick="document.getElementById('upload_documento').click()" class="w-full border-2 border-dashed border-[#2E7D32] text-[#2E7D32] py-2 px-4 rounded-md hover:bg-[#E8F5E9] transition-colors flex items-center justify-center gap-2">
+                  <i data-lucide="upload" class="h-5 w-5"></i>
+                  Adicionar Documento
+              </button>
+              <input type="file" id="upload_documento" class="hidden" multiple>
+          </div>
+      </div>
+
+      <!-- Card de Observações -->
+      <div class="bg-white rounded-lg shadow-sm border border-[#E0E0E0] overflow-hidden">
+          <div class="p-6">
+              <h3 class="text-lg font-semibold text-[#424242] mb-4">Observações</h3>
+              <p class="text-[#424242] whitespace-pre-line">{{ aluno.observacoes|default:"Nenhuma observação registrada." }}</p>
+          </div>
+      </div>
+  </div>
+</div>
+
+<script>
+  // Inicializa os ícones do Lucide
+  lucide.createIcons();
+
+  // Handler para upload de documentos
+  document.getElementById('upload_documento').addEventListener('change', function(e) {
+      const files = e.target.files;
+      if (files.length > 0) {
+          // Aqui você implementaria a lógica de upload
+          console.log('Arquivos selecionados:', files);
+      }
+  });
+</script>
 {% endblock %}
+
