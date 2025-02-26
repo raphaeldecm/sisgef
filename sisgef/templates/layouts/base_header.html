@@ -18,7 +18,7 @@
   <span class="hidden md:block text-2xl font-semibold text-[#424242]">Sistema de Gestão Financeira</span>
 </div>
 
-<div class="flex items-center gap-4">
+<div class="flex relative items-center gap-4">
   <a onclick="toggleDropdown()"
         type="button"
         class="flex items-center gap-2 text-[#424242] cursor-pointer hover:text-green hover:bg-green_bg p-2 rounded-md transition-colors hover:text-[#424242]"
@@ -30,73 +30,65 @@
           A
       </div>
     </a>
+    <div id="dropdown"
+             class="hidden absolute top-14 right-0 rounded-lg bg-white shadow-lg ring-opacity-5 focus:outline-none py-[18px] pb-0 px-3 drop-shadow-lg"
+             role="menu"
+             aria-orientation="vertical"
+             aria-labelledby="menu-button"
+             tabindex="-1">
+          <a href="#"
+            role="menuitem"
+            aria-haspopup="true"
+            tabindex="-1"
+            id="menu-item-0"
+            class="flex gap-3 items-center justify-center">
+
+            {% if user.photoAlt %}
+              <img src="{{ user.photoAlt }}"
+                   class="w-10 h-10 rounded-full"
+                   alt="{{ user.name }}" />
+            {% elif user.photo %}
+              <img src="{{ user.photo }}"
+                class="w-10 h-10 rounded-full"
+                alt="{{ user.name }}" />
+            {% else %}
+              <div class="bg-green-500/50 w-10 h-10 flex justify-center items-center rounded-full">
+                <i data-lucide="user" class="h-6 w-6 text-green-500"></i>
+              </div>
+            {% endif %}
+            <div class="hidden sm:block min-w-0">
+              <p class="text-lg text-black flex justify-start items-center gap-2">
+                <span class="whitespace-nowrap overflow-hidden text-ellipsis block">{{ user.name }}Admin</span>
+                  <span class="flex text-[11px] h-[21px] items-center justify-center px-[6px] rounded-md font-bold border border-green-300 text-green-600 bg-green-100">COORDENADOR</span>
+              </p>
+              <p class="hidden sm:block text-base font-medium text-slate-400 whitespace-nowrap overflow-hidden text-ellipsis">
+                admin@sisgef.com.br
+                {{ user.email }}
+              </p>
+            </div>
+          </a>
+          <hr class="mt-[18px]" />
+          <a href="#">
+            <div class="flex gap-4 items-center py-4 px-[14px] hover:bg-slate-100 transition-colors">
+              <i data-lucide="settings" class="h-6 w-6 text-[#424242]"></i>
+              <p class="hidden sm:block text-black text-[18px] font-medium">Meu Perfil</p>
+            </div>
+          </a>
+          <a href="#">
+            <div class="flex gap-4 items-center py-4 px-[14px] hover:bg-slate-100 transition-colors">
+              <i data-lucide="badge-help" class="h-6 w-6 text-[#424242]"></i>
+              <p class="hidden sm:block text-black text-[18px] font-medium">Ajuda</p>
+            </div>
+          </a>
+          <hr />
+          <a id="logoutButton" class="cursor-pointer">
+            <div class="flex gap-4 items-center py-6 px-[14px] hover:bg-slate-100 transition-colors">
+              <i data-lucide="log-out" class="h-6 w-6 text-red-700"></i>
+              <p class="hidden sm:block text-[18px] font-medium text-red-700">Encerrar Sessão</p>
+            </div>
+          </a>
+        </div>
 </div>
-<div id="dropdown"
-         class="hidden absolute top-14 right-0 w-[305px] rounded-lg bg-white shadow-lg ring-opacity-5 focus:outline-none py-[18px] pb-0 px-4 drop-shadow-lg"
-         role="menu"
-         aria-orientation="vertical"
-         aria-labelledby="menu-button"
-         tabindex="-1">
-      <a href="#"
-        role="menuitem"
-        aria-haspopup="true"
-        tabindex="-1"
-        id="menu-item-0"
-        class="flex gap-3 items-center">
-
-        {% if user.photoAlt %}
-          <img src="{{ user.photoAlt }}"
-               class="w-10 h-10 rounded-full"
-               alt="{{ user.name }}" />
-        {% elif user.photo %}
-          <img src="{{ user.photo }}"
-            class="w-10 h-10 rounded-full"
-            alt="{{ user.name }}" />
-        {% else %}
-          <div class="bg-green-500/50 w-10 h-10 flex justify-center items-center rounded-full">
-            <i class="fas fa-solid fa-user fa-lg"></i>
-          </div>
-        {% endif %}
-        <div class="min-w-0">
-          <p class="text-lg text-black flex justify-start items-center gap-2">
-            <span class="whitespace-nowrap overflow-hidden text-ellipsis block">{{ user.name }}</span>
-
-              <span class="flex text-[11px] h-[21px] items-center justify-center px-[6px] rounded-md font-bold border border-green-300 text-green-600 bg-green-100">COORDENADOR</span>
-
-
-          </p>
-          <p class="text-base font-medium text-slate-400 whitespace-nowrap overflow-hidden text-ellipsis block">
-            {{ user.email }}
-          </p>
-        </div>
-      </a>
-      <hr class="mt-[18px]" />
-      <a href="#">
-        <div class="flex gap-4 items-center py-4 px-[14px] hover:bg-slate-100 transition-colors">
-          <img src="{% static 'images/icons/icon-settings.svg' %}"
-               class="w-[24px] h-[24px]"
-               alt="" />
-          <p class="text-black text-[18px] font-medium">Meu Perfil</p>
-        </div>
-      </a>
-      <a href="#">
-        <div class="flex gap-4 items-center py-4 px-[14px] hover:bg-slate-100 transition-colors">
-          <img src="{% static 'images/icons/icon-help.svg' %}"
-               class="w-[24px] h-[24px]"
-               alt="" />
-          <p class="text-black text-[18px] font-medium">Ajuda</p>
-        </div>
-      </a>
-      <hr />
-      <a id="logoutButton" class="cursor-pointer">
-        <div class="flex gap-4 items-center py-6 px-[14px] hover:bg-slate-100 transition-colors">
-          <img src="{% static 'images/icons/icon_logout.svg' %}"
-               class="w-[24px] h-[24px]"
-               alt="" />
-          <p class="text-[18px] font-medium text-red-700">Encerrar Sessão</p>
-        </div>
-      </a>
-    </div>
 
 {% block inline_javascript %}
 <script>
@@ -105,6 +97,14 @@
     const dropdown = document.getElementById('dropdown');
     dropdown.classList.toggle('hidden');
   }
+
+  document.addEventListener("click", function (event) {
+    const dropdown = document.getElementById('dropdown');
+    const button = document.getElementById('menu-button');
+    if (!dropdown.contains(event.target) && !button.contains(event.target)) {
+      dropdown.classList.add("hidden");
+    }
+  });
 
 </script>
 {% endblock inline_javascript %}
