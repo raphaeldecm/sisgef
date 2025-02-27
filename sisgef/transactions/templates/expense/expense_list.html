@@ -1,7 +1,130 @@
 {% extends "base.html" %}
-{% block title %}
-  Lista de Despesas
-{% endblock title %}
+
+{% load i18n %}
+
+{% block context_button %}
+<div class="flex flex-row items-center justify-end mb-6">
+  <a href="{% url 'transactions:expense_create' %}" class="flex items-center justify-end gap-2 bg-[#2E7D32] text-white px-4 py-2 rounded-md hover:bg-[#1B5E20] transition-colors">
+    <i data-lucide="plus" class="h-5 w-5"></i>
+    <span>Nova Despesa</span>
+  </a>
+</div>
+{% endblock context_button %}
+
 {% block content %}
+
+<!-- Filtros e Busca -->
+<div class="bg-white p-4 rounded-lg shadow-sm border border-[#E0E0E0] mb-6">
+  <form class="flex gap-4 items-end">
+      <div class="flex-1">
+          <label class="block text-lg font-medium text-[#424242] mb-1">Buscar</label>
+          <div class="relative">
+              <i data-lucide="search" class="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+              <input
+                  type="text"
+                  name="name"
+                  placeholder="Buscar por nome, matrícula ou curso..."
+                  value="{{ request.GET.name }}"
+                  class="outline-none w-full h-[48px] px-[10px] pl-10 rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+              >
+          </div>
+      </div>
+
+      <div class="w-48">
+          <label class="block text-lg font-medium text-[#424242] mb-1">Despesa</label>
+          <select name="type"
+            class="bg-transparent w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors">
+              <option value="">Todos</option>
+              {% for key, value in filter.form.type.field.choices %}
+              <option value="{{ key }}"
+                      {% if key == request.GET.type %}selected{% endif %}>{% trans value %}</option>
+              {% endfor %}
+          </select>
+      </div>
+      <button class="flex items-center bg-[#E8F5E9] text-[#2E7D32] px-4 py-2 rounded-md hover:bg-[#C8E6C9] transition-colors">
+          <i data-lucide="filter" class="h-5 w-5"></i>
+          Filtrar
+      </button>
+    </form>
+</div>
+
+<!-- Tabela -->
+<div class="bg-white rounded-lg shadow-sm border border-[#E0E0E0] overflow-hidden">
+  <table class="w-full z-10">
+      <thead>
+          <tr class="bg-[#F5F5F5] border-b border-[#E0E0E0]">
+              <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">
+                  <div class="flex items-center gap-2">
+                      #
+                      <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                  </div>
+              </th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Nome</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Descrição</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Tipo</th>
+              <th class="px-6 py-3 text-center text-sm font-semibold text-[#424242]">Ações</th>
+          </tr>
+      </thead>
+      <tbody class="divide-y divide-[#E0E0E0]">
+          {% for object in object_list %}
+          <tr class="hover:bg-[#F5F5F5] transition-colors">
+              <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                      <div>
+                          <div class="font-medium text-[#424242]">{{ object.id }}</div>
+                      </div>
+                  </div>
+              </td>
+              <td class="px-6 py-4 text-[#424242]">{{ object.name }}</td>
+              <td class="px-6 py-4 text-[#424242]">{{ object.description }}</td>
+              <td class="px-6 py-4">
+                {% if object.type == 'IN' %}
+                  <span class="px-2 py-1 text-sm rounded-full bg-green-100 text-green-800">
+                  {% trans object.get_type_display %}
+                  </span>
+                {% elif object.type == 'EX' %}
+                <span class="px-2 py-1 text-sm rounded-full bg-yellow-100 text-yellow-800">
+                    {{ object.get_type_display }}
+                  </span>
+
+                {% endif %}
+
+
+              </td>
+              <td class="flex items-center justify-center px-6 py-4 text-right">
+                  <div class="flex gap-2">
+                    <a href="{% url 'transactions:category_detail' object.pk %}" class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Mais opções">
+                        <i data-lucide="eye" class="h-5 w-5"></i>
+                    </a>
+                      <a href="{% url 'transactions:category_update' object.pk %}" class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Editar">
+                          <i data-lucide="pencil" class="h-5 w-5"></i>
+                      </a>
+                      <button
+                        id="openModal{{ object.pk }}"
+                        data-modal-id="confirmationModal{{ object.pk }}"
+                        class="p-2 hover:bg-red-50 text-red-600 rounded-md transition-colors" title="Excluir">
+                          <i data-lucide="trash-2" class="h-5 w-5"></i>
+                      </button>
+                  </div>
+              </td>
+              {% include "layouts/_confirm_delete_modal.html" with title="Confirmar Exclusão da despesa" body_text="Tem certeza de que deseja excluir este item? Esta ação não pode ser desfeita." delete_url="transactions:category_delete" %}
+          </tr>
+          {% empty %}
+          <tr>
+              <td colspan="6" class="px-6 py-8 text-center text-gray-500">
+                  <div class="flex flex-col items-center gap-2">
+                      <i data-lucide="search-x" class="h-8 w-8"></i>
+                      <div>Nenhum registro encontrado.</div>
+                      <div class="text-sm">Tente ajustar os filtros ou adicione um novo registro.</div>
+                  </div>
+              </td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+
+  <!-- Paginação -->
+  {% include "layouts/_pagination.html" %}
+</div>
 
 {% endblock content %}

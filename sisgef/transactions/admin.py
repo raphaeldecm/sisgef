@@ -9,12 +9,14 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ["name", "description", "type"]
 
 class IncomeAdmin(admin.ModelAdmin):
-    search_fields = ["category", "value", "date", "user"]
+    search_fields = ["category", "value", "date", "payment_method", "description",
+    "payment_proof"]
     readonly_fields = ["updated_by", "created_at"]
     list_display = ["id", "category", "value", "date"]
 
 class ExpenseAdmin(admin.ModelAdmin):
-    search_fields = ["category", "value", "date", "user"]
+    search_fields = ["category", "value", "date", "payment_method", "description",
+    "payment_proof"]
     readonly_fields = ["updated_by", "created_at"]
     list_display = ["id", "category", "value", "date"]
 

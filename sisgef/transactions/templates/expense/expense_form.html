@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block context_button %}
+<div class="mb-6 flex justify-end items-center">
+  <a href="{% url 'transactions:expense_list' %}" class="flex items-center gap-2 text-[#2E7D32] hover:text-[#2E7D32] hover:bg-[#E8F5E9] px-4 py-2 rounded-md transition-colors">
+      <i data-lucide="arrow-left" class="h-5 w-5"></i>
+      <span class="hidden md:block">Retornar para lista</span>
+  </a>
+</div>
+{% endblock context_button %}
+
+{% block content %}
+
+<form method="POST" enctype="multipart/form-data" class="">
+    {% csrf_token %}
+    <div class="bg-white rounded-lg shadow-sm border border-[#E0E0E0] overflow-hidden">
+        <!-- Dados Pessoais -->
+        <div class="p-6 border-b border-[#E0E0E0]">
+            <h2 class="text-lg font-semibold text-[#424242] mb-4">Dados da Despesa</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-lg font-medium text-[#424242] mb-1" for="id_date">
+                        Data *
+                    </label>
+                    <input
+                        type="date"
+                        id="id_date"
+                        name="date"
+                        placeholder="Digite o nome da categoria ..."
+                        value="{{ form.date.value|default_if_none:'' }}"
+                        class="outline-none w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                    >
+                </div>
+
+                <div>
+                    <label class="block text-lg font-medium text-[#424242] mb-1" for="id_category">
+                        Categoria *
+                    </label>
+                    <select
+                        id="id_category"
+                        name="category"
+                        class="bg-transparent w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                    >
+                        <option value="">Selecione o tipo da categoria ...</option>
+                        {% for key, value in form.category.field.choices %}
+                          <option value="{{ key }}" {% if form.type.value == key %}selected{% endif %}>{% trans value %}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div>
+                  <label class="block text-lg font-medium text-[#424242] mb-1" for="id_value">
+                      Valor *
+                  </label>
+                  <div class="relative">
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">R$</span>
+                    <input
+                        type="number"
+                        id="id_value"
+                        name="value"
+                        placeholder="Digite o valor da despesa ..."
+                        value="{{ form.value.value|default_if_none:'' }}"
+                        class="outline-none pl-10 w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                    >
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-lg font-medium text-[#424242] mb-1" for="id_payment_method">
+                      Método de Pagamento *
+                  </label>
+                  <select
+                      id="id_payment_method"
+                      name="payment_method"
+                      class="bg-transparent w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                  >
+                      <option value="">Selecione o método de pagamento ...</option>
+                      {% for key, value in form.payment_method.field.choices %}
+                        <option value="{{ key }}" {% if form.payment_method.value == key %}selected{% endif %}>{% trans value %}</option>
+                      {% endfor %}
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block text-lg font-medium text-[#424242] mb-1" for="id_status">
+                      Situação *
+                  </label>
+                  <select
+                      id="id_status"
+                      name="status"
+                      class="bg-transparent w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                  >
+                      <option value="">Selecione situação da despesa ...</option>
+                      {% for key, value in form.status.field.choices %}
+                        <option value="{{ key }}" {% if form.status.value == key %}selected{% endif %}>{% trans value %}</option>
+                      {% endfor %}
+                  </select>
+                </div>
+
+                <div class="">
+                  <label class="block text-lg font-medium text-[#424242] mb-1" for="payment_proof">
+                      Comprovante de Pagamento
+                  </label>
+                  <input
+                      type="file"
+                      id="payment_proof"
+                      name="payment_proof"
+                      accept="image/*"
+                      class="w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-[#E8F5E9] file:text-[#2E7D32] hover:file:bg-[#C8E6C9] file:transition-colors"
+                  >
+                </div>
+              </div>
+
+              <div class="my-3">
+                <label class="block text-lg font-medium text-[#424242] mb-1" for="id_description">
+                    Descrição *
+                </label>
+                <textarea
+                    id="id_description"
+                    name="description"
+                    rows="4"
+                    placeholder="Digite a descrição da despesa ..."
+                    required
+                    class="outline-none w-full px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                >{{ form.description.value|default_if_none:'' }}</textarea>
+              </div>
+
+            </div>
+        </div>
+
+        <!-- Botões -->
+        <div class="p-6 bg-[#F5F5F5] flex items-center justify-end gap-3">
+            <a  href="{% url 'transactions:expense_list' %}"
+                type="button"
+                class="px-4 py-2 text-[#424242] hover:bg-white rounded-md transition-colors"
+            >
+                Cancelar
+            </a>
+            <button
+                type="submit"
+                class="px-4 py-2 bg-[#2E7D32] text-white rounded-md hover:bg-[#1B5E20] transition-colors flex items-center gap-2"
+            >
+                <i data-lucide="save" class="h-5 w-5"></i>
+                Salvar
+            </button>
+        </div>
+    </div>
+</form>
+
+{% endblock content %}

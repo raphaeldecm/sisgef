@@ -18,10 +18,27 @@ class IncomeListView(TitleViewMixin, generic.TemplateView):
     subtitle = "Lista de receitas."
 
 
-class ExpenseListView(TitleViewMixin, generic.TemplateView):
+class ExpenseListView(TitleViewMixin, generic.ListView):
+    model = models.Expense
+    paginate_by = constants.DEFAULT_PAGE_SIZE
     template_name = "expense/expense_list.html"
     title = "Despesas"
-    subtitle = "Lista de Despesas."
+    subtitle = "Gerenciamento de Despesas."
+    ordering = ["-date"]
+
+class ExpenseCreateView(
+    TitleViewMixin,
+    SuccessMessageMixin,
+    generic.CreateView,
+):
+    model = models.Expense
+    form_class = forms.ExpenseForm
+    template_name = "expense/expense_form.html"
+    title = "Nova Despesa"
+    subtitle = "Cadastro de nova despesa."
+    success_url = reverse_lazy("transactions:expense_list")
+    success_message = "Despesa cadastrada com sucesso."
+
 
 class CategoryListView(TitleViewMixin, FilterView, generic.ListView):
     model = models.Category

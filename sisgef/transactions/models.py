@@ -26,12 +26,22 @@ class Category(BaseModel):
 
 
 class Transaction(BaseModel):
+    class PaymentMethod(models.TextChoices):
+        CASH = "CA", _("Dinheiro")
+        CREDIT_CARD = "CC", _("Cartão de Crédito")
+        DEBIT_CARD = "DC", _("Cartão de Débito")
+        PIX = "PX", _("PIX")
+        TRANSFER = "TR", _("Transferência Bancária")
+        BOLETO = "BL", _("Boleto Bancário")
+        CHEQUE = "CH", _("Cheque")
+        OTHER = "OT", _("Outro")
+
     description = models.TextField()
     value = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateTimeField()
     payment_proof = models.ImageField(upload_to="payment_proofs/")
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    payment_method = models.CharField(max_length=2, choices=PaymentMethod.choices)
 
     class Meta:
         ordering = ["-date"]
@@ -48,6 +58,14 @@ class Income(Transaction):
         verbose_name_plural = "Incomes"
 
 class Expense(Transaction):
+    class PaymentStatus(models.TextChoices):
+        PENDING = "PD", _("Pendente")
+        PAID = "PA", _("Pago")
+        CANCELED = "CA", _("Cancelado")
+        OVERDUE = "OV", _("Atrasado")
+
+    status = models.CharField(max_length=10, choices=PaymentStatus.choices)
+
     class Meta:
         verbose_name = "Expense"
         verbose_name_plural = "Expenses"
