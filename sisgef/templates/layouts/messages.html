@@ -1,30 +1,32 @@
 {% load static %}
 <div class="flex flex-col gap-4 p-4 fixed top-4 right-4 z-50">
   {% for message in messages %}
-    <article class="alert-message inline-flex flex-wrap items-center gap-2 text-sm p-4 text-white rounded-lg bg-blue-700 shadow-sm animate-fade"
+    <article class="alert-message flex items-start gap-3 text-sm p-4 text-green-800 rounded-lg bg-green-50 border border-green-200 shadow-md"
              role="alert">
-      <img src="{% static 'images/icons/information_circle.svg' %}"
-           alt="Ícone de um i em volta de um círculo representando informação."
-           class="w-5 h-5" />
+      <i data-lucide="info" class="h-5 w-5"></i>
       <section class="text-base font-light">
         <p>{{ message|safe }}</p>
       </section>
+      <button onclick="this.parentElement.remove()" class="flex-shrink-0 text-gray-400 hover:text-gray-600">
+        <i data-lucide="x" class="h-5 w-5"></i>
+      </button>
     </article>
   {% endfor %}
   </div>
+
 {% block inline_javascript %}
-  <script>
-    setTimeout(() => {
-      /**
-       * Controla o comportamento da mensagem
-       * Remove todas as mensagens após um período.
-       **/
 
-      const alerts = document.querySelectorAll('.alert-message');
+<script>
+  /**
+   * Remove o alerta após um tempo
+   */
+  setTimeout(() => {
+    document.querySelectorAll('.alert-message').forEach(alert => {
+      alert.classList.add('opacity-0', 'transition-opacity', 'duration-500');
+      setTimeout(() => alert.remove(), 500);
+    });
+  }, 4000);
 
-      alerts.forEach(alert => {
-        alert.remove();
-      });
-    }, 4000);
-  </script>
+</script>
+
 {% endblock inline_javascript %}

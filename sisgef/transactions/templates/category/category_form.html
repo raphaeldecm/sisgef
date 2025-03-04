@@ -13,6 +13,7 @@
 
 {% block content %}
 
+
 <form method="POST" enctype="multipart/form-data" class="">
     {% csrf_token %}
     <div class="bg-white rounded-lg shadow-sm border border-[#E0E0E0] overflow-hidden">
@@ -30,9 +31,16 @@
                         name="name"
                         placeholder="Digite o nome da categoria ..."
                         value="{{ form.name.value|default_if_none:'' }}"
-
                         class="outline-none w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
                     >
+                    {% if form.name.errors %}
+                      <div class="mt-1 text-sm text-red-600 flex items-center gap-1">
+                        {% for error in form.name.errors %}
+                        <i data-lucide="alert-circle" class="h-4 w-4"></i>
+                          {{ error }}
+                        {% endfor %}
+                      </div>
+                    {% endif %}
                 </div>
 
                 <div>
@@ -49,6 +57,14 @@
                           <option value="{{ key }}" {% if form.type.value == key %}selected{% endif %}>{% trans value %}</option>
                         {% endfor %}
                     </select>
+                    {% if form.type.errors %}
+                      <div class="mt-1 text-sm text-red-600 flex items-center gap-1">
+                        {% for error in form.type.errors %}
+                        <i data-lucide="alert-circle" class="h-4 w-4"></i>
+                          {{ error }}
+                        {% endfor %}
+                      </div>
+                    {% endif %}
                 </div>
             </div>
             <div class="my-3">
@@ -60,9 +76,16 @@
                   name="description"
                   rows="4"
                   placeholder="Digite a descrição da categoria ..."
-                  required
                   class="outline-none w-full px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
               >{{ form.description.value|default_if_none:'' }}</textarea>
+              {% if form.description.errors %}
+                      <div class="mt-1 text-sm text-red-600 flex items-center gap-1">
+                        {% for error in form.description.errors %}
+                        <i data-lucide="alert-circle" class="h-4 w-4"></i>
+                          {{ error }}
+                        {% endfor %}
+                      </div>
+                    {% endif %}
           </div>
         </div>
 
@@ -83,6 +106,7 @@
             </button>
         </div>
     </div>
+
 </form>
 
 {% endblock content %}

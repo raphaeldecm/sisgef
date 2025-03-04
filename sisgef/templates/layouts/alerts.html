@@ -2,12 +2,10 @@
 
 {% if form.errors %}
 <div class="fixed top-4 right-4 z-50">
-  <article class="alert-message flex items-start gap-3 text-sm p-4 text-white rounded-lg bg-blue-700 shadow-lg animate-fade-in transition-opacity duration-500"
+  <article class="alert-message flex items-start gap-3 text-sm p-4 text-blue-800 rounded-md border border-blue-200 bg-blue-50 shadow-md animate-fade-in transition-opacity duration-500"
            role="alert">
     <!-- Ícone -->
-    <img src="{% static 'images/icons/information_circle.svg' %}"
-         alt="Ícone de informação"
-         class="w-5 h-5 mt-1" />
+    <i data-lucide="info" class="h-5 w-5"></i>
 
     <!-- Mensagem -->
     <section class="flex-1 text-base font-light">
@@ -18,7 +16,7 @@
     </section>
 
     <!-- Botão de fechar -->
-    <button onclick="closeAlert(this)" class="text-white hover:text-gray-300">
+    <button onclick="this.parentElement.remove()" class="flex-shrink-0 text-gray-400 hover:text-gray-600">
       <i data-lucide="x" class="h-5 w-5"></i>
     </button>
   </article>
@@ -26,6 +24,7 @@
 {% endif %}
 
 {% block inline_javascript %}
+
 <script>
   /**
    * Remove o alerta após um tempo
@@ -37,13 +36,6 @@
     });
   }, 4000);
 
-  /**
-   * Fecha o alerta manualmente
-   */
-  function closeAlert(button) {
-    let alert = button.closest('.alert-message');
-    alert.classList.add('opacity-0', 'transition-opacity', 'duration-500');
-    setTimeout(() => alert.remove(), 500);
-  }
 </script>
+
 {% endblock inline_javascript %}
