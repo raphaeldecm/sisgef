@@ -36,10 +36,10 @@ class Transaction(BaseModel):
         CHEQUE = "CH", _("Cheque")
         OTHER = "OT", _("Outro")
 
-    description = models.TextField()
-    value = models.DecimalField(max_digits=10, decimal_places=2)
+    description = models.TextField(verbose_name="Descrição")
+    value = models.DecimalField(verbose_name="Valor", max_digits=6, decimal_places=2)
     date = models.DateTimeField()
-    payment_proof = models.ImageField(upload_to="payment_proofs/")
+    payment_proof = models.ImageField(upload_to="payment_proofs/", blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     payment_method = models.CharField(max_length=2, choices=PaymentMethod.choices)
 

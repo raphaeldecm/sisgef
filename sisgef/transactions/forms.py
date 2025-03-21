@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django import forms
 
 from . import models
@@ -16,8 +18,17 @@ class CategoryForm(forms.ModelForm):
 class ExpenseForm(forms.ModelForm):
 
     category = forms.ModelChoiceField(
+        label="Categoria",
         queryset=models.Category.objects.filter(type=models.Category.Type.EXPENSE),
     )
+    value = forms.CharField(
+        label="Valor",
+        required=True,
+    )
+
+    def clean_value(self):
+        value = self.cleaned_data["value"]
+        return Decimal(value.replace(",", "."))
 
     class Meta:
         model = models.Expense

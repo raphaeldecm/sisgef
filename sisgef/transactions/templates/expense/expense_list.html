@@ -59,8 +59,8 @@
                       <i data-lucide="chevron-down" class="h-4 w-4"></i>
                   </div>
               </th>
-              <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Nome</th>
-              <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Descrição</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Data</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Valor</th>
               <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Tipo</th>
               <th class="px-6 py-3 text-center text-sm font-semibold text-[#424242]">Ações</th>
           </tr>
@@ -75,22 +75,10 @@
                       </div>
                   </div>
               </td>
-              <td class="px-6 py-4 text-[#424242]">{{ object.name }}</td>
-              <td class="px-6 py-4 text-[#424242]">{{ object.description }}</td>
-              <td class="px-6 py-4">
-                {% if object.type == 'IN' %}
-                  <span class="px-2 py-1 text-sm rounded-full bg-green-100 text-green-800">
-                  {% trans object.get_type_display %}
-                  </span>
-                {% elif object.type == 'EX' %}
-                <span class="px-2 py-1 text-sm rounded-full bg-yellow-100 text-yellow-800">
-                    {{ object.get_type_display }}
-                  </span>
+              <td class="px-6 py-4 text-[#424242]">{{ object.date }}</td>
+              <td class="px-6 py-4 text-[#424242]">R$ {{ object.value }}</td>
+              <td class="px-6 py-4 text-[#424242]">{{ object.get_payment_method_display }}</td>
 
-                {% endif %}
-
-
-              </td>
               <td class="flex items-center justify-center px-6 py-4 text-right">
                   <div class="flex gap-2">
                     <a href="{% url 'transactions:category_detail' object.pk %}" class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Mais opções">

@@ -45,7 +45,9 @@
                     >
                         <option value="">Selecione o tipo da categoria ...</option>
                         {% for key, value in form.category.field.choices %}
-                          <option value="{{ key }}" {% if form.type.value == key %}selected{% endif %}>{% trans value %}</option>
+                          <option value="{{ key }}" {% if form.category.value == key|stringformat:"s" %}selected{% endif %}>
+                              {% trans value %}
+                          </option>
                         {% endfor %}
                     </select>
                 </div>
@@ -57,7 +59,7 @@
                   <div class="relative">
                     <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">R$</span>
                     <input
-                        type="number"
+                        type="text"
                         id="id_value"
                         name="value"
                         placeholder="Digite o valor da despesa ..."
@@ -150,3 +152,27 @@
 </form>
 
 {% endblock content %}
+
+{% block inline_javascript %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const moneyInput = document.getElementById("id_value");
+
+  moneyInput.addEventListener("input", function (e) {
+      let value = e.target.value;
+
+      value = value.replace(/\D/g, "");
+      value = (parseFloat(value) / 100).toFixed(2);
+      value = value.replace(".", ",");
+      e.target.value = value;
+  });
+
+  moneyInput.addEventListener("blur", function (e) {
+      // Adiciona "0,00" caso o campo fique vazio
+      if (!e.target.value) {
+          e.target.value = "0,00";
+      }
+  });
+});
+</script>
+{% endblock inline_javascript %}
