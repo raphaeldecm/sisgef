@@ -39,6 +39,27 @@ class ExpenseCreateView(
     success_url = reverse_lazy("transactions:expense_list")
     success_message = "Despesa cadastrada com sucesso."
 
+class ExpenseUpdateView(
+    TitleViewMixin,
+    SuccessMessageMixin,
+    generic.UpdateView,
+):
+    model = models.Expense
+    form_class = forms.ExpenseForm
+    template_name = "expense/expense_form.html"
+    title = "Atualizar Despesa"
+    subtitle = "Atualização de despesa."
+    success_url = reverse_lazy("transactions:expense_list")
+    success_message = "Despesa atualizada com sucesso."
+
+class ExpenseDeleteView(
+    SuccessMessageMixin,
+    generic.DeleteView,
+):
+    model = models.Expense
+    success_url = reverse_lazy("transactions:expense_list")
+    success_message = "Despesa excluída com sucesso."
+
 
 class CategoryListView(TitleViewMixin, FilterView, generic.ListView):
     model = models.Category

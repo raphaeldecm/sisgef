@@ -39,7 +39,6 @@ class Transaction(BaseModel):
     description = models.TextField(verbose_name="Descrição")
     value = models.DecimalField(verbose_name="Valor", max_digits=6, decimal_places=2)
     date = models.DateTimeField()
-    payment_proof = models.ImageField(upload_to="payment_proofs/", blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     payment_method = models.CharField(max_length=2, choices=PaymentMethod.choices)
 
@@ -53,6 +52,8 @@ class Transaction(BaseModel):
         return f"{self.value} - {self.date} - {self.description}"
 
 class Income(Transaction):
+
+    payment_proof = models.ImageField(upload_to="payment_proofs/income/", blank=True, null=True)
     class Meta:
         verbose_name = "Income"
         verbose_name_plural = "Incomes"
@@ -65,6 +66,7 @@ class Expense(Transaction):
         OVERDUE = "OV", _("Atrasado")
 
     status = models.CharField(max_length=10, choices=PaymentStatus.choices)
+    payment_proof = models.ImageField(upload_to="payment_proofs/expense/", blank=True, null=True)
 
     class Meta:
         verbose_name = "Expense"

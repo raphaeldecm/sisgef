@@ -30,6 +30,12 @@ class ExpenseForm(forms.ModelForm):
         value = self.cleaned_data["value"]
         return Decimal(value.replace(",", "."))
 
+    def clean_payment_proof(self):
+        payment_proof = self.cleaned_data.get("payment_proof")
+        if not payment_proof:
+            return self.instance.payment_proof
+        return payment_proof
+
     class Meta:
         model = models.Expense
         fields = ["date", "category", "description", "value", "payment_proof",

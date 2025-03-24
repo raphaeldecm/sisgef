@@ -29,7 +29,7 @@
                         id="id_date"
                         name="date"
                         placeholder="Digite o nome da categoria ..."
-                        value="{{ form.date.value|default_if_none:'' }}"
+                        value="{{ form.date.value|default_if_none:''|date:'Y-m-d' }}"
                         class="outline-none w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
                     >
                 </div>
@@ -45,7 +45,7 @@
                     >
                         <option value="">Selecione o tipo da categoria ...</option>
                         {% for key, value in form.category.field.choices %}
-                          <option value="{{ key }}" {% if form.category.value == key|stringformat:"s" %}selected{% endif %}>
+                          <option value="{{ key }}" {% if form.category.value|stringformat:"s" == key|stringformat:"s" %}selected{% endif %}>
                               {% trans value %}
                           </option>
                         {% endfor %}
@@ -62,7 +62,7 @@
                         type="text"
                         id="id_value"
                         name="value"
-                        placeholder="Digite o valor da despesa ..."
+                        placeholder="0,00"
                         value="{{ form.value.value|default_if_none:'' }}"
                         class="outline-none pl-10 w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
                     >
@@ -105,6 +105,13 @@
                   <label class="block text-lg font-medium text-[#424242] mb-1" for="payment_proof">
                       Comprovante de Pagamento
                   </label>
+                  {% if form.instance.payment_proof %}
+                    <p class="mb-2">
+                      <a href="{{ form.instance.payment_proof.url }}" target="_blank" class="text-green-800">
+                        Ver Comprovante
+                      </a>
+                    </p>
+                  {% endif %}
                   <input
                       type="file"
                       id="payment_proof"

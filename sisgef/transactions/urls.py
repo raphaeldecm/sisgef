@@ -12,6 +12,16 @@ urlpatterns = [
         view=views.ExpenseCreateView.as_view(),
         name="expense_create",
     ),
+    path(
+        "expense/update/<int:pk>/",
+        view=views.ExpenseUpdateView.as_view(),
+        name="expense_update",
+    ),
+    path(
+        "expense/delete/<int:pk>/",
+        view=views.ExpenseDeleteView.as_view(),
+        name="expense_delete",
+    ),
   path("category/list/", view=views.CategoryListView.as_view(), name="category_list"),
   path(
     "category/delete/<int:pk>/",

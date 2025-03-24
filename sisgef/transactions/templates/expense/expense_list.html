@@ -55,13 +55,13 @@
           <tr class="bg-[#F5F5F5] border-b border-[#E0E0E0]">
               <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">
                   <div class="flex items-center gap-2">
-                      #
-                      <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                      {% comment %} #
+                      <i data-lucide="chevron-down" class="h-4 w-4"></i> {% endcomment %}
                   </div>
               </th>
-              <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Data</th>
-              <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Valor</th>
               <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Categoria</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Valor</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Data</th>
               <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Situação</th>
               <th class="px-6 py-3 text-center text-sm font-semibold text-[#424242]">Ações</th>
           </tr>
@@ -70,27 +70,22 @@
           {% for object in object_list %}
           <tr class="hover:bg-[#F5F5F5] transition-colors">
               <td class="px-6 py-4">
-                  <div class="flex items-center gap-3">
-                      <div>
-                          <div class="font-medium text-[#424242]">{{ object.id }}</div>
-                      </div>
-                  </div>
               </td>
-              <td class="px-6 py-4 text-[#424242]">{{ object.date }}</td>
-              <td class="px-6 py-4 text-[#424242]">R$ {{ object.value }}</td>
               <td class="px-6 py-4 text-[#424242]">{{ object.category.name }}</td>
-
-              <td class="px-6 py-4">
-                {% if object.status == 'PD' %}
-                    <i data-lucide="triangle-alert" class="h-5 w-5 text-yellow-800"></i>
-                {% elif object.status == 'PA' %}
-                    <i data-lucide="check" class="h-5 w-5 text-green-800"></i>
-                {% elif object.status == 'CA' %}
-                    <i data-lucide="x" class="h-5 w-5 text-red-800"></i>
-                {% elif object.status == 'OV' %}
-                    <i data-lucide="clock-alert" class="h-5 w-5 text-orange-800"></i>
-                {% endif %}
-
+              <td class="px-6 py-4 text-[#424242]">R$ {{ object.value }}</td>
+              <td class="px-6 py-4 text-[#424242]">{{ object.date|date:"d/m/Y" }}</td>
+              <td class="px-6 py-4 text-[#424242]">
+                <div class="flex items-center gap-3">
+                  {% if object.status == 'PD' %}
+                      <i data-lucide="triangle-alert" class="h-5 w-5 text-yellow-800" title="Atrasado"></i>
+                  {% elif object.status == 'PA' %}
+                      <i data-lucide="check" class="h-5 w-5 text-green-800" title="Atrasado"></i>
+                  {% elif object.status == 'CA' %}
+                      <i data-lucide="x" class="h-5 w-5 text-red-800" title="Atrasado"></i>
+                  {% elif object.status == 'OV' %}
+                      <i data-lucide="clock-alert" class="h-5 w-5 text-orange-800" title="Atrasado"></i>
+                  {% endif %}
+                </div>
               </td>
 
               <td class="flex items-center justify-center px-6 py-4 text-right">
@@ -98,7 +93,7 @@
                     <a href="{% url 'transactions:category_detail' object.pk %}" class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Mais opções">
                         <i data-lucide="eye" class="h-5 w-5"></i>
                     </a>
-                      <a href="{% url 'transactions:category_update' object.pk %}" class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Editar">
+                      <a href="{% url 'transactions:expense_update' object.pk %}" class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Editar">
                           <i data-lucide="pencil" class="h-5 w-5"></i>
                       </a>
                       <button
@@ -109,7 +104,7 @@
                       </button>
                   </div>
               </td>
-              {% include "layouts/_confirm_delete_modal.html" with title="Confirmar Exclusão da despesa" body_text="Tem certeza de que deseja excluir este item? Esta ação não pode ser desfeita." delete_url="transactions:category_delete" %}
+              {% include "layouts/_confirm_delete_modal.html" with title="Confirmar Exclusão da despesa" body_text="Tem certeza de que deseja excluir este item? Esta ação não pode ser desfeita." delete_url="transactions:expense_delete" %}
           </tr>
           {% empty %}
           <tr>
