@@ -61,7 +61,8 @@
               </th>
               <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Data</th>
               <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Valor</th>
-              <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Tipo</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Categoria</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Situação</th>
               <th class="px-6 py-3 text-center text-sm font-semibold text-[#424242]">Ações</th>
           </tr>
       </thead>
@@ -77,7 +78,20 @@
               </td>
               <td class="px-6 py-4 text-[#424242]">{{ object.date }}</td>
               <td class="px-6 py-4 text-[#424242]">R$ {{ object.value }}</td>
-              <td class="px-6 py-4 text-[#424242]">{{ object.get_payment_method_display }}</td>
+              <td class="px-6 py-4 text-[#424242]">{{ object.category.name }}</td>
+
+              <td class="px-6 py-4">
+                {% if object.status == 'PD' %}
+                    <i data-lucide="triangle-alert" class="h-5 w-5 text-yellow-800"></i>
+                {% elif object.status == 'PA' %}
+                    <i data-lucide="check" class="h-5 w-5 text-green-800"></i>
+                {% elif object.status == 'CA' %}
+                    <i data-lucide="x" class="h-5 w-5 text-red-800"></i>
+                {% elif object.status == 'OV' %}
+                    <i data-lucide="clock-alert" class="h-5 w-5 text-orange-800"></i>
+                {% endif %}
+
+              </td>
 
               <td class="flex items-center justify-center px-6 py-4 text-right">
                   <div class="flex gap-2">
