@@ -1,6 +1,7 @@
 from django_filters import rest_framework as django_filters
 
-from sisgef.transactions.models import Category, Expense
+from sisgef.transactions.models import Category
+from sisgef.transactions.models import Expense
 
 
 class CategoryFilter(django_filters.FilterSet):
@@ -15,7 +16,7 @@ class CategoryFilter(django_filters.FilterSet):
         model = Category
         fields = ["name", "description", "type"]
 
-class EpenseFilter(django_filters.FilterSet):
+class ExpenseFilter(django_filters.FilterSet):
     description = django_filters.CharFilter(lookup_expr="icontains", label="Descrição")
     date = django_filters.DateFromToRangeFilter(label="Data")
     category = django_filters.ModelChoiceFilter(

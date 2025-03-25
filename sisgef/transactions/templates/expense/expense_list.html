@@ -13,39 +13,78 @@
 
 {% block content %}
 
-<!-- Filtros e Busca -->
 <div class="bg-white p-4 rounded-lg shadow-sm border border-[#E0E0E0] mb-6">
-  <form class="flex gap-4 items-end">
-      <div class="flex-1">
-          <label class="block text-lg font-medium text-[#424242] mb-1">Buscar</label>
-          <div class="relative">
-              <i data-lucide="search" class="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-              <input
-                  type="text"
-                  name="name"
-                  placeholder="Buscar por nome, matrícula ou curso..."
-                  value="{{ request.GET.name }}"
-                  class="outline-none w-full h-[48px] px-[10px] pl-10 rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
-              >
-          </div>
-      </div>
-
-      <div class="w-48">
-          <label class="block text-lg font-medium text-[#424242] mb-1">Despesa</label>
-          <select name="type"
-            class="bg-transparent w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors">
-              <option value="">Todos</option>
-              {% for key, value in filter.form.type.field.choices %}
-              <option value="{{ key }}"
-                      {% if key == request.GET.type %}selected{% endif %}>{% trans value %}</option>
-              {% endfor %}
-          </select>
-      </div>
-      <button class="flex items-center bg-[#E8F5E9] text-[#2E7D32] px-4 py-2 rounded-md hover:bg-[#C8E6C9] transition-colors">
-          <i data-lucide="filter" class="h-5 w-5"></i>
-          Filtrar
+  <form method="get" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div>
+      <label for="id_description" class="block text-lg font-medium text-[#424242] mb-1">Descrição</label>
+      <input
+        type="text"
+        name="description"
+        id="id_description"
+        value="{{ request.GET.description }}"
+        placeholder="Buscar por descrição..."
+        class="outline-none w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+      >
+    </div>
+    <div>
+      <label for="id_category" class="block text-lg font-medium text-[#424242] mb-1">Categoria</label>
+      <select
+        name="category"
+        id="id_category"
+        class="bg-transparent w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+      >
+        <option value="">Todas</option>
+        {% for category in filter.form.category.field.queryset %}
+        <option value="{{ category.pk }}" {% if category.pk|stringformat:"s" == request.GET.category %}selected{% endif %}>
+          {{ category.name }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label for="id_value" class="block text-lg font-medium text-[#424242] mb-1">Valor</label>
+      <input
+        type="text"
+        name="value"
+        id="id_value"
+        value="{{ request.GET.value }}"
+        placeholder="Ex: 100 - 500"
+        class="outline-none w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+      >
+    </div>
+    <div>
+      <label for="id_date" class="block text-lg font-medium text-[#424242] mb-1">Data</label>
+      <input
+        type="text"
+        name="date"
+        id="id_date"
+        value="{{ request.GET.date }}"
+        placeholder="Ex: 01/01/2023 - 31/01/2023"
+        class="outline-none w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+      >
+    </div>
+    <div>
+      <label for="id_status" class="block text-lg font-medium text-[#424242] mb-1">Situação</label>
+      <select
+        name="status"
+        id="id_status"
+        class="bg-transparent w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+      >
+        <option value="">Todas</option>
+        {% for key, value in filter.form.status.field.choices %}
+        <option value="{{ key }}" {% if key == request.GET.status %}selected{% endif %}>
+          {{ value }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="flex items-end">
+      <button type="submit" class="flex items-center bg-[#E8F5E9] text-[#2E7D32] px-4 py-2 rounded-md hover:bg-[#C8E6C9] transition-colors">
+        <i data-lucide="filter" class="h-5 w-5"></i>
+        Filtrar
       </button>
-    </form>
+    </div>
+  </form>
 </div>
 
 <!-- Tabela -->

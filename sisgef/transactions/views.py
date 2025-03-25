@@ -18,8 +18,9 @@ class IncomeListView(TitleViewMixin, generic.TemplateView):
     subtitle = "Lista de receitas."
 
 
-class ExpenseListView(TitleViewMixin, generic.ListView):
+class ExpenseListView(TitleViewMixin, FilterView, generic.ListView):
     model = models.Expense
+    filterset_class = filters.ExpenseFilter
     paginate_by = constants.DEFAULT_PAGE_SIZE
     template_name = "expense/expense_list.html"
     title = "Despesas"
