@@ -55,8 +55,8 @@
           <tr class="bg-[#F5F5F5] border-b border-[#E0E0E0]">
               <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">
                   <div class="flex items-center gap-2">
-                      #
-                      <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                      {% comment %} #
+                      <i data-lucide="chevron-down" class="h-4 w-4"></i> {% endcomment %}
                   </div>
               </th>
               <th class="px-6 py-3 text-left text-sm font-semibold text-[#424242]">Nome</th>
@@ -69,11 +69,6 @@
           {% for object in object_list %}
           <tr class="hover:bg-[#F5F5F5] transition-colors">
               <td class="px-6 py-4">
-                  <div class="flex items-center gap-3">
-                      <div>
-                          <div class="font-medium text-[#424242]">{{ object.id }}</div>
-                      </div>
-                  </div>
               </td>
               <td class="px-6 py-4 text-[#424242]">{{ object.name }}</td>
               <td class="px-6 py-4 text-[#424242]">{{ object.description }}</td>

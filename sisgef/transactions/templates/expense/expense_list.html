@@ -14,18 +14,8 @@
 {% block content %}
 
 <div class="bg-white p-4 rounded-lg shadow-sm border border-[#E0E0E0] mb-6">
-  <form method="get" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    <div>
-      <label for="id_description" class="block text-lg font-medium text-[#424242] mb-1">Descrição</label>
-      <input
-        type="text"
-        name="description"
-        id="id_description"
-        value="{{ request.GET.description }}"
-        placeholder="Buscar por descrição..."
-        class="outline-none w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
-      >
-    </div>
+  <form method="get" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+
     <div>
       <label for="id_category" class="block text-lg font-medium text-[#424242] mb-1">Categoria</label>
       <select
@@ -42,28 +32,6 @@
       </select>
     </div>
     <div>
-      <label for="id_value" class="block text-lg font-medium text-[#424242] mb-1">Valor</label>
-      <input
-        type="text"
-        name="value"
-        id="id_value"
-        value="{{ request.GET.value }}"
-        placeholder="Ex: 100 - 500"
-        class="outline-none w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
-      >
-    </div>
-    <div>
-      <label for="id_date" class="block text-lg font-medium text-[#424242] mb-1">Data</label>
-      <input
-        type="text"
-        name="date"
-        id="id_date"
-        value="{{ request.GET.date }}"
-        placeholder="Ex: 01/01/2023 - 31/01/2023"
-        class="outline-none w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
-      >
-    </div>
-    <div>
       <label for="id_status" class="block text-lg font-medium text-[#424242] mb-1">Situação</label>
       <select
         name="status"
@@ -78,14 +46,72 @@
         {% endfor %}
       </select>
     </div>
-    <div class="flex items-end">
-      <button type="submit" class="flex items-center bg-[#E8F5E9] text-[#2E7D32] px-4 py-2 rounded-md hover:bg-[#C8E6C9] transition-colors">
-        <i data-lucide="filter" class="h-5 w-5"></i>
-        Filtrar
-      </button>
+    <div>
+      <label class="block text-lg font-medium text-[#424242]">Valor:</label>
+      <div class="flex gap-2 mt-1">
+        <div class="flex items-center gap-2">
+          <label for="id_value_from" class="block text-sm font-medium text-[#424242]">De:</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">R$</span>
+            <input
+          type="text"
+          name="value_from"
+          id="id_value_from"
+          value="{{ request.GET.value_from }}"
+          placeholder="0,00"
+          class="w-full h-[48px] px-[10px] pl-10 rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+            >
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <label for="id_value_to" class="block text-sm font-medium text-[#424242]">Até:</label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">R$</span>
+            <input
+          type="text"
+          name="value_to"
+          id="id_value_to"
+          value="{{ request.GET.value_to }}"
+          placeholder="0,00"
+          class="w-full h-[48px] px-[10px] pl-10 rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sm:col-span-2 md:col-span-3">
+      <label class="block text-lg font-medium text-[#424242] mb-1">Data:</label>
+      <div class="flex flex-wrap gap-4">
+        <div class="flex-1">
+          <label for="id_date_from" class="block text-sm font-medium text-[#424242] mb-1">De:</label>
+          <input
+            type="date"
+            name="date_from"
+            id="id_date_from"
+            value="{{ request.GET.date_from }}"
+            class="w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+          >
+        </div>
+        <div class="flex-1">
+          <label for="id_date_to" class="block text-sm font-medium text-[#424242] mb-1">Até:</label>
+          <input
+            type="date"
+            name="date_to"
+            id="id_date_to"
+            value="{{ request.GET.date_to }}"
+            class="w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+          >
+        </div>
+        <button type="submit" class="flex items-center my-4 bg-[#E8F5E9] text-[#2E7D32] px-4 py-2 rounded-md hover:bg-[#C8E6C9] transition-colors">
+          <i data-lucide="filter" class="h-5 w-5"></i>
+          Filtrar
+        </button>
+      </div>
     </div>
   </form>
 </div>
+
 
 <!-- Tabela -->
 <div class="bg-white rounded-lg shadow-sm border border-[#E0E0E0] overflow-hidden">
@@ -164,3 +190,29 @@
 </div>
 
 {% endblock content %}
+
+{% block inline_javascript %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const moneyInputs = [document.getElementById("id_value_from"), document.getElementById("id_value_to")];
+
+  moneyInputs.forEach(function (moneyInput) {
+      moneyInput.addEventListener("input", function (e) {
+          let value = e.target.value;
+
+          value = value.replace(/\D/g, "");
+          value = (parseFloat(value) / 100).toFixed(2);
+          value = value.replace(".", ",");
+          e.target.value = value;
+      });
+
+      moneyInput.addEventListener("blur", function (e) {
+          // Adiciona "0,00" caso o campo fique vazio
+          if (!e.target.value) {
+              e.target.value = "0,00";
+          }
+      });
+  });
+});
+</script>
+{% endblock inline_javascript %}
