@@ -81,10 +81,10 @@
     </div>
 
     <div class="sm:col-span-2 md:col-span-3">
-      <label class="block text-lg font-medium text-[#424242] mb-1">Data:</label>
-      <div class="flex flex-wrap gap-4">
-        <div class="flex-1">
-          <label for="id_date_from" class="block text-sm font-medium text-[#424242] mb-1">De:</label>
+      <label class="block text-lg font-medium text-[#424242] ">Data:</label>
+      <div class="flex flex-wrap gap-2">
+        <div class="flex items-center gap-2">
+          <label for="id_date_from" class="block text-sm font-medium text-[#424242]">De:</label>
           <input
             type="date"
             name="date_from"
@@ -93,8 +93,8 @@
             class="w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
           >
         </div>
-        <div class="flex-1">
-          <label for="id_date_to" class="block text-sm font-medium text-[#424242] mb-1">Até:</label>
+        <div class="flex items-center gap-2">
+          <label for="id_date_to" class="block text-sm font-medium text-[#424242]">Até:</label>
           <input
             type="date"
             name="date_to"
@@ -103,10 +103,11 @@
             class="w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
           >
         </div>
-        <button type="submit" class="flex items-center my-4 bg-[#E8F5E9] text-[#2E7D32] px-4 py-2 rounded-md hover:bg-[#C8E6C9] transition-colors">
+        <button type="submit" class="flex items-center my-4 bg-[#E8F5E9] text-[#2E7D32] px-4 py-2 rounded-md hover:bg-[#C8E6C9] transition-colors ml-auto">
           <i data-lucide="filter" class="h-5 w-5"></i>
           Filtrar
         </button>
+
       </div>
     </div>
   </form>
