@@ -4,9 +4,9 @@
 
 {% block context_button %}
 <div class="flex flex-row items-center justify-end mb-6">
-  <a href="{% url 'transactions:expense_create' %}" class="flex items-center justify-end gap-2 bg-[#2E7D32] text-white px-4 py-2 rounded-md hover:bg-[#1B5E20] transition-colors">
+  <a href="{{ create_url }}" class="flex items-center justify-end gap-2 bg-[#2E7D32] text-white px-4 py-2 rounded-md hover:bg-[#1B5E20] transition-colors">
     <i data-lucide="plus" class="h-5 w-5"></i>
-    <span>Nova Despesa</span>
+    <span>Cadastrar  {% if transaction_type == "income" %}Receita{% else %}Despesa{% endif %}</span>
   </a>
 </div>
 {% endblock context_button %}
@@ -156,10 +156,10 @@
 
               <td class="flex items-center justify-center px-6 py-4 text-right">
                   <div class="flex gap-2">
-                    <a href="{% url 'transactions:category_detail' object.pk %}" class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Mais opções">
+                    <a href="{{ transaction.view_url }}" class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Mais opções">
                         <i data-lucide="eye" class="h-5 w-5"></i>
                     </a>
-                      <a href="{% url 'transactions:expense_update' object.pk %}" class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Editar">
+                        <a href="{{ transaction.update_url }}" class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Editar">
                           <i data-lucide="pencil" class="h-5 w-5"></i>
                       </a>
                       <button
@@ -170,7 +170,12 @@
                       </button>
                   </div>
               </td>
-              {% include "layouts/_confirm_delete_modal.html" with title="Confirmar Exclusão da despesa" body_text="Tem certeza de que deseja excluir este item? Esta ação não pode ser desfeita." delete_url="transactions:expense_delete" %}
+              {% if transaction_type == "income" %}
+                {% include "layouts/_confirm_delete_modal.html" with title="Confirmar Exclusão da receita" body_text="Tem certeza de que deseja excluir este item? Esta ação não pode ser desfeita." delete_url=delete_url %}
+              {% else %}
+                {% include "layouts/_confirm_delete_modal.html" with title="Confirmar Exclusão da despesa" body_text="Tem certeza de que deseja excluir este item? Esta ação não pode ser desfeita." delete_url=delete_url %}
+              {% endif %}
+
           </tr>
           {% empty %}
           <tr>

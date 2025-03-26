@@ -1,11 +1,29 @@
 <div class="border-t border-[#E0E0E0] px-6 py-4 flex items-center justify-between">
   <div class="text-sm text-gray-500">
       Mostrando
-      <span class="font-medium text-[#424242]">{{ page_obj.start_index }}</span>
+      <span class="font-medium text-[#424242]">
+        {% if page_obj.start_index > 0 %}
+          {{ page_obj.start_index }}
+        {% else %}
+          0
+        {% endif %}
+      </span>
       a
-      <span class="font-medium text-[#424242]">{{ page_obj.end_index }}</span>
+      <span class="font-medium text-[#424242]">
+        {% if page_obj.end_index > 0 %}
+          {{ page_obj.end_index }}
+        {% else %}
+          0
+        {% endif %}
+      </span>
       de
-      <span class="font-medium text-[#424242]">{{ page_obj.paginator.count }}</span> alunos
+      <span class="font-medium text-[#424242]">
+        {% if page_obj.paginator.count > 0 %}
+          {{ page_obj.paginator.count }}
+        {% else %}
+          0
+        {% endif %}
+      </span> itens
   </div>
   <div class="flex items-center gap-2">
       <!-- Botão "Anterior" -->

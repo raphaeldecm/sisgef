@@ -6,6 +6,26 @@ app_name = "transactions"
 
 urlpatterns = [
   path("income/list/", view=views.IncomeListView.as_view(), name="income_list"),
+    path(
+        "income/create/",
+        view=views.IncomeCreateView.as_view(),
+        name="income_create",
+    ),
+    path(
+        "income/update/<int:pk>/",
+        view=views.IncomeUpdateView.as_view(),
+        name="income_update",
+    ),
+    path(
+        "income/delete/<int:pk>/",
+        view=views.IncomeDeleteView.as_view(),
+        name="income_delete",
+    ),
+    path(
+        "income/detail/<int:pk>/",
+        view=views.IncomeDetailView.as_view(),
+        name="income_detail",
+    ),
   path("expense/list/", view=views.ExpenseListView.as_view(), name="expense_list"),
     path(
         "expense/create/",
@@ -21,6 +41,11 @@ urlpatterns = [
         "expense/delete/<int:pk>/",
         view=views.ExpenseDeleteView.as_view(),
         name="expense_delete",
+    ),
+    path(
+        "expense/detail/<int:pk>/",
+        view=views.ExpenseDetailView.as_view(),
+        name="expense_detail",
     ),
   path("category/list/", view=views.CategoryListView.as_view(), name="category_list"),
   path(

@@ -4,7 +4,7 @@
 
 {% block context_button %}
 <div class="mb-6 flex justify-end items-center">
-  <a href="{% url 'transactions:expense_list' %}" class="flex items-center gap-2 text-[#2E7D32] hover:text-[#2E7D32] hover:bg-[#E8F5E9] px-4 py-2 rounded-md transition-colors">
+  <a href="{{ return_url }}" class="flex items-center gap-2 text-[#2E7D32] hover:text-[#2E7D32] hover:bg-[#E8F5E9] px-4 py-2 rounded-md transition-colors">
       <i data-lucide="arrow-left" class="h-5 w-5"></i>
       <span class="hidden md:block">Retornar para lista</span>
   </a>
@@ -18,7 +18,7 @@
     <div class="bg-white rounded-lg shadow-sm border border-[#E0E0E0] overflow-hidden">
         <!-- Dados Pessoais -->
         <div class="p-6 border-b border-[#E0E0E0]">
-            <h2 class="text-lg font-semibold text-[#424242] mb-4">Dados da Despesa</h2>
+            <h2 class="text-lg font-semibold text-[#424242] mb-4">Dados da {% if transaction_type == "income" %}Receita{% else %}Despesa{% endif %}</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-lg font-medium text-[#424242] mb-1" for="id_date">
@@ -94,7 +94,7 @@
                       name="status"
                       class="bg-transparent w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
                   >
-                      <option value="">Selecione situação da despesa ...</option>
+                      <option value="">Selecione a situação ...</option>
                       {% for key, value in form.status.field.choices %}
                         <option value="{{ key }}" {% if form.status.value == key %}selected{% endif %}>{% trans value %}</option>
                       {% endfor %}
@@ -130,7 +130,7 @@
                     id="id_description"
                     name="description"
                     rows="4"
-                    placeholder="Digite a descrição da despesa ..."
+                    placeholder="Digite a descrição ..."
                     required
                     class="outline-none w-full px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
                 >{{ form.description.value|default_if_none:'' }}</textarea>
@@ -141,7 +141,7 @@
 
         <!-- Botões -->
         <div class="p-6 bg-[#F5F5F5] flex items-center justify-end gap-3">
-            <a  href="{% url 'transactions:expense_list' %}"
+            <a  href="{{ return_url }}"
                 type="button"
                 class="px-4 py-2 text-[#424242] hover:bg-white rounded-md transition-colors"
             >
@@ -169,9 +169,13 @@ document.addEventListener("DOMContentLoaded", function () {
       let value = e.target.value;
 
       value = value.replace(/\D/g, "");
-      value = (parseFloat(value) / 100).toFixed(2);
-      value = value.replace(".", ",");
-      e.target.value = value;
+      if (value === "") {
+        e.target.value = "";
+    } else {
+        value = (parseFloat(value) / 100).toFixed(2);
+        value = value.replace(".", ",");
+        e.target.value = value;
+    }
   });
 
   moneyInput.addEventListener("blur", function (e) {
