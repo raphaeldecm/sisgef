@@ -202,15 +202,19 @@ document.addEventListener("DOMContentLoaded", function () {
           let value = e.target.value;
 
           value = value.replace(/\D/g, "");
-          value = (parseFloat(value) / 100).toFixed(2);
-          value = value.replace(".", ",");
-          e.target.value = value;
+          if (value === "") {
+              e.target.value = "";
+          } else {
+              value = (parseFloat(value) / 100).toFixed(2);
+              value = value.replace(".", ",");
+              e.target.value = value;
+          }
       });
 
       moneyInput.addEventListener("blur", function (e) {
           // Adiciona "0,00" caso o campo fique vazio
-          if (!e.target.value) {
-              e.target.value = "0,00";
+          if (e.target.value === "0,00") {
+            e.target.value = "";
           }
       });
   });

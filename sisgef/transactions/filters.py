@@ -39,13 +39,17 @@ class ExpenseFilter(django_filters.FilterSet):
     )
 
     def filter_value_from(self, queryset, name, value):
+        if not value:
+            return queryset
         try:
-            clean_value = Decimal(value.replace(",", "."))  # Converte "1.234,56" para Decimal
+            clean_value = Decimal(value.replace(",", "."))
             return queryset.filter(**{f"{name}__gte": clean_value})
         except (ValueError, InvalidOperation):
-            return queryset  # Se a conversão falhar, retorna o queryset original
+            return queryset
 
     def filter_value_to(self, queryset, name, value):
+        if not value:
+            return queryset
         try:
             clean_value = Decimal(value.replace(",", "."))
             return queryset.filter(**{f"{name}__lte": clean_value})
