@@ -25,14 +25,8 @@ class TransactionListView(generic.ListView):
         context["transaction_type"] = transaction_type
         context["create_url"] = resolve_url(f"transactions:{transaction_type}_create")
         context["delete_url"] = f"transactions:{transaction_type}_delete"
-
-        for transaction in context["object_list"]:
-            transaction.detail_url = reverse(
-                f"transactions:{transaction_type}_detail", args=[transaction.id],
-            )
-            transaction.update_url = reverse(
-                f"transactions:{transaction_type}_update", args=[transaction.id],
-            )
+        context["detail_url"] = f"transactions:{transaction_type}_detail"
+        context["update_url"] = f"transactions:{transaction_type}_update"
 
         return context
 
@@ -48,10 +42,9 @@ class ExpenseListView(TitleViewMixin, FilterView, TransactionListView):
     title = "Despesas"
     subtitle = "Gerenciamento de Despesas."
 
-class TransactionCreateView(
+class TransactionTemplateFormView(
     TitleViewMixin,
     SuccessMessageMixin,
-    generic.CreateView,
 ):
     template_name = "transaction/transaction_form.html"
 
@@ -63,7 +56,7 @@ class TransactionCreateView(
             )
         return context
 
-class IncomeCreateView(TransactionCreateView):
+class IncomeCreateView(TransactionTemplateFormView, generic.CreateView):
     model = models.Income
     form_class = forms.IncomeForm
     title = "Nova Receita"
@@ -71,7 +64,7 @@ class IncomeCreateView(TransactionCreateView):
     success_url = reverse_lazy("transactions:income_list")
     success_message = "Receita cadastrada com sucesso."
 
-class ExpenseCreateView(TransactionCreateView):
+class ExpenseCreateView(TransactionTemplateFormView, generic.CreateView):
     model = models.Expense
     form_class = forms.ExpenseForm
     title = "Nova Despesa"
@@ -80,17 +73,26 @@ class ExpenseCreateView(TransactionCreateView):
     success_message = "Despesa cadastrada com sucesso."
 
 class IncomeUpdateView(
-    TitleViewMixin,
-    SuccessMessageMixin,
+    TransactionTemplateFormView,
     generic.UpdateView,
 ):
     model = models.Income
     form_class = forms.IncomeForm
-    template_name = "transaction/transaction_form.html"
     title = "Atualizar Receita"
     subtitle = "Atualização de receita."
     success_url = reverse_lazy("transactions:income_list")
     success_message = "Receita atualizada com sucesso."
+
+class ExpenseUpdateView(
+    TransactionTemplateFormView,
+    generic.UpdateView,
+):
+    model = models.Expense
+    form_class = forms.ExpenseForm
+    title = "Atualizar Despesa"
+    subtitle = "Atualização de despesa."
+    success_url = reverse_lazy("transactions:expense_list")
+    success_message = "Despesa atualizada com sucesso."
 
 class IncomeDeleteView(
     SuccessMessageMixin,
@@ -112,18 +114,6 @@ class ExpenseDetailView(TitleViewMixin, generic.DetailView):
     title = "Detalhes da Despesa"
     subtitle = "Informações de cadastro da despesa."
 
-class ExpenseUpdateView(
-    TitleViewMixin,
-    SuccessMessageMixin,
-    generic.UpdateView,
-):
-    model = models.Expense
-    form_class = forms.ExpenseForm
-    template_name = "transaction/transaction_form.html"
-    title = "Atualizar Despesa"
-    subtitle = "Atualização de despesa."
-    success_url = reverse_lazy("transactions:expense_list")
-    success_message = "Despesa atualizada com sucesso."
 
 class ExpenseDeleteView(
     SuccessMessageMixin,

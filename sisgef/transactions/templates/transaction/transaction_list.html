@@ -156,14 +156,14 @@
 
               <td class="flex items-center justify-center px-6 py-4 text-right">
                   <div class="flex gap-2">
-                    <a href="{{ transaction.view_url }}" class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Mais opções">
+                    <a href="{% url detail_url object.pk %}" class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Mais opções">
                         <i data-lucide="eye" class="h-5 w-5"></i>
                     </a>
-                        <a href="{{ transaction.update_url }}" class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Editar">
+                        <a href="{% url update_url object.pk %}" class="p-2 hover:bg-[#E8F5E9] text-[#2E7D32] rounded-md transition-colors" title="Editar">
                           <i data-lucide="pencil" class="h-5 w-5"></i>
                       </a>
                       <button
-                        id="openModal{{ object.pk }}"
+                        id="openModal{{ object.object.pk }}"
                         data-modal-id="confirmationModal{{ object.pk }}"
                         class="p-2 hover:bg-red-50 text-red-600 rounded-md transition-colors" title="Excluir">
                           <i data-lucide="trash-2" class="h-5 w-5"></i>
