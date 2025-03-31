@@ -102,15 +102,23 @@ class IncomeDeleteView(
     success_url = reverse_lazy("transactions:income_list")
     success_message = "Receita excluída com sucesso."
 
-class IncomeDetailView(TitleViewMixin, generic.DetailView):
-    model = models.Income
+class TrancsactionDetailView(
+    TitleViewMixin,
+    generic.DetailView,
+):
     template_name = "transaction/transaction_detail.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["transaction_type"] = self.model.__name__.lower()
+        return context
+
+class IncomeDetailView(TrancsactionDetailView):
+    model = models.Income
     title = "Detalhes da Receita"
     subtitle = "Informações de cadastro da receita."
 
-class ExpenseDetailView(TitleViewMixin, generic.DetailView):
+class ExpenseDetailView(TrancsactionDetailView):
     model = models.Expense
-    template_name = "transaction/transaction_detail.html"
     title = "Detalhes da Despesa"
     subtitle = "Informações de cadastro da despesa."
 

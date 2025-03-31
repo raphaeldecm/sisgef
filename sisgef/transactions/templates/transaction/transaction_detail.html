@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block context_button %}
+<div class="mb-6 flex justify-end items-center">
+  <a alt="Voltar para lista" href="{% url 'transactions:income_list' %}" class="flex items-center gap-2 text-[#2E7D32] hover:text-[#2E7D32] hover:bg-[#E8F5E9] px-4 py-2 rounded-md transition-colors">
+      <i data-lucide="arrow-left" class="h-5 w-5"></i>
+      <span class="hidden md:block">Retornar para lista</span>
+  </a>
+  <a href="{% url 'transactions:income_update' object.pk %}" class="flex items-center gap-2 bg-[#2E7D32] text-white px-4 py-2 rounded-md hover:bg-[#1B5E20] transition-colors">
+    <i data-lucide="pencil" class="h-5 w-5"></i>
+    <span class="hidden md:block">Editar Receita</span>
+</a>
+</div>
+{% endblock context_button %}
+
+{% block content %}
+
+<div class="lg:col-span-2 space-y-6">
+
+    <div class="bg-white rounded-lg shadow-sm border border-[#E0E0E0] overflow-hidden">
+        <!-- Cabeçalho -->
+        <div class="p-6 bg-[#E8F5E9] border-b border-[#E0E0E0]">
+            <div class="flex items-center gap-4">
+                <div class="w-24 h-24 rounded-full bg-white flex items-center justify-center border-4 border-[#2E7D32]">
+                    {% if transaction_type == 'income' %}
+                      <i data-lucide="banknote" class="h-12 w-12 text-[#2E7D32]">{{transaction_type}}</i>
+                    {% else %}
+                      <i data-lucide="hand-coins" class="h-12 w-12 text-[#2E7D32]">{{transaction_type}}</i>
+                    {% endif %}
+                </div>
+                <div>
+                    <h2 class="text-2xl font-semibold text-[#424242]">Valor: R$ {{ object.value }}</h2>
+                    {% comment %} <p class="text-[#2E7D32] font-medium">Valor: R$ {{ object.value }}</p> {% endcomment %}
+                    <p class="text-gray-500">Data: {{ object.date|date:"d/m/Y" }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-6 border-b border-[#E0E0E0]">
+            <h3 class="text-lg font-semibold text-[#424242] mb-4">Detalhes</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <p class="text-sm text-gray-500">Descrição</p>
+                    <p class="text-[#424242]">{{ object.description }}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Categoria</p>
+                    <p class="text-[#424242]">{{ object.category.name }}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Método de Pagamento</p>
+                    <p class="text-[#424242]">{{ object.get_payment_method_display }}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Status do Pagamento</p>
+                    <p class="text-[#424242]">{{ object.get_status_display }}</p>
+                </div>
+                {% if object.payment_proof %}
+                <div>
+                    <p class="text-sm text-gray-500">Comprovante de Pagamento</p>
+                    <a href="{{ object.payment_proof.url }}" target="_blank" class="text-green-800">
+                      Ver Comprovante
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
