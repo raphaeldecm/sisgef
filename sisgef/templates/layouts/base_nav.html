@@ -1,3 +1,6 @@
+{% load custom_filters %}
+
+{% with request.resolver_match.url_name|url_name_first_part as url_name_first_part %}
 <nav class="p-4">
   <ul class="space-y-2">
       <li>
@@ -10,7 +13,7 @@
       </li>
       <li>
           <a href="{% url 'transactions:income_list' %}"
-          class="nav-item {% if request.resolver_match.url_name == 'income_list' %} active {% endif %}"
+          class="nav-item {% if url_name_first_part == 'income' %} active {% endif %}"
           >
               <i data-lucide="banknote" class="h-5 w-5"></i>
               <span>Receitas</span>
@@ -18,7 +21,7 @@
       </li>
       <li>
           <a href="{% url 'transactions:expense_list' %}"
-          class="nav-item {% if request.resolver_match.url_name == 'expense_list' %} active {% endif %}"
+          class="nav-item {% if url_name_first_part == 'expense' %} active {% endif %}"
           >
               <i data-lucide="hand-coins" class="h-5 w-5"></i>
               <span>Despesas</span>
@@ -26,7 +29,7 @@
       </li>
       <li>
         <a href="{% url 'transactions:category_list' %}"
-            class="nav-item {% if request.resolver_match.url_name == 'category_list' %} active {% endif %}"
+            class="nav-item {% if url_name_first_part == 'category' %} active {% endif %}"
         >
             <i data-lucide="shapes" class="h-5 w-5"></i>
             <span>Categorias</span>
@@ -58,3 +61,4 @@
       </li>
   </ul>
 </nav>
+{% endwith %}
