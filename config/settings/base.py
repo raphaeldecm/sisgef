@@ -91,6 +91,7 @@ LOCAL_APPS = [
     "sisgef.core",
     "sisgef.transactions",
     "sisgef.reports",
+    "sisgef.balances",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
