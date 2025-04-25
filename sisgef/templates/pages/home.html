@@ -802,5 +802,498 @@
       }
   });
 </script>
+
+
+<div class="mb-6 flex justify-between items-center">
+  <div>
+      <h1 class="text-2xl font-semibold text-[#424242]">Cadastrar Nova Despesa</h1>
+      <p class="text-gray-500">Registre as despesas da instituição</p>
+  </div>
+  <a href="#" class="flex items-center gap-2 text-[#2E7D32] hover:bg-[#E8F5E9] px-4 py-2 rounded-md transition-colors">
+      <i data-lucide="arrow-left" class="h-5 w-5"></i>
+      <span>Voltar para lista</span>
+  </a>
+</div>
+
+<form method="POST" enctype="multipart/form-data" class="max-w-3xl">
+  {% csrf_token %}
+
+  <div class="bg-white rounded-lg shadow-sm border border-[#E0E0E0] overflow-hidden">
+      <!-- Dados da Despesa -->
+      <div class="p-6 border-b border-[#E0E0E0]">
+          <h2 class="text-lg font-semibold text-[#424242] mb-4">Informações da Despesa</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                  <label class="block text-sm font-medium text-[#424242] mb-1" for="data">
+                      Data *
+                  </label>
+                  <input
+                      type="date"
+                      id="data"
+                      name="data"
+                      required
+                      class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                  >
+              </div>
+              <div>
+                  <label class="block text-sm font-medium text-[#424242] mb-1" for="categoria">
+                      Categoria *
+                  </label>
+                  <select
+                      id="categoria"
+                      name="categoria"
+                      required
+                      class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                  >
+                      <option value="">Selecione uma categoria...</option>
+                      <option value="material">Material Didático</option>
+                      <option value="infraestrutura">Infraestrutura</option>
+                      <option value="salarios">Salários</option>
+                      <option value="marketing">Marketing</option>
+                      <option value="servicos">Serviços</option>
+                      <option value="impostos">Impostos</option>
+                      <option value="aluguel">Aluguel</option>
+                      <option value="utilidades">Água/Luz/Internet</option>
+                      <option value="manutencao">Manutenção</option>
+                      <option value="outros">Outros</option>
+                  </select>
+              </div>
+              <div>
+                  <label class="block text-sm font-medium text-[#424242] mb-1" for="valor">
+                      Valor *
+                  </label>
+                  <div class="relative">
+                      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">R$</span>
+                      <input
+                          type="number"
+                          id="valor"
+                          name="valor"
+                          step="0.01"
+                          required
+                          class="w-full pl-10 rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                      >
+                  </div>
+              </div>
+              <div>
+                  <label class="block text-sm font-medium text-[#424242] mb-1" for="status_pagamento">
+                      Status do Pagamento *
+                  </label>
+                  <select
+                      id="status_pagamento"
+                      name="status_pagamento"
+                      required
+                      class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                  >
+                      <option value="pago">Pago</option>
+                      <option value="pendente">Pendente</option>
+                      <option value="parcial">Parcialmente Pago</option>
+                  </select>
+              </div>
+              <div class="md:col-span-2">
+                  <label class="block text-sm font-medium text-[#424242] mb-1" for="descricao">
+                      Descrição *
+                  </label>
+                  <textarea
+                      id="descricao"
+                      name="descricao"
+                      rows="3"
+                      required
+                      class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                      placeholder="Descreva detalhes sobre esta despesa..."
+                  ></textarea>
+              </div>
+          </div>
+      </div>
+
+      <!-- Recorrência -->
+      <div class="p-6 border-b border-[#E0E0E0]">
+          <div class="flex items-center gap-2 mb-4">
+              <h2 class="text-lg font-semibold text-[#424242]">Recorrência</h2>
+              <div class="relative group">
+                  <i data-lucide="help-circle" class="h-5 w-5 text-gray-400"></i>
+                  <div class="hidden group-hover:block absolute left-full ml-2 p-2 bg-gray-800 text-white text-sm rounded-md w-64">
+                      Configure a recorrência para despesas que se repetem periodicamente, como mensalidades e assinaturas.
+                  </div>
+              </div>
+          </div>
+
+          <div class="space-y-4">
+              <div>
+                  <label class="flex items-center gap-2">
+                      <input
+                          type="checkbox"
+                          id="is_recurring"
+                          name="is_recurring"
+                          class="rounded border-[#E0E0E0] text-[#2E7D32] focus:ring-[#E8F5E9]"
+                          onchange="toggleRecurringFields(this.checked)"
+                      >
+                      <span class="text-sm text-[#424242]">Esta é uma despesa recorrente</span>
+                  </label>
+              </div>
+
+              <div id="recurring_fields" class="hidden space-y-4">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                          <label class="block text-sm font-medium text-[#424242] mb-1" for="frequency_type">
+                              Frequência
+                          </label>
+                          <select
+                              id="frequency_type"
+                              name="frequency_type"
+                              class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                              onchange="toggleCustomFrequency()"
+                          >
+                              <option value="monthly">Mensal</option>
+                              <option value="weekly">Semanal</option>
+                              <option value="yearly">Anual</option>
+                              <option value="custom">Personalizado</option>
+                          </select>
+                      </div>
+
+                      <div id="custom_frequency" class="hidden">
+                          <label class="block text-sm font-medium text-[#424242] mb-1" for="frequency_interval">
+                              Intervalo (em dias)
+                          </label>
+                          <input
+                              type="number"
+                              id="frequency_interval"
+                              name="frequency_interval"
+                              min="1"
+                              class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                          >
+                      </div>
+
+                      <div>
+                          <label class="block text-sm font-medium text-[#424242] mb-1" for="end_type">
+                              Término
+                          </label>
+                          <select
+                              id="end_type"
+                              name="end_type"
+                              class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                              onchange="toggleEndFields()"
+                          >
+                              <option value="never">Nunca</option>
+                              <option value="after">Após um número de ocorrências</option>
+                              <option value="on_date">Em uma data específica</option>
+                          </select>
+                      </div>
+
+                      <div id="end_occurrence" class="hidden">
+                          <label class="block text-sm font-medium text-[#424242] mb-1" for="end_occurrence_count">
+                              Número de ocorrências
+                          </label>
+                          <input
+                              type="number"
+                              id="end_occurrence_count"
+                              name="end_occurrence_count"
+                              min="1"
+                              class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                          >
+                      </div>
+
+                      <div id="end_date" class="hidden">
+                          <label class="block text-sm font-medium text-[#424242] mb-1" for="end_specific_date">
+                              Data de término
+                          </label>
+                          <input
+                              type="date"
+                              id="end_specific_date"
+                              name="end_specific_date"
+                              class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                          >
+                      </div>
+                  </div>
+
+                  <div>
+                      <label class="flex items-center gap-2">
+                          <input
+                              type="checkbox"
+                              id="adjust_for_holidays"
+                              name="adjust_for_holidays"
+                              class="rounded border-[#E0E0E0] text-[#2E7D32] focus:ring-[#E8F5E9]"
+                          >
+                          <span class="text-sm text-[#424242]">Ajustar automaticamente para o próximo dia útil em feriados</span>
+                      </label>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!-- Informações Adicionais -->
+      <div class="p-6 border-b border-[#E0E0E0]">
+          <h2 class="text-lg font-semibold text-[#424242] mb-4">Informações Adicionais</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                  <label class="block text-sm font-medium text-[#424242] mb-1" for="fornecedor">
+                      Fornecedor
+                  </label>
+                  <input
+                      type="text"
+                      id="fornecedor"
+                      name="fornecedor"
+                      class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                      placeholder="Nome do fornecedor ou prestador de serviço"
+                  >
+              </div>
+              <div>
+                  <label class="block text-sm font-medium text-[#424242] mb-1" for="metodo_pagamento">
+                      Método de Pagamento
+                  </label>
+                  <select
+                      id="metodo_pagamento"
+                      name="metodo_pagamento"
+                      class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                  >
+                      <option value="">Selecione...</option>
+                      <option value="dinheiro">Dinheiro</option>
+                      <option value="cartao_credito">Cartão de Crédito</option>
+                      <option value="cartao_debito">Cartão de Débito</option>
+                      <option value="transferencia">Transferência Bancária</option>
+                      <option value="pix">PIX</option>
+                      <option value="boleto">Boleto</option>
+                      <option value="cheque">Cheque</option>
+                  </select>
+              </div>
+              <div>
+                  <label class="block text-sm font-medium text-[#424242] mb-1" for="data_vencimento">
+                      Data de Vencimento
+                  </label>
+                  <input
+                      type="date"
+                      id="data_vencimento"
+                      name="data_vencimento"
+                      class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                  >
+              </div>
+              <div>
+                  <label class="block text-sm font-medium text-[#424242] mb-1" for="centro_custo">
+                      Centro de Custo
+                  </label>
+                  <select
+                      id="centro_custo"
+                      name="centro_custo"
+                      class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                  >
+                      <option value="">Selecione...</option>
+                      <option value="administrativo">Administrativo</option>
+                      <option value="ensino">Ensino</option>
+                      <option value="marketing">Marketing</option>
+                      <option value="infraestrutura">Infraestrutura</option>
+                      <option value="eventos">Eventos</option>
+                  </select>
+              </div>
+          </div>
+      </div>
+
+      <!-- Comprovante -->
+      <div class="p-6 border-b border-[#E0E0E0]">
+          <h2 class="text-lg font-semibold text-[#424242] mb-4">Comprovante</h2>
+          <div>
+              <label class="block text-sm font-medium text-[#424242] mb-1" for="comprovante">
+                  Anexar Comprovante
+              </label>
+              <input
+                  type="file"
+                  id="comprovante"
+                  name="comprovante"
+                  accept=".pdf,.jpg,.jpeg,.png"
+                  class="w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-[#E8F5E9] file:text-[#2E7D32] hover:file:bg-[#C8E6C9] file:transition-colors"
+              >
+              <p class="mt-1 text-sm text-gray-500">Formatos aceitos: PDF, JPG, JPEG, PNG (máx. 5MB)</p>
+          </div>
+
+          <div class="mt-4">
+              <label class="flex items-center gap-2">
+                  <input
+                      type="checkbox"
+                      id="sem_comprovante"
+                      name="sem_comprovante"
+                      class="rounded border-[#E0E0E0] text-[#2E7D32] focus:ring-[#E8F5E9]"
+                  >
+                  <span class="text-sm text-[#424242]">Não possuo comprovante para esta despesa</span>
+              </label>
+          </div>
+      </div>
+
+      <!-- Observações -->
+      <div class="p-6 border-b border-[#E0E0E0]">
+          <h2 class="text-lg font-semibold text-[#424242] mb-4">Observações</h2>
+          <div>
+              <label class="block text-sm font-medium text-[#424242] mb-1" for="observacoes">
+                  Observações Adicionais
+              </label>
+              <textarea
+                  id="observacoes"
+                  name="observacoes"
+                  rows="3"
+                  class="w-full rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                  placeholder="Informações adicionais sobre esta despesa..."
+              ></textarea>
+          </div>
+      </div>
+
+      <!-- Preview da Recorrência -->
+      <div id="recurrence_preview" class="hidden p-6 border-b border-[#E0E0E0] bg-[#F5F5F5]">
+          <h2 class="text-lg font-semibold text-[#424242] mb-4">Prévia das Próximas Ocorrências</h2>
+          <div id="recurrence_dates" class="space-y-2">
+              <!-- Dates will be inserted here by JavaScript -->
+          </div>
+      </div>
+
+      <!-- Botões -->
+      <div class="p-6 bg-[#F5F5F5] flex items-center justify-end gap-3">
+          <button
+              type="button"
+              onclick="history.back()"
+              class="px-4 py-2 text-[#424242] hover:bg-white rounded-md transition-colors"
+          >
+              Cancelar
+          </button>
+          <button
+              type="submit"
+              class="px-4 py-2 bg-[#2E7D32] text-white rounded-md hover:bg-[#1B5E20] transition-colors flex items-center gap-2"
+          >
+              <i data-lucide="save" class="h-5 w-5"></i>
+              Salvar Despesa
+          </button>
+      </div>
+  </div>
+</form>
+
+<script>
+  // Inicializa os ícones do Lucide
+  lucide.createIcons();
+
+  // Formatação do valor
+  const valorInput = document.getElementById('valor');
+  valorInput.addEventListener('input', function(e) {
+      let value = e.target.value;
+      if (value.includes(',')) {
+          value = value.replace(',', '.');
+      }
+      e.target.value = value;
+  });
+
+  // Lógica para o checkbox "sem comprovante"
+  const semComprovanteCheckbox = document.getElementById('sem_comprovante');
+  const comprovanteInput = document.getElementById('comprovante');
+
+  semComprovanteCheckbox.addEventListener('change', function() {
+      if (this.checked) {
+          comprovanteInput.disabled = true;
+          comprovanteInput.classList.add('opacity-50');
+      } else {
+          comprovanteInput.disabled = false;
+          comprovanteInput.classList.remove('opacity-50');
+      }
+  });
+
+  // Preencher data atual por padrão
+  document.addEventListener('DOMContentLoaded', function() {
+      const hoje = new Date();
+      const dataFormatada = hoje.toISOString().split('T')[0];
+      document.getElementById('data').value = dataFormatada;
+  });
+
+  // Funções para campos de recorrência
+  function toggleRecurringFields(show) {
+      const recurringFields = document.getElementById('recurring_fields');
+      const recurrencePreview = document.getElementById('recurrence_preview');
+
+      if (show) {
+          recurringFields.classList.remove('hidden');
+          updateRecurrencePreview();
+      } else {
+          recurringFields.classList.add('hidden');
+          recurrencePreview.classList.add('hidden');
+      }
+  }
+
+  function toggleCustomFrequency() {
+      const frequencyType = document.getElementById('frequency_type');
+      const customFrequency = document.getElementById('custom_frequency');
+
+      if (frequencyType.value === 'custom') {
+          customFrequency.classList.remove('hidden');
+      } else {
+          customFrequency.classList.add('hidden');
+      }
+
+      updateRecurrencePreview();
+  }
+
+  function toggleEndFields() {
+      const endType = document.getElementById('end_type');
+      const endOccurrence = document.getElementById('end_occurrence');
+      const endDate = document.getElementById('end_date');
+
+      endOccurrence.classList.add('hidden');
+      endDate.classList.add('hidden');
+
+      if (endType.value === 'after') {
+          endOccurrence.classList.remove('hidden');
+      } else if (endType.value === 'on_date') {
+          endDate.classList.remove('hidden');
+      }
+
+      updateRecurrencePreview();
+  }
+
+  function updateRecurrencePreview() {
+      const isRecurring = document.getElementById('is_recurring').checked;
+      if (!isRecurring) return;
+
+      const startDate = new Date(document.getElementById('data').value);
+      const frequencyType = document.getElementById('frequency_type').value;
+      const endType = document.getElementById('end_type').value;
+
+      let dates = [];
+      let currentDate = new Date(startDate);
+
+      // Calculate next 5 occurrences
+      for (let i = 0; i < 5; i++) {
+          if (frequencyType === 'monthly') {
+              currentDate = new Date(currentDate.setMonth(currentDate.getMonth() + 1));
+          } else if (frequencyType === 'weekly') {
+              currentDate = new Date(currentDate.setDate(currentDate.getDate() + 7));
+          } else if (frequencyType === 'yearly') {
+              currentDate = new Date(currentDate.setFullYear(currentDate.getFullYear() + 1));
+          } else if (frequencyType === 'custom') {
+              const interval = parseInt(document.getElementById('frequency_interval').value) || 1;
+              currentDate = new Date(currentDate.setDate(currentDate.getDate() + interval));
+          }
+
+          dates.push(new Date(currentDate));
+      }
+
+      // Update preview
+      const preview = document.getElementById('recurrence_preview');
+      const datesContainer = document.getElementById('recurrence_dates');
+
+      preview.classList.remove('hidden');
+      datesContainer.innerHTML = dates.map(date => `
+          <div class="flex items-center gap-2 text-sm text-gray-600">
+              <i data-lucide="calendar" class="h-4 w-4"></i>
+              <span>${date.toLocaleDateString('pt-BR', {
+                  day: '2-digit',
+                  month: 'long',
+                  year: 'numeric'
+              })}</span>
+          </div>
+      `).join('');
+
+      lucide.createIcons();
+  }
+
+  // Add event listeners for recurrence fields
+  document.getElementById('frequency_type').addEventListener('change', updateRecurrencePreview);
+  document.getElementById('frequency_interval').addEventListener('input', updateRecurrencePreview);
+  document.getElementById('end_type').addEventListener('change', updateRecurrencePreview);
+  document.getElementById('end_occurrence_count').addEventListener('input', updateRecurrencePreview);
+  document.getElementById('end_specific_date').addEventListener('change', updateRecurrencePreview);
+</script>
+
+
 {% endblock %}
 

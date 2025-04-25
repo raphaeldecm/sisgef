@@ -47,6 +47,7 @@ class Transaction(BaseModel):
         DAILY = "DA", _("Diário")
         WEEKLY = "WE", _("Semanal")
         MONTHLY = "MO", _("Mensal")
+        YEARLY = "YE", _("Anual")
 
     status = models.CharField(max_length=10, choices=PaymentStatus.choices)
     description = models.TextField(verbose_name="Descrição")

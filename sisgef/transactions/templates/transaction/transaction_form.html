@@ -122,7 +122,7 @@
                 </div>
               </div>
 
-              <div class="my-3">
+              <div class="mt-3">
                 <label class="block text-lg font-medium text-[#424242] mb-1" for="id_description">
                     Descrição *
                 </label>
@@ -135,9 +135,45 @@
                     class="outline-none w-full px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
                 >{{ form.description.value|default_if_none:'' }}</textarea>
               </div>
+            </div>
+            <div class="px-6 flex-col items-center gap-2 mt-4 mb-6">
+              <h2 class="text-lg font-semibold text-[#424242] mb-4">
+                Recorrência
+              </h2>
+              <div class="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id="id_is_recurring"
+                      name="is_recurring"
+                      {% if form.is_recurring.value %}checked{% endif %}
+                      class="form-checkbox h-5 w-5 text-[#2E7D32] border-[#E0E0E0] focus:ring-[#2E7D32] transition-colors"
+                    >
+                  <span class="ml-2 text-sm font-medium text-[#424242]">
+                    Esta é uma transação recorrente?
+                  </span>
+              </div>
+
+              <div class="hidden grid-cols-1 md:grid-cols-2 gap-4 mt-4" id="recurrence_fields">
+                <div>
+                  <label class="text-lg font-medium text-[#424242] mb-1" for="id_recurrence_frequency">
+                      Frequência
+                  </label>
+                  <select
+                      id="id_recurrence_frequency"
+                      name="recurrence_frequency"
+                      class="bg-transparent w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                  >
+                      <option value="">Selecione a frequência ...</option>
+                      {% for key, value in form.recurrence_frequency.field.choices %}
+                        <option value="{{ key }}" {% if form.recurrence_frequency.value == key %}selected{% endif %}>{{ value }}</option>
+                      {% endfor %}
+                  </select>
+                </div>
+              </div>
+
 
             </div>
-        </div>
+          </div>
 
         <!-- Botões -->
         <div class="p-6 bg-[#F5F5F5] flex items-center justify-end gap-3">
@@ -164,6 +200,17 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const moneyInput = document.getElementById("id_value");
+  const recurrenceFields = document.getElementById("recurrence_fields");
+  const isRecurringCheckbox = document.getElementById("id_is_recurring");
+
+  // Inicializa os campos de recorrência como ocultos
+  isRecurringCheckbox.addEventListener("change", function () {
+    if (isRecurringCheckbox.checked) {
+      recurrenceFields.classList.remove("hidden");
+    } else {
+      recurrenceFields.classList.add("hidden");
+    }
+  });
 
   moneyInput.addEventListener("input", function (e) {
       let value = e.target.value;
