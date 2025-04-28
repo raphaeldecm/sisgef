@@ -1,3 +1,4 @@
+from datetime import timedelta, timezone
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -5,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from sisgef.balances.models import Balance
 from sisgef.core.constants import MAX_CHAR_FIELD_NAME_LENGTH
 from sisgef.core.models import BaseModel
+from sisgef.transactions.utils import add_months
 
 User = get_user_model()
 
@@ -57,16 +59,28 @@ class Transaction(BaseModel):
     payment_method = models.CharField(max_length=2, choices=PaymentMethod.choices)
 
     is_recurring = models.BooleanField(default=False, verbose_name="Recorrente?")
-    recurrence_start = models.DateField(
-        null=True, blank=True, verbose_name="Início da recorrência")
-    recurrence_end = models.DateField(
-        null=True, blank=True, verbose_name="Fim da recorrência")
     recurrence_frequency = models.CharField(
         max_length=10,
         choices=Frequency.choices,
         blank=True,
         default="",
         verbose_name="Frequência da recorrência",
+    )
+    recurrence_end_date = models.DateField(
+        null=True, blank=True,
+        verbose_name="Data de Término da Recorrência",
+    )
+    recurrence_count = models.PositiveIntegerField(
+        null=True, blank=True,
+        verbose_name="Quantidade de Repetições",
+    )
+
+    parent_transaction = models.ForeignKey(
+        "self",
+        null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name="recurrences",
+        verbose_name="Transação Pai",
     )
 
 
@@ -81,10 +95,54 @@ class Transaction(BaseModel):
 
     def generate_transactions(self):
         """
-        Gera as transações reais a partir da recorrente.
-        Pode ser chamado mensalmente via Celery para criar as novas transações.
+        Gera as transações a partir de uma transação recorrente.
+        Pode ser chamado via agendamento (Ex: Celery Beat).
         """
-        pass  # Aqui entra a lógica de gerar a transação real
+        if not self.is_recurring:
+            return
+
+        today = timezone.now().date()
+
+        # Evitar gerar além do end_date
+        if self.recurrence_end_date and today > self.recurrence_end_date:
+            return
+
+        # Calcula próximas datas
+        next_date = self.date
+        created_count = 0
+
+        while True:
+            if self.recurrence_frequency == self.Frequency.DAILY:
+                next_date += timedelta(days=1)
+            elif self.recurrence_frequency == self.Frequency.WEEKLY:
+                next_date += timedelta(weeks=1)
+            elif self.recurrence_frequency == self.Frequency.MONTHLY:
+                next_date = add_months(next_date, 1)
+            elif self.recurrence_frequency == self.Frequency.YEARLY:
+                next_date = add_months(next_date, 12)
+            else:
+                break  # Frequência inválida ou não definida
+
+            # Parar se passou da data final
+            if self.recurrence_end_date and next_date.date() > self.recurrence_end_date:
+                break
+
+            # Parar se atingiu número máximo de recorrências
+            if self.recurrence_count and created_count >= self.recurrence_count:
+                break
+
+            # Criar nova instância
+            clone = self.__class__.objects.create(
+                status=self.PaymentStatus.PENDING,
+                description=self.description,
+                value=self.value,
+                date=next_date,
+                category=self.category,
+                payment_method=self.payment_method,
+                is_recurring=False,  # instância gerada NÃO é recorrente
+                balance=self.balance,
+            )
+            created_count += 1
 
 
 class Income(Transaction):

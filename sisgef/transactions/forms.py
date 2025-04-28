@@ -75,8 +75,8 @@ class IncomeForm(forms.ModelForm):
     class Meta:
         model = models.Income
         fields = ["date", "category", "description", "value", "payment_proof",
-                  "payment_method", "status", "is_recurring", "recurrence_start",
-                  "recurrence_end", "recurrence_frequency"]
+                  "payment_method", "status", "is_recurring", "recurrence_frequency",
+                  "recurrence_end_date", "recurrence_count"]
         labels = {
             "date": "Data",
             "category": "Categoria",
@@ -86,7 +86,7 @@ class IncomeForm(forms.ModelForm):
             "payment_method": "Método de Pagamento",
             "status": "Situação",
             "is_recurring": "Recorrente?",
-            "recurrence_start": "Início da Recorrência",
-            "recurrence_end": "Fim da Recorrência",
             "recurrence_frequency": "Frequência da Recorrência",
+            "recurrence_end_date": "Data de Término da Recorrência",
+            "recurrence_count": "Quantidade de Repetições",
         }
