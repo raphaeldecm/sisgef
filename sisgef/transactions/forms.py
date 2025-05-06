@@ -25,6 +25,11 @@ class ExpenseForm(forms.ModelForm):
         label="Valor",
         required=True,
     )
+    termination_type = forms.ChoiceField(
+        choices=[("date", "Após uma data"), ("count", "Após número de repetições")],
+        required=False,
+        widget=forms.RadioSelect,
+    )
 
     def clean_value(self):
         value = self.cleaned_data["value"]
@@ -59,6 +64,11 @@ class IncomeForm(forms.ModelForm):
     value = forms.CharField(
         label="Valor",
         required=True,
+    )
+    termination_type = forms.ChoiceField(
+        choices=[("date", "Após uma data"), ("count", "Após número de repetições")],
+        required=False,
+        widget=forms.RadioSelect,
     )
 
     def clean_value(self):
