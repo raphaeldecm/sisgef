@@ -183,33 +183,32 @@
                     <option value="count" {% if form.recurrence_end_type.value == "count" %}selected{% endif %}>Após um número de recorrências</option>
                   </select>
                 </div>
-              </div>
-              <div class="flex flex-wrap gap-4 mt-4">
-                <div class="hidden min-w-[200px]" id="recurrence_end_date_container">
-                  <label class="text-lg font-medium text-[#424242] mb-1" for="id_recurrence_end_date">
-                  Data de Término
-                  </label>
-                  <input
-                  type="date"
-                  id="id_recurrence_end_date"
-                  name="recurrence_end_date"
-                  value="{{ form.recurrence_end_date.value|default_if_none:''|date:'Y-m-d' }}"
-                  class="outline-none w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
-                  />
-                </div>
-                <div class="hidden min-w-[200px]" id="recurrence_count_container">
-                  <label class="text-lg font-medium text-[#424242] mb-1" for="id_recurrence_count">
-                    Número de Ocorrências
-                  </label>
-                  <input
-                    type="number"
-                    id="id_recurrence_count"
-                    name="recurrence_count"
-                    min="1"
-                    value="{{ form.recurrence_count.value|default_if_none:'' }}"
+
+                  <div class="hidden min-w-[200px]" id="recurrence_end_date_container">
+                    <label class="text-lg font-medium text-[#424242] mb-1" for="id_recurrence_end_date">
+                    Data de Término
+                    </label>
+                    <input
+                    type="date"
+                    id="id_recurrence_end_date"
+                    name="recurrence_end_date"
+                    value="{{ form.recurrence_end_date.value|default_if_none:''|date:'Y-m-d' }}"
                     class="outline-none w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
-                  />
-                </div>
+                    />
+                  </div>
+                  <div class="hidden min-w-[200px]" id="recurrence_count_container">
+                    <label class="text-lg font-medium text-[#424242] mb-1" for="id_recurrence_count">
+                      Número de Ocorrências
+                    </label>
+                    <input
+                      type="number"
+                      id="id_recurrence_count"
+                      name="recurrence_count"
+                      min="1"
+                      value="{{ form.recurrence_count.value|default_if_none:'' }}"
+                      class="outline-none w-full h-[48px] px-[10px] rounded-md border border-[#E0E0E0] focus:border-[#2E7D32] focus:ring focus:ring-[#E8F5E9] transition-colors"
+                    />
+                  </div>
               </div>
 
 
