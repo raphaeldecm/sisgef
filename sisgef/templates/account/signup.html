@@ -56,11 +56,11 @@
              name="{{ redirect_field_name }}"
              value="{{ redirect_field_value }}" />
     {% endif %}
-    <button class="btn btn-primary" type="submit">Cadastre-se »</button>
+    <button class="font-sans bg-green-700 hover:bg-green-600 text-white py-2 px-4 rounded transition duration-300 ease-in-out" type="submit">Cadastre-se »</button>
   </form>
   <p>
     <a href="{% url 'account_login' %}"
-           class="font-sans inline-block align-baseline font-light text-sm text-accent hover:text-secondary">
+           class="font-sans inline-block align-baseline font-light text-sm text-accent hover:text-green-600">
           Já possui cadastro?
         </a>
   </p>
