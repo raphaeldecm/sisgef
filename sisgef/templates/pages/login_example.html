@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISGEF - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --sisgef-green: #2E7D32;
+            --sisgef-green-light: #4CAF50;
+            --sisgef-green-bg: #E8F5E9;
+            --sisgef-grey: #424242;
+            --sisgef-grey-light: #F5F5F5;
+            --sisgef-grey-border: #E0E0E0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--sisgef-grey-light);
+            min-height: 100vh;
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            width: 100%;
+            max-width: 28rem;
+            margin: 2rem auto;
+            overflow: hidden;
+        }
+
+        .auth-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--sisgef-grey-border);
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            color: var(--sisgef-grey);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .auth-tab.active {
+            color: var(--sisgef-green);
+            border-bottom: 2px solid var(--sisgef-green);
+        }
+
+        .auth-tab:hover:not(.active) {
+            background-color: var(--sisgef-grey-light);
+        }
+
+        .auth-content {
+            padding: 2rem;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--sisgef-grey);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--sisgef-grey-border);
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--sisgef-green);
+            box-shadow: 0 0 0 3px var(--sisgef-green-bg);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--sisgef-green);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #1B5E20;
+        }
+
+        .btn-google {
+            background-color: white;
+            border: 1px solid var(--sisgef-grey-border);
+            color: var(--sisgef-grey);
+        }
+
+        .btn-google:hover {
+            background-color: var(--sisgef-grey-light);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1.5rem 0;
+            color: var(--sisgef-grey);
+            font-size: 0.875rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--sisgef-grey-border);
+        }
+
+        .divider span {
+            margin: 0 0.5rem;
+        }
+
+        .error-message {
+            background-color: #FEE2E2;
+            border: 1px solid #EF4444;
+            color: #B91C1C;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    </style>
+</head>
+<body class="flex min-h-screen items-center justify-center p-4">
+    <div class="auth-card">
+        <!-- Logo -->
+        <div class="flex items-center justify-center gap-2 p-6">
+            <i data-lucide="bar-chart-3" class="h-8 w-8 text-[#2E7D32]"></i>
+            <span class="text-2xl font-semibold text-[#424242]">SISGEF</span>
+        </div>
+
+        <!-- Tabs -->
+        <div class="auth-tabs">
+            <div class="auth-tab active" onclick="switchTab('login')">Login</div>
+            <div class="auth-tab" onclick="switchTab('register')">Cadastro</div>
+        </div>
+
+        <div class="auth-content">
+            <!-- Error Message (if any) -->
+            {% if error %}
+            <div class="error-message">
+                <i data-lucide="alert-circle" class="h-5 w-5"></i>
+                <span>{{ error }}</span>
+            </div>
+            {% endif %}
+
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form active" method="POST" action="#">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class="form-label" for="login-email">E-mail</label>
+                    <input
+                        type="email"
+                        id="login-email"
+                        name="email"
+                        class="form-input"
+                        required
+                        autocomplete="email"
+                    >
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="login-password">Senha</label>
+                    <input
+                        type="password"
+                        id="login-password"
+                        name="password"
+                        class="form-input"
+                        required
+                        autocomplete="current-password"
+                    >
+                </div>
+                <div class="flex items-center justify-between mb-6">
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox" name="remember" class="rounded border-gray-300 text-[#2E7D32] focus:ring-[#E8F5E9]">
+                        <span class="text-sm text-gray-600">Lembrar-me</span>
+                    </label>
+                    <a href="#" class="text-sm text-[#2E7D32] hover:underline">
+                        Esqueceu a senha?
+                    </a>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i data-lucide="log-in" class="h-5 w-5"></i>
+                    Entrar
+                </button>
+
+                <div class="divider">
+                    <span>ou continue com</span>
+                </div>
+
+                <button type="button" onclick="loginWithGoogle()" class="btn btn-google">
+                    <i data-lucide="chrome" class="h-5 w-5 text-[#DB4437]"></i>
+                    Google
+                </button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="auth-form" method="POST" action="#">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class="form-label" for="register-name">Nome completo</label>
+                    <input
+                        type="text"
+                        id="register-name"
+                        name="name"
+                        class="form-input"
+                        required
+                        autocomplete="name"
+                    >
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="register-email">E-mail</label>
+                    <input
+                        type="email"
+                        id="register-email"
+                        name="email"
+                        class="form-input"
+                        required
+                        autocomplete="email"
+                    >
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="register-password">Senha</label>
+                    <input
+                        type="password"
+                        id="register-password"
+                        name="password"
+                        class="form-input"
+                        required
+                        autocomplete="new-password"
+                    >
+                    <p class="mt-1 text-sm text-gray-500">
+                        A senha deve ter pelo menos 8 caracteres
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="register-password-confirm">Confirmar senha</label>
+                    <input
+                        type="password"
+                        id="register-password-confirm"
+                        name="password_confirm"
+                        class="form-input"
+                        required
+                        autocomplete="new-password"
+                    >
+                </div>
+                <div class="mb-6">
+                    <label class="flex items-start gap-2">
+                        <input
+                            type="checkbox"
+                            name="terms"
+                            required
+                            class="mt-1 rounded border-gray-300 text-[#2E7D32] focus:ring-[#E8F5E9]"
+                        >
+                        <span class="text-sm text-gray-600">
+                            Li e concordo com os
+                            <a href="#" class="text-[#2E7D32] hover:underline">Termos de Uso</a>
+                            e
+                            <a href="#" class="text-[#2E7D32] hover:underline">Política de Privacidade</a>
+                        </span>
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i data-lucide="user-plus" class="h-5 w-5"></i>
+                    Criar conta
+                </button>
+
+                <div class="divider">
+                    <span>ou continue com</span>
+                </div>
+
+                <button type="button" onclick="registerWithGoogle()" class="btn btn-google">
+                    <i data-lucide="chrome" class="h-5 w-5 text-[#DB4437]"></i>
+                    Google
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Tab switching
+        function switchTab(tab) {
+            // Update tab styles
+            document.querySelectorAll('.auth-tab').forEach(t => {
+                t.classList.remove('active');
+            });
+            document.querySelector(`.auth-tab:${tab === 'login' ? 'first-child' : 'last-child'}`).classList.add('active');
+
+            // Update form visibility
+            document.querySelectorAll('.auth-form').forEach(f => {
+                f.classList.remove('active');
+            });
+            document.getElementById(`${tab}Form`).classList.add('active');
+        }
+
+        // Password validation
+        const registerPassword = document.getElementById('register-password');
+        const registerPasswordConfirm = document.getElementById('register-password-confirm');
+        const registerForm = document.getElementById('registerForm');
+
+        registerForm.addEventListener('submit', function(e) {
+            if (registerPassword.value !== registerPasswordConfirm.value) {
+                e.preventDefault();
+                alert('As senhas não coincidem!');
+                return;
+            }
+
+            if (registerPassword.value.length < 8) {
+                e.preventDefault();
+                alert('A senha deve ter pelo menos 8 caracteres!');
+                return;
+            }
+        });
+
+        // Google Authentication
+        function loginWithGoogle() {
+            // Implement Google login
+            window.location.href = "#";
+        }
+
+        function registerWithGoogle() {
+            // Implement Google registration
+            window.location.href = "#";
+        }
+    </script>
+</body>
+</html>
