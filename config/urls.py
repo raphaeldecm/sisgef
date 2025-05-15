@@ -12,6 +12,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
     path("example/", TemplateView.as_view(template_name="pages/home.html"), name="example"),
+    path("login_example/", TemplateView.as_view(template_name="pages/login_example.html"), name="login_example"),
     path(
         "about/",
         TemplateView.as_view(template_name="pages/about.html"),
