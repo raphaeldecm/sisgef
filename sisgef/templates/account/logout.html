@@ -1,0 +1,45 @@
+{% load static %}
+
+<div id="logoutModal"
+     class="hidden z-50 fixed inset-0 bg-slate-900 bg-opacity-50 overflow-y-auto h-full w-full"
+     role="dialog"
+     aria-labelledby="modalTitle"
+     aria-describedby="modalDescription"
+     tabindex="-1">
+  <dialog open
+          class="relative top-1/4 mx-auto p-4 border shadow-lg rounded-lg bg-neutral-50"
+          aria-label="Caixa de dialogo"
+          role="document">
+    <div class="flex flex-wrap gap-5 md:flex-row md:justify-start md:items-start mini:flex-col mini:justify-center mini:items-center">
+      <div class="relative flex items-center justify-center w-10 h-10 bg-green-500 rounded-full">
+        <img src="{% static 'images/icons/information_circle.svg' %}"
+             alt="Ícone de um i em volta de um círculo representando informação."
+             class="absolute w-5 h-5" />
+      </div>
+      <section class="flex flex-col md:justify-start md:items-start mini:justify-center mini:items-center">
+        <h1 id="modalTitle" class="font-sans font-medium text-lg text-slate-900">Tem certeza de que deseja sair?</h1>
+        <p id="modalDescription"
+           class="font-sans font-light text-base py-4 text-slate-500">
+          Caso tenha alguma alteração, lembre de salvá-la. Se sair, pode perder essas alterações.
+        </p>
+      </section>
+    </div>
+    <section class="flex mt-4 md:flex-row md:justify-end md:items-start mini:flex-col mini:justify-center mini:items-center">
+      <form method="post" action="{% url 'account_logout' %}">
+        {% csrf_token %}
+        {% if redirect_field_value %}
+          <input type="hidden"
+                 name="{{ redirect_field_name }}"
+                 value="{{ redirect_field_value }}" />
+        {% endif %}
+        <button type="button"
+                id="closeModalButton"
+                class="font-sans inline-block align-baseline font-light rounded transition duration-300 ease-in-out text-sm text-slate-900 border hover:border-green-700 hover:text-green-700 focus:text-green-700 px-4 py-2 m-2 cursor-pointer"
+                tabindex="0">Cancelar</button>
+        <button class="font-sans bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded transition duration-300 ease-in-out"
+                type="submit"
+                tabindex="0">Confirmar</button>
+      </form>
+    </section>
+  </dialog>
+</div>

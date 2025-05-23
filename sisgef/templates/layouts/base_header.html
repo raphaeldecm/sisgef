@@ -25,9 +25,9 @@
         id="menu-button"
         aria-expanded="true"
         aria-haspopup="true">
-      <span class="text-sm hidden md:block">Administrador</span>
+      <span class="text-sm hidden md:block">{{ request.user.name }}</span>
       <div class="w-8 h-8 rounded-full bg-[#2E7D32] text-white flex items-center justify-center">
-          A
+          {{ request.user.name|slice:":1" }}
       </div>
     </a>
     <div id="dropdown"
@@ -89,7 +89,7 @@
           </a>
         </div>
 </div>
-
+{% include "../account/logout.html" %}
 {% block inline_javascript %}
 <script>
 
@@ -105,6 +105,32 @@
       dropdown.classList.add("hidden");
     }
   });
+
+  document.addEventListener("DOMContentLoaded", function() {
+        /**
+         * Lida com interações com um modal de logout.
+         * Mostra e oculta o modal com base nas ações do usuário.
+         **/
+
+        var logoutButton = document.getElementById("logoutButton");
+        var logoutModal = document.getElementById("logoutModal");
+        var closeModalButton = document.getElementById("closeModalButton");
+
+        logoutButton.addEventListener("click", function() {
+          logoutModal.classList.remove("hidden");
+        });
+
+        closeModalButton.addEventListener("click", function() {
+          logoutModal.classList.add("hidden");
+        });
+
+        // Caso o ususario click fora do modal vai fechar.
+        window.addEventListener("click", function(event) {
+          if (event.target == logoutModal) {
+            logoutModal.classList.add("hidden");
+          }
+        });
+      });
 
 </script>
 {% endblock inline_javascript %}

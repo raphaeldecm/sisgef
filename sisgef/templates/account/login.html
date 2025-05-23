@@ -27,7 +27,7 @@
              tabindex="0" />
       {% comment %} /List Erros {% endcomment %}
       {% if form.login.errors %}
-        <ul class="list-disc p-2">
+        <ul class="list-disc p-2" style="list-style-type: none;">
           {% for error in form.login.errors %}<li class="text-red-500">{{ error }}</li>{% endfor %}
         </ul>
       {% endif %}
@@ -52,7 +52,7 @@
       </div>
       {% comment %} /List Erros {% endcomment %}
       {% if form.password.errors %}
-        <ul class="list-disc p-2">
+        <ul class="list-disc p-2" style="list-style-type: none;">
           {% for error in form.password.errors %}<li class="text-red-500">{{ error }}</li>{% endfor %}
         </ul>
       {% endif %}
