@@ -1,6 +1,6 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import resolve_url
-from django.shortcuts import reverse
 from django.urls import reverse_lazy
 from django.views import generic
 from django_filters.views import FilterView
@@ -14,7 +14,7 @@ from . import filters
 from . import models
 
 
-class TransactionListView(generic.ListView):
+class TransactionListView(LoginRequiredMixin, generic.ListView):
     template_name = "transaction/transaction_list.html"
     paginate_by = constants.DEFAULT_PAGE_SIZE
     ordering = ["-date"]
@@ -43,6 +43,7 @@ class ExpenseListView(TitleViewMixin, FilterView, TransactionListView):
     subtitle = "Gerenciamento de Despesas."
 
 class TransactionTemplateFormView(
+    LoginRequiredMixin,
     TitleViewMixin,
     SuccessMessageMixin,
 ):
@@ -95,6 +96,7 @@ class ExpenseUpdateView(
     success_message = "Despesa atualizada com sucesso."
 
 class IncomeDeleteView(
+    LoginRequiredMixin,
     SuccessMessageMixin,
     generic.DeleteView,
 ):
@@ -103,6 +105,7 @@ class IncomeDeleteView(
     success_message = "Receita excluída com sucesso."
 
 class TrancsactionDetailView(
+    LoginRequiredMixin,
     TitleViewMixin,
     generic.DetailView,
 ):
@@ -124,6 +127,7 @@ class ExpenseDetailView(TrancsactionDetailView):
 
 
 class ExpenseDeleteView(
+    LoginRequiredMixin,
     SuccessMessageMixin,
     generic.DeleteView,
 ):
@@ -132,7 +136,7 @@ class ExpenseDeleteView(
     success_message = "Despesa excluída com sucesso."
 
 
-class CategoryListView(TitleViewMixin, FilterView, generic.ListView):
+class CategoryListView(LoginRequiredMixin, TitleViewMixin, FilterView, generic.ListView):
     model = models.Category
     paginate_by = constants.DEFAULT_PAGE_SIZE
     template_name = "category/category_list.html"
@@ -142,6 +146,7 @@ class CategoryListView(TitleViewMixin, FilterView, generic.ListView):
     ordering = ["name"]
 
 class CategoryDeleteView(
+    LoginRequiredMixin,
     ProtectedErrorMessageMixin,
     SuccessMessageMixin,
     generic.DeleteView,
@@ -155,6 +160,7 @@ class CategoryDeleteView(
     )
 
 class CategoryCreateView(
+    LoginRequiredMixin,
     TitleViewMixin,
     SuccessMessageMixin,
     generic.CreateView,
@@ -168,6 +174,7 @@ class CategoryCreateView(
     success_message = "Categoria cadastrada com sucesso."
 
 class CategoryUpdateView(
+    LoginRequiredMixin,
     TitleViewMixin,
     SuccessMessageMixin,
     generic.UpdateView,
@@ -180,7 +187,7 @@ class CategoryUpdateView(
     success_url = reverse_lazy("transactions:category_list")
     success_message = "Categoria atualizada com sucesso."
 
-class CategoryDetailView(TitleViewMixin, generic.DetailView):
+class CategoryDetailView(LoginRequiredMixin, TitleViewMixin, generic.DetailView):
     model = models.Category
     template_name = "category/category_detail.html"
     title = "Detalhes da Categoria"

@@ -19,16 +19,17 @@
 </div>
 
 <div class="flex relative items-center gap-4">
-  <a onclick="toggleDropdown()"
+    <i data-lucide="bell" class="h-5 w-5 cursor-pointer"></i>
+    <a onclick="toggleDropdown()"
         type="button"
         class="flex items-center gap-2 text-[#424242] cursor-pointer hover:text-green hover:bg-green_bg p-2 rounded-md transition-colors hover:text-[#424242]"
         id="menu-button"
         aria-expanded="true"
         aria-haspopup="true">
-      <span class="text-sm hidden md:block">{{ request.user.name }}</span>
-      <div class="w-8 h-8 rounded-full bg-[#2E7D32] text-white flex items-center justify-center">
+        <div class="w-8 h-8 rounded-full bg-[#2E7D32] text-white flex items-center justify-center">
           {{ request.user.name|slice:":1" }}
-      </div>
+        </div>
+        <span class="text-md font-semibold hidden md:block">{{ request.user.name }}</span>
     </a>
     <div id="dropdown"
              class="hidden absolute top-14 right-0 rounded-lg bg-white shadow-lg ring-opacity-5 focus:outline-none py-[18px] pb-0 px-3 drop-shadow-lg"
@@ -62,7 +63,6 @@
                   <span class="flex text-[11px] h-[21px] items-center justify-center px-[6px] rounded-md font-bold border border-green-300 text-green-600 bg-green-100">COORDENADOR</span>
               </p>
               <p class="hidden sm:block text-base font-medium text-slate-400 whitespace-nowrap overflow-hidden text-ellipsis">
-                admin@sisgef.com.br
                 {{ user.email }}
               </p>
             </div>
