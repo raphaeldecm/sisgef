@@ -18,8 +18,63 @@
   <span class="hidden md:block text-2xl font-semibold text-[#424242]">Sistema de Gestão Financeira</span>
 </div>
 
-<div class="flex relative items-center gap-4">
-    <i data-lucide="bell" class="h-5 w-5 cursor-pointer"></i>
+<div class="flex items-center gap-2">
+
+    <a type="button"
+    id="notificationButton"
+    aria-expanded="true"
+    aria-haspopup="true"
+    onclick="toggleDropdownNotifications()"
+    class="relative flex items-center justify-center w-10 h-10 rounded-full bg-white cursor-pointer transition-colors hover:text-green hover:bg-green_bg hover:text-[#424242]">
+      <div id="notificationCount"
+      class="absolute top-0 right-0 bg-red-500 text-white text-sm font-semibold rounded-full w-5 h-5 flex items-center justify-center">
+        1
+      </div>
+      <i data-lucide="bell" class="h-7 w-7"></i>
+    </a>
+    <div id="dropdownNotifications"
+           class="absolute right-0 top-14 bg-white shadow-lg z-20 rounded-lg p-4 max-w-[600px] w-[35vw] hidden min-h-[250px]">
+        <h2 class="text-lg font-medium">Notificações</h2>
+        {% if notifications %}
+          <button onclick="markAllAsViewed()"
+                  class="p-4 flex items-center justify-center rounded-lg border border-slate-100 hover:bg-slate-100 transition-all shadow-sm my-4 w-full">
+            <p>Marcar tudo como lido</p>
+          </button>
+          <div class="max-h-[400px] overflow-y-auto mb-4 flex flex-col gap-2">
+            {% for notification in notifications %}
+              <div id="notification-{{ notification.pk }}"
+                   class="flex gap-6 p-4 border border-slate-100 hover:bg-slate-100 cursor-pointer rounded-lg">
+                <img src="{% static 'images/icons/icon-message.svg' %}"
+                     class="w-[32px] h-[32px] mt-2"
+                     alt="" />
+                <a href="{{ notification.action }}">
+                  <div class="flex-1">
+                    <p class="text-[18px] font-semibold">{{ notification.title }}</p>
+                    <p>{{ notification.text }}</p>
+                    <p class="text-[12px] mt-3">{{ notification.created_at }}</p>
+                  </div>
+                </a>
+                <button onclick="markAsViewed({{ notification.pk }})"
+                        class="flex flex-col items-center">
+                  <img src="{% static 'images/icons/icon-checked.svg' %}"
+                       class="w-[30px] h-[30px] mt-2"
+                       alt="Marcar como lido" />
+                  <p class="text-[10px] mt-2">Marcar</p>
+                  <p class="text-[10px]">como</p>
+                  <p class="text-[10px]">Lido</p>
+                </button>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="w-full h-full flex justify-center">
+            <p class="mt-20">Não há notificações</p>
+          </div>
+        {% endif %}
+      </div>
+
+
+
     <a onclick="toggleDropdown()"
         type="button"
         class="flex items-center gap-2 text-[#424242] cursor-pointer hover:text-green hover:bg-green_bg p-2 rounded-md transition-colors hover:text-[#424242]"
@@ -92,6 +147,11 @@
 {% include "../account/logout.html" %}
 {% block inline_javascript %}
 <script>
+
+  function toggleDropdownNotifications() {
+    const dropdown = document.getElementById('dropdownNotifications');
+    dropdown.classList.toggle('hidden');
+  }
 
   function toggleDropdown() {
     const dropdown = document.getElementById('dropdown');
