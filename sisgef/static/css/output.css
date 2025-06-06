@@ -672,16 +672,16 @@ video {
   z-index: 10;
 }
 
+.z-20 {
+  z-index: 20;
+}
+
 .z-40 {
   z-index: 40;
 }
 
 .z-50 {
   z-index: 50;
-}
-
-.z-20 {
-  z-index: 20;
 }
 
 .m-10 {
@@ -760,6 +760,10 @@ video {
   margin-top: 0.5rem;
 }
 
+.mt-20 {
+  margin-top: 5rem;
+}
+
 .mt-3 {
   margin-top: 0.75rem;
 }
@@ -774,10 +778,6 @@ video {
 
 .mt-\[18px\] {
   margin-top: 18px;
-}
-
-.mt-20 {
-  margin-top: 5rem;
 }
 
 .block {
@@ -848,6 +848,14 @@ video {
   height: 21px;
 }
 
+.h-\[30px\] {
+  height: 30px;
+}
+
+.h-\[32px\] {
+  height: 32px;
+}
+
 .h-\[48px\] {
   height: 48px;
 }
@@ -864,16 +872,12 @@ video {
   height: 100%;
 }
 
-.h-\[30px\] {
-  height: 30px;
-}
-
-.h-\[32px\] {
-  height: 32px;
-}
-
 .max-h-\[400px\] {
   max-height: 400px;
+}
+
+.min-h-\[250px\] {
+  min-height: 250px;
 }
 
 .min-h-\[400px\] {
@@ -882,10 +886,6 @@ video {
 
 .min-h-screen {
   min-height: 100vh;
-}
-
-.min-h-\[250px\] {
-  min-height: 250px;
 }
 
 .w-10 {
@@ -928,20 +928,20 @@ video {
   width: 2rem;
 }
 
-.w-\[35vw\] {
-  width: 35vw;
-}
-
-.w-full {
-  width: 100%;
-}
-
 .w-\[30px\] {
   width: 30px;
 }
 
 .w-\[32px\] {
   width: 32px;
+}
+
+.w-\[35vw\] {
+  width: 35vw;
+}
+
+.w-full {
+  width: 100%;
 }
 
 .min-w-0 {
@@ -968,12 +968,12 @@ video {
   max-width: 560px;
 }
 
-.max-w-sm {
-  max-width: 24rem;
-}
-
 .max-w-\[600px\] {
   max-width: 600px;
+}
+
+.max-w-sm {
+  max-width: 24rem;
 }
 
 .flex-1 {
@@ -1216,14 +1216,14 @@ video {
   border-color: rgb(134 239 172 / var(--tw-border-opacity, 1));
 }
 
-.border-white {
-  --tw-border-opacity: 1;
-  border-color: rgb(255 255 255 / var(--tw-border-opacity, 1));
-}
-
 .border-slate-100 {
   --tw-border-opacity: 1;
   border-color: rgb(241 245 249 / var(--tw-border-opacity, 1));
+}
+
+.border-white {
+  --tw-border-opacity: 1;
+  border-color: rgb(255 255 255 / var(--tw-border-opacity, 1));
 }
 
 .bg-\[\#2E7D32\] {
@@ -1479,8 +1479,16 @@ video {
   font-size: 1.5rem;
 }
 
+.text-\[10px\] {
+  font-size: 10px;
+}
+
 .text-\[11px\] {
   font-size: 11px;
+}
+
+.text-\[12px\] {
+  font-size: 12px;
 }
 
 .text-\[18px\] {
@@ -1501,14 +1509,6 @@ video {
 
 .text-xl {
   font-size: 1.25rem;
-}
-
-.text-\[10px\] {
-  font-size: 10px;
-}
-
-.text-\[12px\] {
-  font-size: 12px;
 }
 
 .font-bold {
