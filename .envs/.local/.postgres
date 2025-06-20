@@ -1,7 +1,7 @@
 # PostgreSQL
 # ------------------------------------------------------------------------------
-POSTGRES_HOST=postgres
+POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
 POSTGRES_DB=sisgef
-POSTGRES_USER=NQhWGJHwanILNoYxloIwtYwtoTOmulyR
-POSTGRES_PASSWORD=qY9QDiQNjOXjBT8jZLFyFYXlQkvejNFED3OE9nhmdQPa3z7NQVXYJWQ9pOS90kii
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=123456
