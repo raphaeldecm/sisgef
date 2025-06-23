@@ -5,6 +5,10 @@ import typing
 from allauth.account.adapter import DefaultAccountAdapter
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from django.conf import settings
+from allauth.account.utils import user_email
+from allauth.exceptions import ImmediateHttpResponse
+from django.contrib.auth import get_user_model
+from django.shortcuts import redirect
 
 if typing.TYPE_CHECKING:
     from allauth.socialaccount.models import SocialLogin
@@ -46,3 +50,15 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
                 if last_name := data.get("last_name"):
                     user.name += f" {last_name}"
         return user
+    
+    def pre_social_login(self, request, sociallogin):
+        email = user_email(sociallogin.user)
+        if not email:
+            return
+
+        User = get_user_model()
+        try:
+            user = User.objects.get(email=email)
+            sociallogin.connect(request, user)
+        except User.DoesNotExist:
+            pass 

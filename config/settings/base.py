@@ -83,12 +83,14 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.mfa",
+    "allauth.socialaccount.providers.google",
     "allauth.socialaccount",
     "django_celery_beat",
     "rest_framework",
     "rest_framework_simplejwt",
     "drf_spectacular",
     "corsheaders",
+    
 ]
 
 LOCAL_APPS = [
@@ -237,6 +239,7 @@ EMAIL_BACKEND = env(
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-timeout
 EMAIL_TIMEOUT = 5
+
 
 # ADMIN
 # ------------------------------------------------------------------------------
