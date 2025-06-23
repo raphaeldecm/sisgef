@@ -48,3 +48,14 @@ class UserAdmin(auth_admin.UserAdmin):
             },
         ),
     )
+
+    def get_readonly_fields(self, request, obj=None):
+        readonly = super().get_readonly_fields(request, obj)
+        if not request.user.groups.filter(name="Gerente").exists():
+            return readonly + ("is_active",)
+        return readonly
+    
+    def has_change_permission(self, request, obj=None):
+        if obj and not request.user.groups.filter(name="Gerente").exists():
+            return False
+        return super().has_change_permission(request, obj)
