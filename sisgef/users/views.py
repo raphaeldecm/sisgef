@@ -50,3 +50,5 @@ user_redirect_view = UserRedirectView.as_view()
 
 class RelatoriosView(GerentePermission, TemplateView):
     template_name = "users/relatorios.html"
+
+

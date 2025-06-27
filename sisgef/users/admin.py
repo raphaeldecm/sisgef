@@ -19,32 +19,41 @@ if settings.DJANGO_ADMIN_FORCE_ALLAUTH:
 class UserAdmin(auth_admin.UserAdmin):
     form = UserAdminChangeForm
     add_form = UserAdminCreationForm
+
     fieldsets = (
         (None, {"fields": ("email", "password")}),
         (_("Personal info"), {"fields": ("name",)}),
-        (
-            _("Permissions"),
-            {
-                "fields": (
-                    "is_active",
-                    "is_staff",
-                    "is_superuser",
-                    "groups",
-                    "user_permissions",
-                ),
-            },
-        ),
+        (_("Permissions"), {
+            "fields": (
+                "is_active",
+                "is_staff",
+                "is_superuser",
+                "groups",
+                "user_permissions",
+            ),
+        }),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
-    list_display = ["email", "name", "is_superuser"]
-    search_fields = ["name"]
-    ordering = ["id"]
     add_fieldsets = (
-        (
-            None,
-            {
-                "classes": ("wide",),
-                "fields": ("email", "password1", "password2"),
-            },
-        ),
+        (None, {
+            "classes": ("wide",),
+            "fields": ("email", "password1", "password2"),
+        }),
     )
+    list_display = ["email", "name", "is_superuser", "is_active"]
+    search_fields = ["name", "email"]
+    ordering = ["id"]
+
+    actions = ["activate_users"]
+
+    def activate_users(self, request, queryset):
+        updated = queryset.update(is_active=True)
+        self.message_user(request, f"{updated} usuário(s) ativado(s).")
+    activate_users.short_description = "Ativar contas selecionadas"
+
+    def get_readonly_fields(self, request, obj=None):
+        ro = super().get_readonly_fields(request, obj)
+
+        if not request.user.is_superuser and not request.user.has_perm("auth.change_user"):
+            ro = tuple(ro) + ("is_active",)
+        return ro
