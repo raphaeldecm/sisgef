@@ -1,7 +1,4 @@
-{% extends "account/base.html" %}
-
-{% load static i18n %}
-{% load allauth account %}
+{% load socialaccount %}
 
 {% block title %}
   Login
@@ -80,7 +77,7 @@
       <div class="w-full border-t border-gray-300"></div>
     </div>
     <a class="flex items-center font-sans text-base button is-dark is-large border p-2 rounded-lg hover:text-green-500 hover:border-green-500 transition duration-300 ease-in-out"
-       href="#">
+       href="{% provider_login_url 'google' %}">
       {% comment %} <span class="font-bold font-sans text-2xl pr-2">IF</span> {% endcomment %}
       <img class="pr-2 w-10 h-10" src="{% static 'images/icons/social-icons/icon-google.svg' %}"
          alt="icone representando o perfil de um usuario." />
@@ -115,3 +112,4 @@
   }
 </script>
 {% endblock inline_javascript %}
+
