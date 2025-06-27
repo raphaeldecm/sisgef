@@ -371,5 +371,3 @@ SPECTACULAR_SETTINGS = {
 
 # Your stuff...
 # ------------------------------------------------------------------------------
-
-SIGNUP_REDIRECT_URL = '/complete-signup/'
