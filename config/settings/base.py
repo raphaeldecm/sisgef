@@ -324,6 +324,8 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 # https://docs.allauth.org/en/latest/account/configuration.html
 ACCOUNT_EMAIL_VERIFICATION = "none"
+
+ACCOUNT_SIGNUP_REDIRECT_URL = '/accounts/login/'
 # https://docs.allauth.org/en/latest/account/configuration.html
 ACCOUNT_ADAPTER = "sisgef.users.adapters.AccountAdapter"
 # https://docs.allauth.org/en/latest/account/forms.html
