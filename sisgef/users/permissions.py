@@ -6,5 +6,3 @@ class GerentePermission(UserPassesTestMixin):
 
     def test_func(self):
         return self.request.user.groups.filter(name="Gerente").exists()
-
-
